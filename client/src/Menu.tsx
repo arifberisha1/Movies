@@ -2,14 +2,21 @@ export default function Menu() {
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <div className={"container-fluid"}>
-
-                <table className={"tab"}>
-                    <thead>
-                        <tbody><a href={'/'}>Home</a></tbody>
-                        <tbody><a href={'/movies'}>Movies</a></tbody>
-                        <tbody><a href={'/actors'}>Actors</a></tbody>
-                    </thead>
-                </table>
+                <a className={"navbar-brand"} href="/">Home</a>
+                <div className={"collapse navbar-collapse"}>
+                    <ul className={"navbar-nav me-auto mb-2 mb-lg-0"}>
+                        <li className={"nav-item"}>
+                            <a className={"nav-link"} href="/movies">
+                                Movies
+                            </a>
+                        </li>
+                        <li className={"nav-item"}>
+                            <a className={"nav-link"} href="/actors">
+                                Actors
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
 
