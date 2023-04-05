@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+nav{
+  background-color: lightgray;
+  height: 50px;
+  padding-top: 13px;
+  padding-left: 20px;
+}
+
+.tab thead{
+  display: flex;
+}
+
+.tab thead tbody{
+  padding-right: 10px;
+}
+
+.tab thead tbody a{
+  text-decoration: none;
+  color: black;
+}
