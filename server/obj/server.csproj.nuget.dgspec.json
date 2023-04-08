@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\Desktop\\C#Projects\\Movies\\server\\server.csproj": {}
+    "C:\\Users\\Lenovo\\Desktop\\SSH_Project\\server\\server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\Desktop\\C#Projects\\Movies\\server\\server.csproj": {
+    "C:\\Users\\Lenovo\\Desktop\\SSH_Project\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\C#Projects\\Movies\\server\\server.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\SSH_Project\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "C:\\Users\\Lenovo\\Desktop\\C#Projects\\Movies\\server\\server.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Desktop\\SSH_Project\\server\\server.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Desktop\\C#Projects\\Movies\\server\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Desktop\\SSH_Project\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,16 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
