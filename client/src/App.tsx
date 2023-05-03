@@ -3,7 +3,9 @@ import './App.css';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Menu from "./Menu";
 import routes from "./routing-config";
+import configureValidation from "./Validation";
 
+configureValidation();
 function App() {
 
     return (
