@@ -1,20 +1,31 @@
+
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import Button from "../utils/Button";
-import {useHistory} from "react-router-dom";
+import { Link, useHistory} from "react-router-dom";
+import * as Yup from 'yup';
+import TextField from "../forms/TextField";
+import GenreForm from "./GenreForm";
 
 export default function CreateGenres() {
 
-    const history = useHistory();
+
 
     return (
         <>
             <h3>Create Genre</h3>
-            <Button onClick={() => {
-                //todo ... saving in the database
 
-                history.push('/genres');
-                window.location.reload();
+            <GenreForm model={{name: ''}}
+             onSubmit={async value => {
+                await new Promise(r => setTimeout(r, 3));
+                console.log(value);
 
-            }}>Save Changes</Button>
+            }}
+            />
+
+
+
+
+
         </>
     );
 }
