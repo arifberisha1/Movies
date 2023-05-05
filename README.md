@@ -26,6 +26,14 @@ In order for the project to run, these steps must be followed:
   npm i react-router-dom@5.2
   npm i --save-dev @types/react-router-dom
   ```
+  5. Install Formik
+```sh
+  npm i formik@2.2.9
+  ```
+  6. Install Yup
+```sh
+  npm i yup@0.32.9
+  ```
   #### Server packages
   1. Navigate to Server Directory
   * If you are still in the client directory use the comand below
