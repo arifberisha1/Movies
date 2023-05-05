@@ -23,8 +23,7 @@ In order for the project to run, these steps must be followed:
   ```
 4. Install React Router
 ```sh
-  npm i react-router-dom@5.2
-  npm i --save-dev @types/react-router-dom
+  npm i react-router-dom@5.2 --save-dev @types/react-router-dom
   ```
   5. Install Formik
 ```sh
@@ -33,6 +32,10 @@ In order for the project to run, these steps must be followed:
   6. Install Yup
 ```sh
   npm i yup@0.32.9
+  ```
+   7. Install Markdown
+```sh
+  npm i react-markdown typed-react-markdown
   ```
   #### Server packages
   1. Navigate to Server Directory
