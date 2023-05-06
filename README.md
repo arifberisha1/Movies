@@ -37,6 +37,10 @@ In order for the project to run, these steps must be followed:
 ```sh
   npm i react-markdown typed-react-markdown
   ```
+   8. Install Leaflet
+```sh
+  npm i react-leaflet leaflet --save --save-dev @types/leaflet
+  ```
   #### Server packages
   1. Navigate to Server Directory
   * If you are still in the client directory use the comand below
