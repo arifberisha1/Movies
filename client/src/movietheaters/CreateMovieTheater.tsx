@@ -1,5 +1,6 @@
 import MovieTheaterForm from "./MovieTheaterForm";
 
+
 export default function CreateMovieTheater(){
     return(
         <>
