@@ -29,8 +29,7 @@ export default function LandingPage() {
                     id: 5,
                     title: 'Tom&Jerry',
                     poster: 'https://www.themoviedb.org/t/p/original/8XZI9QZ7Pm3fVkigWJPbrXCMzjq.jpg'
-                },
-                ],
+                },],
                 upcomingReleases: [
                     {
                         id: 6,
@@ -41,8 +40,7 @@ export default function LandingPage() {
                         id: 7,
                         title: 'Rapunzel',
                         poster: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6b96bbf4-a476-4049-b5a1-98d2a4ca4152/d5eo2qj-df9ce16c-8eaf-4aaf-9f44-55c3adb12785.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzZiOTZiYmY0LWE0NzYtNDA0OS1iNWExLTk4ZDJhNGNhNDE1MlwvZDVlbzJxai1kZjljZTE2Yy04ZWFmLTRhYWYtOWY0NC01NWMzYWRiMTI3ODUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.N7WIWQmoTHYwF70YWLtNknnbOvbZ3pQS265P-nRUy_k'
-                    }
-                ]
+                    }]
             })
         }, 1000);
 

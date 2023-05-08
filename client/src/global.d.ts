@@ -1,7 +1,7 @@
 import {StringSchema} from "yup";
 
-declare module 'yup'{
+declare module 'yup' {
     class StringSchema {
-        firstLetterUppercase():this;
+        firstLetterUppercase(): this;
     }
 }

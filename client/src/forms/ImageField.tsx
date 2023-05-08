@@ -1,7 +1,4 @@
 import {ChangeEvent, useState} from "react";
-import {constants} from "os";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {useFormikContext} from "formik";
 
 export default function ImageField(props: imageFieldProps) {

@@ -1,12 +1,12 @@
-export interface actorCreationDTO{
+export interface actorCreationDTO {
     name: string;
     dateOfBirth?: Date;
     picture?: File;
-    pictureURL? :string;
+    pictureURL?: string;
     biography?: string;
 }
 
-export interface actorMovieDTO{
+export interface actorMovieDTO {
     id: number;
     name: string;
     character: string;

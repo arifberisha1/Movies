@@ -14,10 +14,9 @@ export default function ActorForm(props: actorFormProps) {
                 validationSchema={Yup.object({
                     name: Yup.string().required('This field is required').firstLetterUppercase(),
                     dateOfBirth: Yup.date().nullable().required('This field is required')
-                })}
-        >
+                })}>
 
-            {(formikProps) =>(
+            {(formikProps) => (
                 <Form>
                     <TextField
                         field={"name"}
@@ -32,17 +31,16 @@ export default function ActorForm(props: actorFormProps) {
                     <MarkdownField
                         displayName={"Biography"}
                         field={"biography"}/>
-
-                    <Button disabled={formikProps.isSubmitting} type={"submit"} >Save Changes</Button>
-                    <a href={"/actors"} className={"btn btn-secondary"} >Cancel</a>
+                    <Button disabled={formikProps.isSubmitting} type={"submit"}>Save Changes</Button>
+                    <a href={"/actors"} className={"btn btn-secondary"}>Cancel</a>
                 </Form>
             )}
-
         </Formik>
     )
 }
 
 interface actorFormProps {
     model: actorCreationDTO;
+
     onSubmit(values: actorCreationDTO, action: FormikHelpers<actorCreationDTO>): void;
 }

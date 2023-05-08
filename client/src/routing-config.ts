@@ -13,7 +13,6 @@ import CreateMovie from "./movies/CreateMovie";
 import EditMovie from "./movies/EditMovie";
 import FilterMovies from "./movies/FilterMovies";
 
-
 const routes = [
 
     {path: "/genres", component: IndexGenres, exact: true},
