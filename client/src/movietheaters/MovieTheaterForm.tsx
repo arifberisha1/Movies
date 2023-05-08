@@ -6,33 +6,33 @@ import MapField from "../forms/MapField";
 import coordinateDTO from "../utils/coordinates.model";
 import {movieTheaterCreationDTO} from "./movieTheater.model";
 
-export default function MovieTheaterForm(props: movieTheaterFormsProps){
-    function transformCoordinates(): coordinateDTO[] | null{
-        if (props.model.latitude && props.model.longitude){
-            const response: coordinateDTO = {lat: props.model.latitude,
-                lng: props.model.longitude}
+export default function MovieTheaterForm(props: movieTheaterFormsProps) {
+    function transformCoordinates(): coordinateDTO[] | null {
+        if (props.model.latitude && props.model.longitude) {
+            const response: coordinateDTO = {
+                lat: props.model.latitude,
+                lng: props.model.longitude
+            }
             return [response];
         }
         return null;
     }
-    return(
+
+    return (
         <Formik
             initialValues={props.model}
             onSubmit={props.onSubmit}
             validationSchema={Yup.object({
                 name: Yup.string().required('This field is required').firstLetterUppercase()
-            })}
-        >
+            })}>
             {(formikProps) => (
                 <Form>
                     <TextField field={"name"} displayName={"Name"}/>
 
                     <div style={{marginBottom: '1rem'}}>
                         <MapField latField={'latitude'} lngField={'longitude'}
-                                  coordinates={transformCoordinates() || []}
-                        />
+                                  coordinates={transformCoordinates() || []}/>
                     </div>
-
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>
                         Save Changes
                     </Button>
@@ -43,7 +43,8 @@ export default function MovieTheaterForm(props: movieTheaterFormsProps){
     )
 }
 
-interface movieTheaterFormsProps{
+interface movieTheaterFormsProps {
     model: movieTheaterCreationDTO;
+
     onSubmit(values: movieTheaterCreationDTO, action: FormikHelpers<movieTheaterCreationDTO>): void;
 }

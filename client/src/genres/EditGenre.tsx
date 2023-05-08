@@ -1,9 +1,9 @@
 import {useParams} from "react-router-dom";
 import GenreForm from "./GenreForm";
 
-export default function EditGenre(){
+export default function EditGenre() {
     const {id}: any = useParams();
-    return(
+    return (
         <>
             <h3>Edit Genre</h3>
             <GenreForm model={{name: 'Action'}}
@@ -14,7 +14,6 @@ export default function EditGenre(){
 
                        }}
             />
-
         </>
     );
 }

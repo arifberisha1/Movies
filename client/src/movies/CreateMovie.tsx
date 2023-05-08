@@ -2,12 +2,11 @@ import MovieForm from "./MovieForm";
 import {genreDTO} from "../genres/genres.model";
 import {movieTheaterDTO} from "../movietheaters/movieTheater.model";
 
-
 export default function CreateMovie() {
 
-   const  nonSelectedGenres: genreDTO[] = [{id:1, name: 'Comedy'},  {id:2, name:'Drama'}]
-    const  nonSelectedMovieTheaters: movieTheaterDTO[] =
-        [{id:1, name: 'Albi Mall'},  {id:2, name:'Prishtina Mall'}]
+    const nonSelectedGenres: genreDTO[] = [{id: 1, name: 'Comedy'}, {id: 2, name: 'Drama'}]
+    const nonSelectedMovieTheaters: movieTheaterDTO[] =
+        [{id: 1, name: 'Albi Mall'}, {id: 2, name: 'Prishtina Mall'}]
 
     return (
         <>
@@ -16,7 +15,6 @@ export default function CreateMovie() {
                        onSubmit={values => console.log(values)}
                        nonSelectedGenres={nonSelectedGenres}
                        selectedGenres={[]}
-
                        nonSelectedMovieTheaters={nonSelectedMovieTheaters}
                        selectedMovieTheaters={[]}
                        selectedActors={[]}

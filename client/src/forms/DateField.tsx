@@ -20,7 +20,7 @@ export default function DateField(props: dateFieldProps) {
             />
 
             {touched[props.field] && errors[props.field] ?
-                <div className={"text-danger"}>{errors[props.field]?.toString()}</div>:null}
+                <div className={"text-danger"}>{errors[props.field]?.toString()}</div> : null}
 
         </div>
     )

@@ -8,7 +8,6 @@ import configureValidation from "./Validation";
 configureValidation();
 
 function App() {
-
     return (
         <>
             <BrowserRouter>
@@ -36,9 +35,11 @@ function App() {
                                 <h3 className="footer-heading">Connect With Us</h3>
                                 <table className={"icons"}>
                                     <thead>
-                                        <td><i className="fa fa-facebook mr-2"></i></td>
-                                        <td><i className="fa fa-twitter mr-2"></i></td>
-                                        <td><i className="fa fa-instagram mr-2"></i></td>
+                                        <tr>
+                                            <td><i className="fa fa-facebook mr-2"></i></td>
+                                            <td><i className="fa fa-twitter mr-2"></i></td>
+                                            <td><i className="fa fa-instagram mr-2"></i></td>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -63,4 +64,5 @@ function App() {
         </>
     );
 }
+
 export default App;

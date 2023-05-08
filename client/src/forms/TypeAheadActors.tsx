@@ -23,7 +23,6 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
             picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Meryl_Streep_December_2018.jpg/330px-Meryl_Streep_December_2018.jpg'
         }
     ]
-
     const selected: actorMovieDTO[] = [];
     const [draggedElement, setDraggedElement] = useState<actorMovieDTO | undefined>(undefined);
 
@@ -35,14 +34,13 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
         if (!draggedElement) {
             return;
         }
-
         if (actor.id !== draggedElement.id) {
             const draggedElementIndex = props.actors.findIndex(x => x.id === draggedElement.id);
             const actorIndex = props.actors.findIndex(x => x.id === actor.id);
 
             const actors = [...props.actors];
             actors[actorIndex] = draggedElement;
-            actors[draggedElementIndex] =actor;
+            actors[draggedElementIndex] = actor;
             props.onAdd(actors);
         }
     }
@@ -58,7 +56,6 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
                         // @ts-ignore
                         props.onAdd([...props.actors, actors[0]]);
                     }
-
                     console.log(actors);
                 }}
                 options={actors}
@@ -80,22 +77,19 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
                                  marginRight: '10px',
                                  width: '64px'
                              }}/>
-
                         <span>{
                             // @ts-ignore
                             actor.name}</span>
                     </>
                 )}
             />
-
             <ul className={"list-group"}>
                 {props.actors.map(actor => <li
                     key={actor.id}
                     draggable={true}
                     onDragStart={() => handleDragStart(actor)}
                     onDragOver={() => handleDragOver(actor)}
-                    className={"list-group-item list-group-item-action"}
-                >
+                    className={"list-group-item list-group-item-action"}>
                     <img src={actor.picture} alt={actor.name} className={"img-drag"}/>
                     {props.listUI(actor)}
                     <span className={"badge badge-primary badge-pill pointer text-dark"}
@@ -104,7 +98,6 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
                     >X</span>
                 </li>)}
             </ul>
-
         </div>
     )
 }
@@ -114,8 +107,6 @@ interface typeAheadActorsProps {
     actors: actorMovieDTO[];
 
     onAdd(actors: actorMovieDTO[]): void;
-
     onRemove(actor: actorMovieDTO): void;
-
     listUI(actor: actorMovieDTO): ReactElement;
 }

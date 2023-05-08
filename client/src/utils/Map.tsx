@@ -11,45 +11,48 @@ let defaultIcon = L.icon({
     shadowUrl: iconShadow,
     iconAnchor: [16, 37]
 });
-
 L.Marker.prototype.options.icon = defaultIcon;
 
-export default function Map(props: mapProps){
+export default function Map(props: mapProps) {
+
     const [coordinates, setCoordinates] = useState<coordinateDTO[]>(props.coordinates);
+
     return (
         <MapContainer
             center={[42.570073453813, 20.909179695881907]} zoom={8}
-            style={{height: props.height}}
-        >
+            style={{height: props.height}}>
             <TileLayer attribution="React Movies"
-            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+                       url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
             <MapClick setCoordinates={coordinates => {
                 setCoordinates([coordinates]);
                 props.handleMapClick(coordinates);
-            }} />
+            }}/>
             {coordinates.map((coordinate, index) => <Marker key={index}
-            position={[coordinate.lat, coordinate.lng]}
+                                                            position={[coordinate.lat, coordinate.lng]}
             />)}
-
         </MapContainer>
     )
 }
-interface mapProps{
+
+interface mapProps {
     height: string;
     coordinates: coordinateDTO[];
+
     handleMapClick(coordinates: coordinateDTO): void
 }
+
 Map.defaultProps = {
     height: '500px'
 }
-function MapClick(props: mapClickProps){
+
+function MapClick(props: mapClickProps) {
     useMapEvent('click', eventArgs => {
         props.setCoordinates({lat: eventArgs.latlng.lat, lng: eventArgs.latlng.lng})
     })
     return null;
 }
-interface  mapClickProps{
+
+interface mapClickProps {
     setCoordinates(coordinates: coordinateDTO): void;
 }
 

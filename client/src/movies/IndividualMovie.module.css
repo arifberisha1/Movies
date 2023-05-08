@@ -4,15 +4,17 @@
     text-align: center;
 }
 
-.div p{
+.div p {
     height: 44px;
     font-size: 15px;
     font-weight: bold;
 }
+
 .div img {
     width: 225px;
     height: 300px;
 }
-.div a{
+
+.div a {
     text-decoration: none;
 }

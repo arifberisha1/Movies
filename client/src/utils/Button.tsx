@@ -1,16 +1,17 @@
 //if needed
-export default function Button(props: buttonProps){
+export default function Button(props: buttonProps) {
     return <button type={props.type} className={props.className}
-    onClick={props.onClick}
+                   onClick={props.onClick}
     >{props.children}</button>
 }
-interface buttonProps{
-    children: React.ReactNode;
-    onClick?(): void;
 
+interface buttonProps {
+    children: React.ReactNode;
     type: "button" | "submit";
     disabled: boolean;
     className: string;
+
+    onClick?(): void;
 }
 
 Button.defaultProps = {

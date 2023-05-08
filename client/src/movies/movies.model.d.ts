@@ -7,7 +7,7 @@ export interface movieDTO {
 }
 
 export interface movieCreationDTO {
-    title : string;
+    title: string;
     inTheaters: boolean;
     trailer: string;
     releaseDate?: Date;
@@ -17,6 +17,7 @@ export interface movieCreationDTO {
     movieTheatersIds?: number[];
     actors?: actorMovieDTO[];
 }
+
 export interface landingPageDTO {
     inTheaters?: movieDTO[];
     upcomingReleases?: movieDTO[];

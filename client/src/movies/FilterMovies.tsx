@@ -10,15 +10,12 @@ export default function FilterMovies() {
         upcomingReleases: false,
         inTheaters: false
     };
-
     const genres: genreDTO[] = [{id: 1, name: "Drama"}, {id: 2, name: "Comedy"}]
     return (
         <>
             <h3>Filter Movies</h3>
-
             <Formik initialValues={initialValues}
-                    onSubmit={values => console.log(values)}
-            >
+                    onSubmit={values => console.log(values)}>
                 {(formikProps) => (
                     <Form>
                         <div className={"row gx-3 align-items-center"}>
@@ -39,7 +36,8 @@ export default function FilterMovies() {
                                 <div className={"form-check"}>
                                     <Field className={"form-check-input"} id={"upcomingReleases"}
                                            name={"upcomingReleases"} type={"checkbox"}/>
-                                    <label htmlFor={"upcomingReleases"} className={"form-check-label"}>Upcoming Releases</label>
+                                    <label htmlFor={"upcomingReleases"} className={"form-check-label"}>Upcoming
+                                        Releases</label>
                                 </div>
                             </div>
                             <div className={"col-auto"}>
@@ -61,10 +59,10 @@ export default function FilterMovies() {
                     </Form>
                 )}
             </Formik>
-
         </>
     );
 }
+
 interface filterMoviesForm {
     title: string;
     genreId: number;
