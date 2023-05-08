@@ -25,4 +25,10 @@ form > a {
   width: 50px;
   margin-right: 10px;
 }
+.icons thead td i{
+  width: 70px;
+}
 
+.icons{
+  margin-left: 20px;
+}
