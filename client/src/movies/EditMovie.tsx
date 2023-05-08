@@ -1,6 +1,7 @@
 import MovieForm from "./MovieForm";
 import {genreDTO} from "../genres/genres.model";
 import {movieTheaterDTO} from "../movietheaters/movieTheater.model";
+import {actorMovieDTO} from "../actors/actors.model";
 
 
 export default function EditMovie() {
@@ -9,10 +10,17 @@ export default function EditMovie() {
     const  selectedGenres: genreDTO[] = [{id:1, name: 'Comedy'}]
 
     const  nonSelectedMovieTheaters: movieTheaterDTO[] =
-        [{id:2, name:'Agora'}]
+        [{id:2, name:'Prishtina Mall'}]
 
     const  selectedMovieTheaters: movieTheaterDTO[] =
-        [{id:1, name: 'Sambil'}]
+        [{id:1, name: 'Albi Mall'}]
+
+    const selectedActors: actorMovieDTO[] = [{
+        id: 1,
+        name: 'Felipe',
+        character: 'Geralt',
+        picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/330px-Tom_Holland_by_Gage_Skidmore.jpg'
+    }]
 
     return (
         <>
@@ -26,8 +34,7 @@ export default function EditMovie() {
 
                        nonSelectedMovieTheaters={nonSelectedMovieTheaters}
                        selectedMovieTheaters={selectedMovieTheaters}
-
-
+                       selectedActors={selectedActors}
 
             />
         </>

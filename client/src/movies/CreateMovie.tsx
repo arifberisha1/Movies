@@ -7,7 +7,7 @@ export default function CreateMovie() {
 
    const  nonSelectedGenres: genreDTO[] = [{id:1, name: 'Comedy'},  {id:2, name:'Drama'}]
     const  nonSelectedMovieTheaters: movieTheaterDTO[] =
-        [{id:1, name: 'Sambil'},  {id:2, name:'Agora'}]
+        [{id:1, name: 'Albi Mall'},  {id:2, name:'Prishtina Mall'}]
 
     return (
         <>
@@ -19,6 +19,7 @@ export default function CreateMovie() {
 
                        nonSelectedMovieTheaters={nonSelectedMovieTheaters}
                        selectedMovieTheaters={[]}
+                       selectedActors={[]}
             />
         </>
     );
