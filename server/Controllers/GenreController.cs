@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using server.Entities;
 
 namespace server.Controllers;
@@ -7,14 +8,18 @@ namespace server.Controllers;
 [ApiController]
 public class GenreController : ControllerBase
 {
-    public GenreController()
+
+    private readonly ApplicationDbContext context;
+    
+    public GenreController(ApplicationDbContext context)
     {
+        this.context = context;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<Genre>>> Get()
     {
-        return new List<Genre>() { new Genre() { Id = 1, Name = "Comedy" } };
+        return await context.Genres.ToListAsync();
     }
 
     [HttpGet("{Id:int}")]
@@ -24,9 +29,11 @@ public class GenreController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody] Genre genre)
+    public async Task<ActionResult> Post([FromBody] Genre genre)
     {
-        throw new NotImplementedException();
+        context.Add(genre);
+        await context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpPut]
