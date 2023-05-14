@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using server;
 using Microsoft.EntityFrameworkCore;
+using server.APIBehavior;
+using server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(typeof(ParseBadRequest));
+}).ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
