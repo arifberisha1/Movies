@@ -33,3 +33,7 @@ form > a {
 .icons {
     margin-left: 20px;
 }
+
+.table a {
+    margin-right: 1rem;
+}
