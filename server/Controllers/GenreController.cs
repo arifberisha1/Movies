@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
 using server.Entities;
+using server.Helpers;
 
 namespace server.Controllers;
 
@@ -21,10 +22,11 @@ public class GenreController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GenreDTO>>> Get()
+    public async Task<ActionResult<List<GenreDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
     {
-       
-        var genres =  await context.Genres.ToListAsync();
+        var queryable = context.Genres.AsQueryable();
+        await HttpContext.InertParametersPaginationInHeader(queryable);
+        var genres =  await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<GenreDTO>>(genres);
     }
 
