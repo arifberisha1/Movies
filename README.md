@@ -17,30 +17,6 @@ In order for the project to run, these steps must be followed:
 ```sh
    npm install
   ```
-3. Install Bootstrap
-```sh
-  npm i bootstrap@5.0
-  ```
-4. Install React Router
-```sh
-  npm i react-router-dom@5.2 --save-dev @types/react-router-dom
-  ```
-  5. Install Formik
-```sh
-  npm i formik@2.2.9
-  ```
-  6. Install Yup
-```sh
-  npm i yup@0.32.9
-  ```
-   7. Install Markdown
-```sh
-  npm i react-markdown typed-react-markdown
-  ```
-   8. Install Leaflet
-```sh
-  npm i react-leaflet leaflet --save --save-dev @types/leaflet
-  ```
   #### Server packages
   1. Navigate to Server Directory
   * If you are still in the client directory use the comand below
@@ -51,3 +27,29 @@ In order for the project to run, these steps must be followed:
   ```sh
     cd server
   ```
+ 2. Configure SQLServer server name
+  * In appsettings.Developement.json change Data Source to your server name at DefaultConnection
+  ```
+   "ConnectionStrings": {
+    "DefaultConnection": "Data Source=YOUR SERVER NAME;Initial Catalog=SSH_DB;Integrated Security=True;TrustServerCertificate=True"
+  }
+  ```
+  3. Build ASP.NET Core server
+ ```
+   dotnet build
+ ```
+  4. Migrate the database migrations
+ ```
+   dotnet ef database update
+ ```
+ 
+### Running the application
+
+1. Firstly you should run the server
+```
+  dotnet run
+```
+2. Now run the client
+```
+  npm start
+```
