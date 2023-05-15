@@ -69,7 +69,7 @@ public class GenreController : ControllerBase
 
     }
 
-    [HttpDelete("{id:int")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
         var exists = await context.Genres.AnyAsync(x => x.Id == id);
