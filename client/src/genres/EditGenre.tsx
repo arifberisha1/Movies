@@ -25,6 +25,7 @@ export default function EditGenre() {
         try {
             await axios.put(`${urlGenres}/${id}`, genreToEdit);
             history.push('/genres');
+            window.location.reload();
         }
         catch (error){
             // @ts-ignore
