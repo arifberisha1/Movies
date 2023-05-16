@@ -1,18 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using server.Helpers;
 
-namespace server.DTOs;
-
-public class MovieTheaterCreationDTO
+namespace server.DTOs
 {
+
+    public class MovieCreationDTO
+    {
+        public string Title { get; set; }
     
+        public string Summary { get; set;  }
     
-    [Required]
-    [StringLength(maximumLength: 75)]
+        public string Trailer { get; set; }
     
-    public string Name { get; set; }
-    [Range(-90, 90)]
+        public bool InTheaters { get; set; }
     
-    public double Latitude { get; set; }
-    [Range(-180,180)]
-    public double Longitude { get; set; }
+        public DateTime ReleaseDate { get; set; }
+    
+        public IFormFile Poster { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<int>>))]
+        
+        public List<int> GenresIds { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<int>>))]
+        
+        public List<int> MovieTheatersIds { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<MoviesActorsCreationDTO>>))]
+        
+        public List<MoviesActorsCreationDTO> Actors { get; set; }
+        
+    }
 }

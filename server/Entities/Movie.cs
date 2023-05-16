@@ -23,5 +23,5 @@ public class Movie
     
     public List<MoviesTheatersMovies> MoviesTheatersMovies { get; set; }
 
-
+    public List<MoviesActors> MoviesActors { get; set; }
 }
