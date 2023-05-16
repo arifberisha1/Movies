@@ -13,6 +13,7 @@ import {useState} from "react";
 import {genreDTO} from "../genres/genres.model";
 import TypeAheadActors from "../forms/TypeAheadActors";
 import {actorMovieDTO} from "../actors/actors.model";
+import MarkdownField from "../forms/MarkdownField";
 
 export default function MovieForm(props: movieFormProps) {
 
@@ -52,6 +53,9 @@ export default function MovieForm(props: movieFormProps) {
                     <TextField displayName="Trailer" field="trailer"/>
                     <DateField displayName="Release Date" field="releaseDate"/>
                     <ImageField field="poster" displayName="Poster" imageURL={props.model.posterURL}/>
+
+                    <MarkdownField displayName={"Summary"} field={"summary"}/>
+
                     <MultipleSelector
                         displayName="Genres"
                         nonSelected={nonSelectedGenres}

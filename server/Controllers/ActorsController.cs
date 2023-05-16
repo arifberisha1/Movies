@@ -9,14 +9,13 @@ namespace server.Controllers;
 
 [Route("api/actors")]
 [ApiController]
-public class ActorsController: ControllerBase
+public class ActorsController : ControllerBase
 {
-
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
     private readonly IFileStorageService fileStorageService;
     private readonly string containerName = "actors";
-    
+
     public ActorsController(ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService)
     {
         this.context = context;
@@ -48,6 +47,22 @@ public class ActorsController: ControllerBase
         return mapper.Map<ActorDTO>(actor);
     }
 
+    [HttpGet("searchByName/{query}")]
+    public async Task<ActionResult<List<ActorsMovieDTO>>> SearchByName(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return new List<ActorsMovieDTO>();
+        }
+
+        return await context.Actors
+            .Where(x => x.Name.Contains(query))
+            .OrderBy(x => x.Name)
+            .Select(x => new ActorsMovieDTO { Id = x.Id, Name = x.Name, Picture = x.Picture })
+            .Take(5)
+            .ToListAsync();
+    }
+
     [HttpPost]
     public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDto)
     {
@@ -77,8 +92,8 @@ public class ActorsController: ControllerBase
 
         if (actorCreationDto.Picture != null)
         {
-            actor.Picture = await fileStorageService.EditFile(containerName, 
-                actorCreationDto.Picture, 
+            actor.Picture = await fileStorageService.EditFile(containerName,
+                actorCreationDto.Picture,
                 actor.Picture);
         }
 
@@ -101,5 +116,4 @@ public class ActorsController: ControllerBase
         await fileStorageService.DeleteFile(actor.Picture, containerName);
         return NoContent();
     }
-
 }
