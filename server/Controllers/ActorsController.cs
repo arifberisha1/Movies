@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
+using server.Entities;
+using server.Helpers;
 
 namespace server.Controllers;
 
@@ -12,11 +14,14 @@ public class ActorsController: ControllerBase
 
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+    private readonly IFileStorageService fileStorageService;
+    private readonly string containerName = "actors";
     
-    public ActorsController(ApplicationDbContext context, IMapper mapper)
+    public ActorsController(ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService)
     {
         this.context = context;
         this.mapper = mapper;
+        this.fileStorageService = fileStorageService;
     }
 
 
@@ -44,8 +49,16 @@ public class ActorsController: ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDto)
     {
+        var actor = mapper.Map<Actor>(actorCreationDto);
+
+        if (actorCreationDto.Picture != null)
+        {
+            actor.Picture = await fileStorageService.SaveFile(containerName, actorCreationDto.Picture);
+        }
+
+        context.Add(actor);
+        await context.SaveChangesAsync();
         return NoContent();
-        throw new NotImplementedException();
     }
 
     [HttpPut]
