@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using server;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.UseNetTopologySuite()));
 
-builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
+
 
 
 // Add services to the container.
@@ -40,6 +41,14 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
+{
+    var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+    config.AddProfile(new AutoMapperProfiles(geometryFactory));
+}).CreateMapper());
+builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices
+    .Instance.CreateGeometryFactory(srid: 4326));
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddHttpContextAccessor();
