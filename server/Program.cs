@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using server;
 using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Helpers;
 using server.APIBehavior;
 using server.Filters;
 using server.Helpers;

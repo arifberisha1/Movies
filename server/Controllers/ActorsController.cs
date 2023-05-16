@@ -63,10 +63,27 @@ public class ActorsController: ControllerBase
         return NoContent();
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Put([FromForm] ActorCreationDTO actorCreationDto)
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult> Put(int id, [FromForm] ActorCreationDTO actorCreationDto)
     {
-        throw new NotImplementedException();
+        var actor = await context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+
+        if (actor == null)
+        {
+            return NotFound();
+        }
+
+        actor = mapper.Map(actorCreationDto, actor);
+
+        if (actorCreationDto.Picture != null)
+        {
+            actor.Picture = await fileStorageService.EditFile(containerName, 
+                actorCreationDto.Picture, 
+                actor.Picture);
+        }
+
+        await context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
@@ -81,8 +98,8 @@ public class ActorsController: ControllerBase
 
         context.Remove(actor);
         await context.SaveChangesAsync();
-        return NoContent(); 
-
+        await fileStorageService.DeleteFile(actor.Picture, containerName);
+        return NoContent();
     }
 
 }
