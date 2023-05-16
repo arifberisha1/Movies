@@ -30,7 +30,7 @@ namespace server.Controllers
         [HttpGet("PostGet")]
         public async Task<ActionResult<MoviePostGetDTO>> PostGet()
         {
-            var movieTheaters = context.MovieTheaters.ToListAsync();
+            var movieTheaters = await context.MovieTheaters.ToListAsync();
             var genres = await context.Genres.ToListAsync();
 
             var movieTheatersDTO = mapper.Map<List<MovieTheaterDTO>>(movieTheaters);
