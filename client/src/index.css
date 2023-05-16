@@ -26,6 +26,12 @@ form > a {
     margin-right: 10px;
 }
 
+.img-actor {
+    height: 50px;
+    width: 50px;
+    /*margin-right: 10px;*/
+}
+
 .icons thead tr td i {
     width: 70px;
 }
