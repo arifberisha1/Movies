@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using server;
 using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Helpers;
 using server.APIBehavior;
 using server.Filters;
+using server.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,10 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseRouting();
 
