@@ -1,7 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using server;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.Helpers;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using server.APIBehavior;
 using server.Filters;
 using server.Helpers;
@@ -9,7 +12,10 @@ using server.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.UseNetTopologySuite()));
+
+
 
 
 // Add services to the container.
@@ -35,6 +41,14 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
+{
+    var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+    config.AddProfile(new AutoMapperProfiles(geometryFactory));
+}).CreateMapper());
+builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices
+    .Instance.CreateGeometryFactory(srid: 4326));
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddHttpContextAccessor();
