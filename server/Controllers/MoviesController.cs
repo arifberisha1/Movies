@@ -40,7 +40,7 @@ namespace server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] MovieCreationDTO movieCreationDTO)
+        public async Task<ActionResult<int>> Post([FromForm] MovieCreationDTO movieCreationDTO)
         {
             var movie = mapper.Map<Movie>(movieCreationDTO);
 
@@ -52,7 +52,7 @@ namespace server.Controllers
             AnnotateActorsOrder(movie);
             context.Add(movie);
             await context.SaveChangesAsync();
-            return NoContent();
+            return movie.Id;
         }
         
 
