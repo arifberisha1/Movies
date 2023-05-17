@@ -4,10 +4,8 @@ using server.DTOs;
 using server.Entities;
 
 
-
 namespace server.Helpers
 {
-
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles(GeometryFactory geometryFactory)
@@ -33,7 +31,71 @@ namespace server.Helpers
                 .ForMember(x => x.MoviesGenres, options => options.MapFrom(MapMoviesGenres))
                 .ForMember(x => x.MoviesTheatersMovies, options => options.MapFrom(MapMovieTheatersMovies))
                 .ForMember(x => x.MoviesActors, options => options.MapFrom(MapMoviesActors));
+
+            CreateMap<Movie, MovieDTO>()
+                .ForMember(x => x.Genres, options => options.MapFrom(MapMoviesGenres))
+                .ForMember(x => x.MovieTheaters, options => options.MapFrom(MapMovieTheatersMovies))
+                .ForMember(x => x.Actors, options => options.MapFrom(MapMoviesActors));
         }
+
+        private List<ActorsMovieDTO> MapMoviesActors(Movie movie, MovieDTO movieDto)
+        {
+            var result = new List<ActorsMovieDTO>();
+
+            if (movie.MoviesActors != null)
+            {
+                foreach (var moviesActors in movie.MoviesActors)
+                {
+                    result.Add(new ActorsMovieDTO()
+                    {
+                        Id = moviesActors.ActorId,
+                        Name = moviesActors.Actor.Name,
+                        Character = moviesActors.Character,
+                        Picture = moviesActors.Actor.Picture,
+                        Order = moviesActors.Order
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private List<MovieTheaterDTO> MapMovieTheatersMovies(Movie movie, MovieDTO movieDto)
+        {
+            var result = new List<MovieTheaterDTO>();
+
+            if (movie.MoviesTheatersMovies != null)
+            {
+                foreach (var movieTheaterMovies in movie.MoviesTheatersMovies)
+                {
+                    result.Add(new MovieTheaterDTO()
+                    {
+                        Id = movieTheaterMovies.MovieTheaterId,
+                        Name = movieTheaterMovies.MovieTheater.Name,
+                        Latitude = movieTheaterMovies.MovieTheater.Location.Y,
+                        Longitude = movieTheaterMovies.MovieTheater.Location.X
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private List<GenreDTO> MapMoviesGenres(Movie movie, MovieDTO movieDto)
+        {
+            var result = new List<GenreDTO>();
+
+            if (movie.MoviesGenres != null)
+            {
+                foreach (var genre in movie.MoviesGenres)
+                {
+                    result.Add(new GenreDTO() { Id = genre.GenreId, Name = genre.Genre.Name });
+                }
+            }
+
+            return result;
+        }
+
 
         private List<MoviesGenres> MapMoviesGenres(MovieCreationDTO movieCreationDTO, Movie movie)
         {
@@ -46,7 +108,7 @@ namespace server.Helpers
 
             foreach (var id in movieCreationDTO.GenresIds)
             {
-                result.Add(new MoviesGenres() { GenreId = id});
+                result.Add(new MoviesGenres() { GenreId = id });
             }
 
             return result;
@@ -64,11 +126,10 @@ namespace server.Helpers
 
             foreach (var id in movieCreationDTO.MovieTheatersIds)
             {
-                result.Add(new MoviesTheatersMovies() {MovieTheaterId = id});
+                result.Add(new MoviesTheatersMovies() { MovieTheaterId = id });
             }
 
             return result;
-
         }
 
         private List<MoviesActors> MapMoviesActors(MovieCreationDTO movieCreationDTO, Movie movie)
@@ -86,8 +147,6 @@ namespace server.Helpers
             }
 
             return result;
-
         }
-
     }
 }
