@@ -1,13 +1,17 @@
 import MoviesList from "./MoviesList";
 import React, {useEffect, useState} from "react";
 import {landingPageDTO} from "./movies.model";
+import axios, {AxiosResponse} from "axios";
+import {urlMovies} from "../endpoints";
 
 export default function LandingPage() {
 
     const [movies, setMovies] = useState<landingPageDTO>({});
 
     useEffect(() => {
-
+        axios.get(urlMovies).then((response: AxiosResponse<landingPageDTO>) => {
+            setMovies(response.data);
+        })
     },[]);
 
     return (
