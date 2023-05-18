@@ -115,7 +115,7 @@ namespace server.Controllers
             return movie.Id;
         }
 
-        [HttpGet("putget/{id: int}")]
+        [HttpGet("putget/{id:int}")]
         public async Task<ActionResult<MoviePutGetDTO>> PutGet(int id)
         {
             var movieActionResult = await Get(id);
@@ -147,7 +147,7 @@ namespace server.Controllers
             return response;
         }
 
-        [HttpPut("{id: int}")]
+        [HttpPut("{id:int}")]
 
         public async Task<ActionResult> Put(int id, [FromForm] MovieCreationDTO movieCreationDto)
         {
@@ -184,7 +184,7 @@ namespace server.Controllers
             }
         }
 
-        [HttpDelete("{id: int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var movie = await context.Movies.FirstOrDefaultAsync(x => x.Id == id);
