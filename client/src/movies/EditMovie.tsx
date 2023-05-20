@@ -17,7 +17,7 @@ export default function EditMovie() {
     const [errors, setErrors] = useState<string[]>([]);
 
     useEffect(() =>{
-        axios.get(`${urlMovies}/PutGet/{id}`)
+        axios.get(`${urlMovies}/PutGet/${id}`)
             .then((response: AxiosResponse<moviePutGetDTO>) => {
                 const model: movieCreationDTO = {
                     title: response.data.movie.title,

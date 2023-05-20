@@ -48,25 +48,6 @@ namespace server.Controllers
             landingPageDTO.InTheaters = mapper.Map<List<MovieDTO>>(inTheaters);
             return landingPageDTO;
         }
-        // [HttpGet("{id:int}")]
-        // public async Task<ActionResult<MovieDTO>> Get(int id)
-        // {
-        //     var movie = await context.Movies
-        //         .Include(x => x.MoviesGenres)
-        //         .ThenInclude(x => x.Genre)
-        //         .Include(x => x.MoviesTheatersMovies).ThenInclude(x => x.MovieTheater)
-        //         .Include(x => x.MoviesActors).ThenInclude(x => x.Actor)
-        //         .FirstOrDefaultAsync(x => x.Id == id);
-        //
-        //     if (movie == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     var dto = mapper.Map<MovieDTO>(movie);
-        //     dto.Actors = dto.Actors.OrderBy(x => x.Order).ToList();
-        //     return dto;
-        // }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<MovieDTO>> Get(int id)
@@ -85,6 +66,56 @@ namespace server.Controllers
             var dto = mapper.Map<MovieDTO>(movie);
             dto.Actors = dto.Actors.OrderBy(x => x.Order).ToList();
             return dto;
+        }
+        
+        [HttpGet("all")]
+        public async Task<ActionResult<List<MovieDTO>>> GetAll([FromQuery] PaginationDTO paginationDto)
+        {
+            var queryable = context.Movies.AsQueryable();
+            await HttpContext.InertParametersPaginationInHeader(queryable);
+            var movies = await queryable.OrderBy(x => x.Title).Paginate(paginationDto).ToListAsync();
+            return mapper.Map<List<MovieDTO>>(movies);
+        }
+        
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<MovieDTO>>> Filter([FromQuery] FilterMoviesDTO filterMoviesDto)
+        {
+            var moviesQueryable = context.Movies.AsQueryable();
+
+            if (filterMoviesDto.Title == "_" && !filterMoviesDto.InTheaters
+                                             && !filterMoviesDto.UpcomingReleases &&
+                                             filterMoviesDto.GenreId == 0)
+            {
+                return await GetAll(filterMoviesDto.PaginationDto);
+            }
+
+            if (filterMoviesDto.Title != "_")
+            {
+                moviesQueryable = moviesQueryable.Where(x => x.Title.Contains(filterMoviesDto.Title));
+            }
+
+            if (filterMoviesDto.InTheaters)
+            {
+                moviesQueryable = moviesQueryable.Where(x => x.InTheaters);
+            }
+
+            if (filterMoviesDto.UpcomingReleases)
+            {
+                var today = DateTime.Today;
+                moviesQueryable = moviesQueryable.Where(x => x.ReleaseDate > today);
+            }
+
+            if (filterMoviesDto.GenreId != 0)
+            {
+                moviesQueryable = moviesQueryable
+                    .Where(x => x.MoviesGenres.Select(y => y.GenreId)
+                        .Contains(filterMoviesDto.GenreId));
+            }
+
+            await HttpContext.InertParametersPaginationInHeader(moviesQueryable);
+            var movies = await moviesQueryable.OrderBy(x => x.Title).Paginate(filterMoviesDto.PaginationDto)
+                .ToListAsync();
+            return mapper.Map<List<MovieDTO>>(movies);
         }
 
         [HttpGet("PostGet")]
