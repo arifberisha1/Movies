@@ -23,7 +23,7 @@ export default function LandingPage() {
             loadData();
         }}>
             <h3>In Theaters</h3>
-            <MoviesList movies={movies.inTheaters}/>
+            <MoviesList movies={movies.inTheaters?.slice().reverse()}/>
             <h3>Upcoming Releases</h3>
             <MoviesList movies={movies.upcomingReleases}/>
         </AlertContext.Provider>
