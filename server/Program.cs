@@ -1,7 +1,10 @@
+using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using server;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MoviesAPI.Helpers;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
@@ -25,10 +28,28 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(typeof(ParseBadRequest));
 }).ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("keyjwt"))),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(_builder =>
