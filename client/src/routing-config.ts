@@ -12,6 +12,8 @@ import CreateMovie from "./movies/CreateMovie";
 import EditMovie from "./movies/EditMovie";
 import FilterMovies from "./movies/FilterMovies";
 import MovieDetails from "./movies/MovieDetails";
+import Register from "./auth/Register";
+import Login from "./auth/Login";
 
 const routes = [
 
@@ -31,6 +33,9 @@ const routes = [
     {path: "/movies/edit/:id(\\d+)", component: EditMovie, isAdmin: true},
     {path: "/movies/filter", component: FilterMovies},
     {path: "/movie/:id(\\d+)", component: MovieDetails},
+
+    {path: "/register", component: Register},
+    {path: "/login", component: Login},
 
     {path: "/", component: LandingPage, exact: true},
     {path: "*", component: LandingPage}

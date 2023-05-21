@@ -5,7 +5,8 @@ export default function Menu() {
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <div className={"container-fluid"}>
                 <a className={"navbar-brand"} href="/">Home</a>
-                <div className={"collapse navbar-collapse"}>
+                <div className={"collapse navbar-collapse"}
+                style={{display: 'flex', justifyContent: 'space-between'}}>
                     <ul className={"navbar-nav me-auto mb-2 mb-lg-0"}>
                         <li className={"nav-item"}>
                             <a className={"nav-link"} href="/movies/filter">
@@ -39,6 +40,20 @@ export default function Menu() {
                             </>}
                         />
                     </ul>
+
+                    <div className={"d-flex"}>
+                        <Authorized
+                            authorized={<></>}
+                            notAuthorized={
+                                <>
+                                    <a href="/register" className={"nav-link btn btn-link"}>
+                                        Register</a>
+                                    <a href="/login" className={"nav-link btn btn-link"}>
+                                        Login</a>
+                                </>}
+                        />
+                    </div>
+
                 </div>
             </div>
         </nav>

@@ -14,7 +14,7 @@ function App() {
 
     const [claims, setClaims] =
         useState<claim[]>([
-            {name: 'email', value: 'arif.berisha1@gmail.com'},
+            // {name: 'email', value: 'arif.berisha1@gmail.com'},
             // {name: 'role', value: 'admin'}
         ]);
 
