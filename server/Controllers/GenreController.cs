@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
@@ -9,6 +11,7 @@ namespace server.Controllers;
 
 [Route("api/genres")]
 [ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 public class GenreController : ControllerBase
 {
 
@@ -31,6 +34,7 @@ public class GenreController : ControllerBase
     }
     
     [HttpGet("all")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<GenreDTO>>> Get()
     {
         var genres =  await context.Genres.OrderBy(x => x.Name).ToListAsync();

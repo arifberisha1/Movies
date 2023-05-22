@@ -15,14 +15,16 @@ public class AccountsController: ControllerBase
     private readonly UserManager<IdentityUser> userManager;
     private readonly SignInManager<IdentityUser> signInManager;
     private readonly IConfiguration configuration;
-    
+    private readonly ApplicationDbContext context;
+
     public AccountsController(UserManager<IdentityUser> userManager,
         SignInManager<IdentityUser> signInManager,
-        IConfiguration configuration)
+        IConfiguration configuration, ApplicationDbContext context)
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
         this.configuration = configuration;
+        this.context = context;
     }
 
     [HttpPost("create")]
@@ -34,7 +36,7 @@ public class AccountsController: ControllerBase
 
         if (result.Succeeded)
         {
-            return BuildToken(userCredentials);
+            return BuildToken(userCredentials, false);
         }
         else
         {
@@ -51,7 +53,7 @@ public class AccountsController: ControllerBase
 
         if (result.Succeeded)
         {
-            return BuildToken(userCredentials);
+            return BuildToken(userCredentials, true);
         }
         else
         {
@@ -60,12 +62,21 @@ public class AccountsController: ControllerBase
     }
 
 
-    private AuthenticationResponse BuildToken(UserCredentials userCredentials)
+    private AuthenticationResponse BuildToken(UserCredentials userCredentials, bool checkAdmin)
     {
         var claims = new List<Claim>()
         {
             new Claim("email", userCredentials.Email)
         };
+
+        if (checkAdmin)
+        {
+            if (isAdmin(userCredentials.Email))
+            {
+                var claim = new Claim("role", "admin");
+                claims.Add(claim);
+            }
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -80,6 +91,21 @@ public class AccountsController: ControllerBase
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = expiration
         };
+    }
+    
+    private bool isAdmin(string email)
+    {
+        var user = context.Users.FirstOrDefault(x => x.Email == email);
+        var DbClaim = context.UserClaims.FirstOrDefault(x =>
+            x.UserId == user.Id);
+        var DbRole = DbClaim?.ClaimValue;
+
+        if (DbRole == "admin" && DbRole != null)
+        {
+            return true;
+        }
+        
+        return false;
     }
 
 }
