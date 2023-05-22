@@ -23,7 +23,13 @@ function App() {
     }, []);
 
     function isAdmin(){
-        return claims.findIndex(claim => claim.name === 'role' && claim.value === 'admin') > -1;
+        var admin = false;
+        claims.map(claim => {
+            if (claim.name === 'role' && claim.value === 'admin'){
+                admin = true;
+            }
+        });
+        return admin;
     }
 
     return (
@@ -35,10 +41,8 @@ function App() {
                         <Switch>
                             {routes.map(route =>
                                 <Route key={route.path} path={route.path} exact={route.exact}>
-                                    {route.isAdmin && !isAdmin() ?
-                                    <LandingPage/> :
-                                    <route.component/>
-                                    }
+                                    {isAdmin() ? <route.component/> : !route.isAdmin ?
+                                        <route.component/> : <LandingPage/>}
                                 </Route>
                             )}
                         </Switch>

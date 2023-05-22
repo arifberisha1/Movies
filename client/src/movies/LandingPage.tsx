@@ -6,14 +6,16 @@ import {urlMovies} from "../endpoints";
 import AlertContext from "../utils/AlertContext";
 import {useHistory} from "react-router-dom";
 
-export default function LandingPage() {
+export default function LandingPage(props: landingPageProps) {
 
     const [movies, setMovies] = useState<landingPageDTO>({});
     const history = useHistory();
 
     useEffect(() => {
-        loadData();
+        if (props.reload){
         history.push('/');
+        }
+        loadData();
     },[]);
 
     function loadData() {
@@ -31,4 +33,8 @@ export default function LandingPage() {
             <MoviesList movies={movies.upcomingReleases}/>
         </AlertContext.Provider>
     );
+}
+
+interface landingPageProps{
+    reload?: boolean;
 }
