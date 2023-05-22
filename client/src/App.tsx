@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Menu from "./Menu";
@@ -7,16 +7,18 @@ import configureValidation from "./Validation";
 import {claim} from "./auth/auth.models";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import LandingPage from "./movies/LandingPage";
+import {getClaims} from "./auth/handleJWT";
 
 configureValidation();
 
 function App() {
 
     const [claims, setClaims] =
-        useState<claim[]>([
-            // {name: 'email', value: 'arif.berisha1@gmail.com'},
-            // {name: 'role', value: 'admin'}
-        ]);
+        useState<claim[]>([]);
+
+    useEffect(() => {
+        setClaims(getClaims());
+    }, []);
 
     function isAdmin(){
         return claims.findIndex(claim => claim.name === 'role' && claim.value === 'admin') > -1;
