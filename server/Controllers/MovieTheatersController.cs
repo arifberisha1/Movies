@@ -28,7 +28,7 @@ public class MovieTheatersController : ControllerBase
     public async Task<ActionResult<List<MovieTheaterDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
     {
         var queryable = context.MovieTheaters.AsQueryable();
-        await HttpContext.InertParametersPaginationInHeader(queryable);
+        await HttpContext.InsertParametersPaginationInHeader(queryable);
         var entities = await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<MovieTheaterDTO>>(entities);
     }

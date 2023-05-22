@@ -28,7 +28,7 @@ public class GenreController : ControllerBase
     public async Task<ActionResult<List<GenreDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
     {
         var queryable = context.Genres.AsQueryable();
-        await HttpContext.InertParametersPaginationInHeader(queryable);
+        await HttpContext.InsertParametersPaginationInHeader(queryable);
         var genres =  await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<GenreDTO>>(genres);
     }

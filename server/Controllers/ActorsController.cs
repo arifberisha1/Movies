@@ -31,7 +31,7 @@ public class ActorsController : ControllerBase
     public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery] PaginationDTO paginationDto)
     {
         var queryable = context.Actors.AsQueryable();
-        await HttpContext.InertParametersPaginationInHeader(queryable);
+        await HttpContext.InsertParametersPaginationInHeader(queryable);
         var actors = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();
         return mapper.Map<List<ActorDTO>>(actors);
     }

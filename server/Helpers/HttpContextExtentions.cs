@@ -4,7 +4,7 @@ namespace server.Helpers;
 
 public static class HttpContextExtentions
 {
-    public async static Task InertParametersPaginationInHeader<T>(this HttpContext httpContext,
+    public async static Task InsertParametersPaginationInHeader<T>(this HttpContext httpContext,
         IQueryable<T> queryable)
     {
         if (httpContext == null)

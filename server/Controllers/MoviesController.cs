@@ -77,7 +77,7 @@ namespace server.Controllers
         public async Task<ActionResult<List<MovieDTO>>> GetAll([FromQuery] PaginationDTO paginationDto)
         {
             var queryable = context.Movies.AsQueryable();
-            await HttpContext.InertParametersPaginationInHeader(queryable);
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
             var movies = await queryable.OrderBy(x => x.Title).Paginate(paginationDto).ToListAsync();
             return mapper.Map<List<MovieDTO>>(movies);
         }
@@ -118,7 +118,7 @@ namespace server.Controllers
                         .Contains(filterMoviesDto.GenreId));
             }
 
-            await HttpContext.InertParametersPaginationInHeader(moviesQueryable);
+            await HttpContext.InsertParametersPaginationInHeader(moviesQueryable);
             var movies = await moviesQueryable.OrderBy(x => x.Title).Paginate(filterMoviesDto.PaginationDto)
                 .ToListAsync();
             return mapper.Map<List<MovieDTO>>(movies);
