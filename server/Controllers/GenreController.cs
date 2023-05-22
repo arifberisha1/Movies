@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
@@ -9,6 +11,7 @@ namespace server.Controllers;
 
 [Route("api/genres")]
 [ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 public class GenreController : ControllerBase
 {
 
@@ -25,12 +28,13 @@ public class GenreController : ControllerBase
     public async Task<ActionResult<List<GenreDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
     {
         var queryable = context.Genres.AsQueryable();
-        await HttpContext.InertParametersPaginationInHeader(queryable);
+        await HttpContext.InsertParametersPaginationInHeader(queryable);
         var genres =  await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<GenreDTO>>(genres);
     }
     
     [HttpGet("all")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<GenreDTO>>> Get()
     {
         var genres =  await context.Genres.OrderBy(x => x.Name).ToListAsync();

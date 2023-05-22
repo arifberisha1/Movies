@@ -21,7 +21,7 @@ export default function Map(props: mapProps) {
         <MapContainer
             center={[42.570073453813, 20.909179695881907]} zoom={8}
             style={{height: props.height}}>
-            <TileLayer attribution="React Movies"
+            <TileLayer attribution="Movie Theaters Map"
                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
             {props.readOnly ? null : <MapClick setCoordinates={coordinates => {
                 setCoordinates([coordinates]);

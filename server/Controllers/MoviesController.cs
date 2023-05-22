@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ namespace server.Controllers
 {
     [Route("api/movies")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public class MoviesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -26,6 +29,7 @@ namespace server.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<LandingPageDTO>> Get()
         {
             var top = 6;
@@ -50,6 +54,7 @@ namespace server.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<MovieDTO>> Get(int id)
         {
             var movie = await context.Movies
@@ -72,12 +77,13 @@ namespace server.Controllers
         public async Task<ActionResult<List<MovieDTO>>> GetAll([FromQuery] PaginationDTO paginationDto)
         {
             var queryable = context.Movies.AsQueryable();
-            await HttpContext.InertParametersPaginationInHeader(queryable);
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
             var movies = await queryable.OrderBy(x => x.Title).Paginate(paginationDto).ToListAsync();
             return mapper.Map<List<MovieDTO>>(movies);
         }
         
         [HttpGet("filter")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> Filter([FromQuery] FilterMoviesDTO filterMoviesDto)
         {
             var moviesQueryable = context.Movies.AsQueryable();
@@ -112,7 +118,7 @@ namespace server.Controllers
                         .Contains(filterMoviesDto.GenreId));
             }
 
-            await HttpContext.InertParametersPaginationInHeader(moviesQueryable);
+            await HttpContext.InsertParametersPaginationInHeader(moviesQueryable);
             var movies = await moviesQueryable.OrderBy(x => x.Title).Paginate(filterMoviesDto.PaginationDto)
                 .ToListAsync();
             return mapper.Map<List<MovieDTO>>(movies);

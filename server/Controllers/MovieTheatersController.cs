@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
@@ -9,6 +11,7 @@ namespace server.Controllers;
 
 [ApiController]
 [Route("api/movietheaters")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 public class MovieTheatersController : ControllerBase
 {
 
@@ -25,7 +28,7 @@ public class MovieTheatersController : ControllerBase
     public async Task<ActionResult<List<MovieTheaterDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
     {
         var queryable = context.MovieTheaters.AsQueryable();
-        await HttpContext.InertParametersPaginationInHeader(queryable);
+        await HttpContext.InsertParametersPaginationInHeader(queryable);
         var entities = await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<MovieTheaterDTO>>(entities);
     }

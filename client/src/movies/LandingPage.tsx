@@ -4,12 +4,17 @@ import {landingPageDTO} from "./movies.model";
 import axios, {AxiosResponse} from "axios";
 import {urlMovies} from "../endpoints";
 import AlertContext from "../utils/AlertContext";
+import {useHistory} from "react-router-dom";
 
-export default function LandingPage() {
+export default function LandingPage(props: landingPageProps) {
 
     const [movies, setMovies] = useState<landingPageDTO>({});
+    const history = useHistory();
 
     useEffect(() => {
+        if (props.reload){
+        history.push('/');
+        }
         loadData();
     },[]);
 
@@ -23,9 +28,13 @@ export default function LandingPage() {
             loadData();
         }}>
             <h3>In Theaters</h3>
-            <MoviesList movies={movies.inTheaters}/>
+            <MoviesList movies={movies.inTheaters?.slice().reverse()}/>
             <h3>Upcoming Releases</h3>
             <MoviesList movies={movies.upcomingReleases}/>
         </AlertContext.Provider>
     );
+}
+
+interface landingPageProps{
+    reload?: boolean;
 }
