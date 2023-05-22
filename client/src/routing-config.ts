@@ -14,6 +14,7 @@ import FilterMovies from "./movies/FilterMovies";
 import MovieDetails from "./movies/MovieDetails";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
+import IndexUsers from "./auth/IndexUsers";
 
 const routes = [
 
@@ -36,6 +37,7 @@ const routes = [
 
     {path: "/register", component: Register},
     {path: "/login", component: Login},
+    {path: "/users", component: IndexUsers, isAdmin: true},
 
     {path: "/", component: LandingPage, exact: true},
     {path: "*", component: LandingPage}

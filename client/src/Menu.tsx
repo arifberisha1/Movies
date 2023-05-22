@@ -48,6 +48,11 @@ export default function Menu() {
                                         Create Movie
                                     </a>
                                 </li>
+                                <li className={"nav-item"}>
+                                    <a className={"nav-link"} href="/users">
+                                        Users
+                                    </a>
+                                </li>
                             </>}
                         />
                     </ul>
