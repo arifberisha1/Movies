@@ -8,8 +8,10 @@ import {claim} from "./auth/auth.models";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import LandingPage from "./movies/LandingPage";
 import {getClaims} from "./auth/handleJWT";
+import configureInterceptor from "./utils/httpInterceptors";
 
 configureValidation();
+configureInterceptor();
 
 function App() {
 
