@@ -8,6 +8,27 @@ export interface userCredentials{
     password: string;
 }
 
+export interface userDetails{
+    email: string;
+    password: string;
+    confirmPassword: string;
+    name: string;
+    surname: string;
+    birthday: Date;
+    gender: string;
+    address: string;
+}
+
+export interface userCreationDTO{
+    email: string;
+    password: string;
+    name: string;
+    surname: string;
+    birthday: Date;
+    gender: string;
+    address: string;
+}
+
 export interface authenticationResponse{
     token: string;
     expiration: Date;
