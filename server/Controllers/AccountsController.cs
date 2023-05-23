@@ -129,6 +129,35 @@ public class AccountsController : ControllerBase
         }
     }
 
+    [HttpPut("changePassword")]
+    public async Task<ActionResult> ChangePassword([FromBody] changePasswordDTO changePasswordDto)
+    {
+
+        var user = await userManager.FindByEmailAsync(changePasswordDto.Email);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var passwordValid = await userManager.CheckPasswordAsync(user, changePasswordDto.OldPassword);
+
+        if (!passwordValid)
+        {
+            return BadRequest("Incorrect Old Password!");
+        }
+
+        var changePasswordResult = await userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+
+        if (changePasswordResult.Succeeded)
+        {
+            return Ok("Password changed successfully");
+        }
+        else
+        {
+            return BadRequest(changePasswordResult.Errors);
+        }
+    }
 
     private AuthenticationResponse BuildToken(UserCredentials userCredentials, bool checkAdmin)
     {
