@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using server.DTOs;
+using server.Entities;
 using server.Helpers;
 
 namespace server.Controllers;
 
 [ApiController]
 [Route("api/accounts")]
-public class AccountsController: ControllerBase
+public class AccountsController : ControllerBase
 {
     private readonly UserManager<IdentityUser> userManager;
     private readonly SignInManager<IdentityUser> signInManager;
@@ -45,6 +46,19 @@ public class AccountsController: ControllerBase
         return mapper.Map<List<UserDTO>>(users);
     }
 
+    [HttpGet("getAdmins")]
+    public async Task<ActionResult<List<string>>> GetAdmins()
+    {
+        List<string> adminEmails = new List<string>();
+        var claims = await context.UserClaims.Where(x => x.ClaimValue == "admin").ToListAsync();
+        foreach (var claim in claims)
+        {
+            adminEmails.Add(claim.UserId);
+        }
+
+        return adminEmails;
+    }
+
     [HttpPost("makeAdmin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public async Task<ActionResult> MakeAdmin([FromBody] string userId)
@@ -53,7 +67,7 @@ public class AccountsController: ControllerBase
         await userManager.AddClaimAsync(user, new Claim("role", "admin"));
         return NoContent();
     }
-    
+
     [HttpPost("removeAdmin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public async Task<ActionResult> RemoveAdmin([FromBody] string userId)
@@ -65,13 +79,31 @@ public class AccountsController: ControllerBase
 
     [HttpPost("create")]
     public async Task<ActionResult<AuthenticationResponse>> Create(
-        [FromBody] UserCredentials userCredentials)
+        [FromBody] UserCreation userCreation)
     {
+        UserCredentials userCredentials = new UserCredentials()
+        {
+            Email = userCreation.Email,
+            Password = userCreation.Password
+        };
+        var userDetails = new UserDetails()
+        {
+            Name = userCreation.Name,
+            Surname = userCreation.Surname,
+            Birthday = userCreation.Birthday,
+            Gender = userCreation.Gender,
+            Address = userCreation.Address,
+            Email = userCreation.Email
+        };
+
         var user = new IdentityUser { UserName = userCredentials.Email, Email = userCredentials.Email };
         var result = await userManager.CreateAsync(user, userCredentials.Password);
 
         if (result.Succeeded)
         {
+            context.UserDetails.Add(userDetails);
+            await context.SaveChangesAsync();
+
             return BuildToken(userCredentials, false);
         }
         else
@@ -118,7 +150,7 @@ public class AccountsController: ControllerBase
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var expiration = DateTime.UtcNow.AddYears(1);
-        
+
         var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
             expires: expiration, signingCredentials: creds);
 
@@ -128,7 +160,7 @@ public class AccountsController: ControllerBase
             Expiration = expiration
         };
     }
-    
+
     private bool isAdmin(string email)
     {
         var user = context.Users.FirstOrDefault(x => x.Email == email);
@@ -140,8 +172,7 @@ public class AccountsController: ControllerBase
         {
             return true;
         }
-        
+
         return false;
     }
-
 }

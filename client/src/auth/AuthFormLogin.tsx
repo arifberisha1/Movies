@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 
-export default function AuthForm(props: authFormProps) {
+export default function AuthFormLogin(props: authFormProps) {
     return (
         <Formik initialValues={props.model}
                 onSubmit={props.onSubmit}
@@ -19,7 +19,7 @@ export default function AuthForm(props: authFormProps) {
                     <TextField field={"email"} displayName={"Email"}/>
                     <TextField field={"password"} displayName={"Password"} type={"password"}/>
 
-                    <Button disabled={formikProps.isSubmitting} type={"submit"}>Send</Button>
+                    <Button disabled={formikProps.isSubmitting} type={"submit"}>Log in</Button>
                     <a href="/" className={"btn btn-secondary"}>Cancel</a>
                 </Form>
             )}
