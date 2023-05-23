@@ -15,6 +15,8 @@ import MovieDetails from "./movies/MovieDetails";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import IndexUsers from "./auth/IndexUsers";
+import Profile from "./auth/Profile";
+import ChangePassword from "./auth/ChangePassword";
 
 const routes = [
 
@@ -38,6 +40,8 @@ const routes = [
     {path: "/register", component: Register},
     {path: "/login", component: Login},
     {path: "/users", component: IndexUsers, isAdmin: true},
+    {path: "/profile", component: Profile},
+    {path: "/changepassword", component: ChangePassword},
 
     {path: "/", component: LandingPage, exact: true},
     {path: "*", component: LandingPage}

@@ -43,3 +43,32 @@ form > a {
 .table a {
     margin-right: 1rem;
 }
+
+.profile-container {
+    background-color: #e3e3e3;
+    width: 1250px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 40px;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.profile-container p {
+    margin-bottom: 25px;
+    background-color: #ffffff;
+    width: 1160px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.profile-container button {
+    margin-bottom: 25px;
+    width: 560px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.margin-left{
+    margin-left: 40px;
+}

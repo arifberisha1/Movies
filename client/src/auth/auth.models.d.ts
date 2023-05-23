@@ -38,3 +38,15 @@ export interface userDTO{
     id: string;
     email: string;
 }
+
+export interface changePasswordForm{
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}
+
+export interface changePassword{
+    email: string;
+    oldPassword: string;
+    newPassword: string;
+}
