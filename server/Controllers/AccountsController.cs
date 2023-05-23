@@ -44,6 +44,18 @@ public class AccountsController: ControllerBase
         var users = await queryable.OrderBy(x => x.Email).Paginate(paginationDto).ToListAsync();
         return mapper.Map<List<UserDTO>>(users);
     }
+    
+    [HttpGet("getAdmins")]
+    public async Task<ActionResult<List<string>>> GetAdmins()
+    {
+        List<string> adminEmails = new List<string>();
+        var claims = await context.UserClaims.Where(x => x.ClaimValue == "admin").ToListAsync();
+        foreach (var claim in claims)
+        {
+            adminEmails.Add(claim.UserId);
+        }
+        return adminEmails;
+    }
 
     [HttpPost("makeAdmin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
