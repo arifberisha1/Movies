@@ -23,7 +23,7 @@ export default function ChangePassword() {
                 setEmail(claim.value);
             }
         })
-    })
+    },[claims])
 
     async function changePassword(data: changePasswordForm) {
         if (data.newPassword === data.confirmNewPassword) {
