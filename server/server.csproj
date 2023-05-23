@@ -25,6 +25,7 @@
     <Folder Include="Filters" />
     <Folder Include="wwwroot" />
     <Folder Include="wwwroot\actors" />
+    <Folder Include="wwwroot\movies" />
   </ItemGroup>
 
 </Project>

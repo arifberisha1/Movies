@@ -46,6 +46,30 @@ public class AccountsController : ControllerBase
         return mapper.Map<List<UserDTO>>(users);
     }
 
+    [HttpGet("getByEmail")]
+    public async Task<ActionResult<UserDetailsDTO>> GetByEmail([FromQuery] string email)
+    {
+        var user = await context.UserDetails.FirstOrDefaultAsync(x => x.Email == email);
+        
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var userDetailsDto = new UserDetailsDTO()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Birthday = user.Birthday,
+            Gender = user.Gender,
+            Address = user.Address,
+            Email = user.Email
+        };
+
+        return userDetailsDto;
+    }
+
     [HttpGet("getAdmins")]
     public async Task<ActionResult<List<string>>> GetAdmins()
     {
