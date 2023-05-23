@@ -1,22 +1,35 @@
 import Button from "../utils/Button";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AuthenticationContext from "./AuthenticationContext";
 import {useHistory} from "react-router-dom";
 import LandingPage from "../movies/LandingPage";
+import {individualUserDetails} from "./auth.models";
+import axios from "axios";
+import {urlAccounts} from "../endpoints";
 
 export default function Profile() {
 
-    const [email, setEmail] = useState<string>("");
+    const [details, setDetails] = useState<individualUserDetails>();
     const {claims} = useContext(AuthenticationContext);
     const history = useHistory();
 
     useEffect(() => {
         claims.map(claim => {
             if (claim.name === "email") {
-                setEmail(claim.value);
+                getUserDetailsByEmail(claim.value);
             }
         })
     }, [claims]);
+
+    const getUserDetailsByEmail = async (email: string) => {
+        try {
+            const response = await axios.get(`${urlAccounts}/getByEmail?email=${email}`);
+            setDetails(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     return (
         <>
@@ -27,22 +40,22 @@ export default function Profile() {
 
                     <div className={"profile-container"}>
                         <p>
-                            Name: Name
+                            Name: {details?.name}
                         </p>
                         <p>
-                            Surname: Surname
+                            Surname: {details?.surname}
                         </p>
                         <p>
-                            Birthday: Birthday
+                            Birthday: {details?.birthday.toString().slice(0, 10)}
                         </p>
                         <p>
-                            Gender: Gender
+                            Gender: {details?.gender}
                         </p>
                         <p>
-                            Address: Address
+                            Address: {details?.address}
                         </p>
                         <p>
-                            Email: {email}
+                            Email: {details?.email}
                         </p>
                         <Button
                             className={"btn btn-dark"}

@@ -19,6 +19,15 @@ export interface userDetails{
     address: string;
 }
 
+export interface individualUserDetails{
+    email: string;
+    name: string;
+    surname: string;
+    birthday: Date;
+    gender: string;
+    address: string;
+}
+
 export interface userCreationDTO{
     email: string;
     password: string;

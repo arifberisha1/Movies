@@ -7,6 +7,7 @@ import AuthFormRegister from "./AuthFormRegister";
 import {getClaims, saveToken} from "./handleJWT";
 import AuthenticationContext from "./AuthenticationContext";
 import {useHistory} from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Register() {
 
@@ -26,14 +27,22 @@ export default function Register() {
                 gender: details.gender,
                 address: details.address
             };
+            console.log(userCreationDetails);
             try {
                 setErrors([]);
                 const response = await axios
                     .post<authenticationResponse>(`${urlAccounts}/create`, userCreationDetails);
                 saveToken(response.data);
                 update(getClaims());
-                history.push('/');
-                window.location.reload();
+
+                Swal.fire({
+                    title: 'Success',
+                    text: 'User registered successfully',
+                    icon: 'success'
+                }).then(() => {
+                    history.push('/');
+                    window.location.reload();
+                });
             } catch (error) {
                 // @ts-ignore
                 setErrors(error.response.data);
