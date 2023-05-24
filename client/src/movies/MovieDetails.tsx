@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlMovies} from "../endpoints";
+import {urlMovies, urlRatings} from "../endpoints";
 import {useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
 import ReactMarkdown from "react-markdown";
 import Map from "../utils/Map";
 import coordinateDTO from "../utils/coordinates.model";
+import Ratings from "../utils/Ratings";
+import Swal from "sweetalert2";
 
 export default function MovieDetails() {
 
@@ -49,6 +51,16 @@ export default function MovieDetails() {
         return `https://www.youtube.com/embed/${videoId}`;
     }
 
+    function handleRate(rate: number) {
+        axios.post(urlRatings, {rating: rate, movieId: id}).then(() => {
+            Swal.fire({icon: 'success', title: 'Rating received'}).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        })
+    }
+
     return (
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
@@ -56,6 +68,14 @@ export default function MovieDetails() {
                 <a href={`/movies/filter?genreId=${genre.id}`} key={genre.id} style={{marginRight: '5px'}}
                    className={"btn btn-primary btn-sm rounded-pill"}>{genre.name}</a>
             )} | {movie.releaseDate.toDateString()}
+            | Your vote: <Ratings maximumValue={5} selectedValue={movie.userVote}
+                                  onChange={handleRate}/> | Average Vote: <Ratings
+            maximumValue={5}
+            selectedValue={movie.averageVote}
+            onChange={() => {}}
+            mouseOver={false}
+            clickable={false}/>
+
 
             <div style={{display: 'flex', marginTop: '1rem'}}>
                <span style={{display: 'inline-block', marginRight: '1rem'}}>
