@@ -56,6 +56,34 @@ namespace server.Controllers
             return landingPageDTO;
         }
 
+        [HttpGet("typeahead")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<MoviesTypeaheadDTO>>> GetTypeahead()
+        {
+            List<MoviesTypeaheadDTO> typeaheadList = new List<MoviesTypeaheadDTO>();
+
+            var movies = await context.Movies.OrderBy(x => x.Title).ToListAsync();
+
+            if (movies == null)
+            {
+                return typeaheadList;
+            }
+
+            foreach (var movie in movies)
+            {
+                var typeahead = new MoviesTypeaheadDTO()
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Poster = movie.Poster
+                };
+
+                typeaheadList.Add(typeahead);
+            }
+
+            return typeaheadList;
+        }
+        
         [HttpGet("getActorMovies/{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> GetMoviesByActor(int id)

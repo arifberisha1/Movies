@@ -1,6 +1,6 @@
 ﻿namespace server.DTOs;
 
-public class typeaheadDTO
+public class ActorsTypeaheadDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -17,6 +17,12 @@ export interface movieDTO {
     averageVote: number;
 }
 
+export interface moviesTypeahead{
+    id: number,
+    title: string,
+    poster: string
+}
+
 export interface movieCreationDTO {
     title: string;
     inTheaters: boolean;
