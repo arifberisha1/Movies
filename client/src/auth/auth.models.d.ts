@@ -28,6 +28,14 @@ export interface individualUserDetails{
     address: string;
 }
 
+export interface editUser{
+    name: string;
+    surname: string;
+    birthday: Date;
+    gender: string;
+    address: string;
+}
+
 export interface userCreationDTO{
     email: string;
     password: string;

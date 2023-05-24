@@ -17,6 +17,7 @@ import Login from "./auth/Login";
 import IndexUsers from "./auth/IndexUsers";
 import Profile from "./auth/Profile";
 import ChangePassword from "./auth/ChangePassword";
+import EditUser from "./auth/EditUser";
 
 const routes = [
 
@@ -42,6 +43,7 @@ const routes = [
     {path: "/users", component: IndexUsers, isAdmin: true},
     {path: "/profile", component: Profile},
     {path: "/changepassword", component: ChangePassword},
+    {path: "/edituser", component: EditUser},
 
     {path: "/", component: LandingPage, exact: true},
     {path: "*", component: LandingPage}

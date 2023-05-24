@@ -54,9 +54,6 @@ export default function Profile() {
                         <p>
                             Address: {details?.address}
                         </p>
-                        <p>
-                            Email: {details?.email}
-                        </p>
                         <Button
                             className={"btn btn-dark"}
                             onClick={() => {
@@ -69,7 +66,8 @@ export default function Profile() {
                         <Button
                             className={"btn btn-dark margin-left"}
                             onClick={() => {
-
+                                history.push('/edituser');
+                                window.location.reload();
                             }}
                         >
                             Edit
