@@ -39,11 +39,11 @@ public class ActorsController : ControllerBase
 
     [HttpGet("typeahead")]
     [AllowAnonymous]
-    public async Task<ActionResult<List<typeaheadDTO>>> GetTypeahead()
+    public async Task<ActionResult<List<ActorsTypeaheadDTO>>> GetTypeahead()
     {
-        List<typeaheadDTO> typeaheadList = new List<typeaheadDTO>();
+        List<ActorsTypeaheadDTO> typeaheadList = new List<ActorsTypeaheadDTO>();
 
-        var actors = await context.Actors.ToListAsync();
+        var actors = await context.Actors.OrderBy(x => x.Name).ToListAsync();
 
         if (actors == null)
         {
@@ -52,7 +52,7 @@ public class ActorsController : ControllerBase
 
         foreach (var actor in actors)
         {
-            var typeahead = new typeaheadDTO()
+            var typeahead = new ActorsTypeaheadDTO()
             {
                 Id = actor.Id,
                 Name = actor.Name,

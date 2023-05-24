@@ -118,3 +118,7 @@ form > a {
     float: right;
     margin-right: 600px;
 }
+
+.typeahead{
+    width: 1230px;
+}
