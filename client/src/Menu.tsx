@@ -26,6 +26,13 @@ export default function Menu() {
                                 Filter Movies
                             </a>
                         </li>
+                        {claims.length > 0 ?
+                            <li className={"nav-item"}>
+                                <a className={"nav-link"} href="/actors">
+                                    Actors
+                                </a>
+                            </li> : null
+                        }
 
                         <Authorized
                             role={'admin'}
@@ -33,11 +40,6 @@ export default function Menu() {
                                 <li className={"nav-item"}>
                                     <a className={"nav-link"} href="/genres">
                                         Genres
-                                    </a>
-                                </li>
-                                <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/actors">
-                                        Actors
                                     </a>
                                 </li>
                                 <li className={"nav-item"}>

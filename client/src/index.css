@@ -69,6 +69,52 @@ form > a {
     border-radius: 5px;
 }
 
-.margin-left{
+.margin-left {
     margin-left: 40px;
+}
+
+.actor-container {
+    background-color: #e3e3e3;
+    width: 1250px;
+    height: 450px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 40px;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.back-a {
+    position: absolute;
+    margin-top: 345px;
+    margin-left: 700px;
+    width: 200px;
+    z-index: 1000;
+}
+
+.actor-container img {
+    height: 400px;
+    width: 400px;
+    border-radius: 35px;
+    border: #ffffff solid 7px;
+}
+
+.container-left {
+    width: 565px;
+    position: absolute;
+}
+
+.container-right {
+    width: 720px;
+    height: 400px;
+    border-radius: 35px;
+    position: absolute;
+    left: 600px;
+    background-color: white;
+    padding: 20px;
+}
+
+.location-fixed{
+    float: right;
+    margin-right: 600px;
 }
