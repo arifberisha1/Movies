@@ -14,11 +14,11 @@ export default function AuthFormLogin(props: authFormProps) {
                         .email('You have to insert a valid email'),
                     password: Yup.string().required('This field is required'),
                     confirmPassword: Yup.string().required('This field is required'),
-                    name: Yup.string().required('This field is required'),
-                    surname: Yup.string().required('This field is required'),
+                    name: Yup.string().required('This field is required').firstLetterUppercase(),
+                    surname: Yup.string().required('This field is required').firstLetterUppercase(),
                     birthday: Yup.date().required('This field is required'),
-                    gender: Yup.string().required('This field is required'),
-                    address: Yup.string().required('This field is required')
+                    gender: Yup.string().required('This field is required').firstLetterUppercase(),
+                    address: Yup.string().required('This field is required').firstLetterUppercase()
                 })}
         >
             {formikProps => (

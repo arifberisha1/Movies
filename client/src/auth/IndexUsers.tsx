@@ -54,16 +54,16 @@ export default function IndexUsers() {
                 <tbody>
                 {users?.map(user => <tr key={user.id}>
                     <td>
-                        <Button
-                            onClick={() => customConfirm(() => makeAdmin(user.id),
-                                `Do you wish to make ${user.email} an admin?`, 'Do it')}
-                        >Make Admin</Button>
-
-                        <Button
-                            className={"btn btn-danger ms-2"}
+                        {adminIds.includes(user.id) ? <Button
+                            className={"btn btn-danger"}
                             onClick={() => customConfirm(() => removeAdmin(user.id),
                                 `Do you wish to remove ${user.email} as an admin?`, 'Do it')}
-                        >Remove Admin</Button>
+                        >Remove Admin</Button> :
+                            <Button
+                                onClick={() => customConfirm(() => makeAdmin(user.id),
+                                    `Do you wish to make ${user.email} an admin?`, 'Do it')}
+                            >Make Admin</Button>
+                        }
                     </td>
                     <td>
                         {user.email}

@@ -46,6 +46,30 @@ public class AccountsController : ControllerBase
         return mapper.Map<List<UserDTO>>(users);
     }
 
+    [HttpGet("getByEmail")]
+    public async Task<ActionResult<UserDetailsDTO>> GetByEmail([FromQuery] string email)
+    {
+        var user = await context.UserDetails.FirstOrDefaultAsync(x => x.Email == email);
+        
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var userDetailsDto = new UserDetailsDTO()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Birthday = user.Birthday,
+            Gender = user.Gender,
+            Address = user.Address,
+            Email = user.Email
+        };
+
+        return userDetailsDto;
+    }
+
     [HttpGet("getAdmins")]
     public async Task<ActionResult<List<string>>> GetAdmins()
     {
@@ -111,6 +135,27 @@ public class AccountsController : ControllerBase
             return BadRequest(result.Errors);
         }
     }
+    
+    [HttpPost("editUser")]
+    public async Task<ActionResult> EditUser([FromBody] UserEditDTO userEditDto)
+    {
+        var user = await context.UserDetails.FirstOrDefaultAsync(x => x.Email == userEditDto.Email);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.Name = userEditDto.Name;
+        user.Surname = userEditDto.Surname;
+        user.Birthday = userEditDto.Birthday;
+        user.Gender = userEditDto.Gender;
+        user.Address = userEditDto.Address;
+
+        await context.SaveChangesAsync();
+
+        return Ok("User details edited successfully");
+    }
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthenticationResponse>> Login(
@@ -129,6 +174,35 @@ public class AccountsController : ControllerBase
         }
     }
 
+    [HttpPut("changePassword")]
+    public async Task<ActionResult> ChangePassword([FromBody] changePasswordDTO changePasswordDto)
+    {
+
+        var user = await userManager.FindByEmailAsync(changePasswordDto.Email);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var passwordValid = await userManager.CheckPasswordAsync(user, changePasswordDto.OldPassword);
+
+        if (!passwordValid)
+        {
+            return BadRequest("Incorrect Old Password!");
+        }
+
+        var changePasswordResult = await userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+
+        if (changePasswordResult.Succeeded)
+        {
+            return Ok("Password changed successfully");
+        }
+        else
+        {
+            return BadRequest(changePasswordResult.Errors);
+        }
+    }
 
     private AuthenticationResponse BuildToken(UserCredentials userCredentials, bool checkAdmin)
     {
