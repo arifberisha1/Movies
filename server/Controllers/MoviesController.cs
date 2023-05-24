@@ -56,6 +56,23 @@ namespace server.Controllers
             return landingPageDTO;
         }
 
+        [HttpGet("getActorMovies/{id:int}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<MovieDTO>>> GetMoviesByActor(int id)
+        {
+            var actorMovies = await context.Movies
+                .Where(movie => movie.MoviesActors.Any(actor => actor.ActorId == id))
+                .ToListAsync();
+
+            if (actorMovies.Count == 0)
+            {
+                return new List<MovieDTO>(); // Return an empty list instead of null
+            }
+
+            var movieDTOs = mapper.Map<List<MovieDTO>>(actorMovies);
+            return movieDTOs;
+        }
+        
         [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<MovieDTO>> Get(int id)

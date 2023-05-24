@@ -20,3 +20,8 @@ export interface actorMovieDTO {
     character: string;
     picture: string;
 }
+
+export interface typeaheadActors{
+    id: number,
+    name: string
+}

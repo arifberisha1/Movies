@@ -18,6 +18,7 @@ import IndexUsers from "./auth/IndexUsers";
 import Profile from "./auth/Profile";
 import ChangePassword from "./auth/ChangePassword";
 import EditUser from "./auth/EditUser";
+import ActorDetails from "./actors/ActorDetails";
 
 const routes = [
 
@@ -25,9 +26,10 @@ const routes = [
     {path: "/genres/create", component: CreateGenres, isAdmin: true},
     {path: "/genres/edit/:id(\\d+)", component: EditGenre, isAdmin: true},
 
-    {path: "/actors", component: IndexActors, exact: true, isAdmin: true},
+    {path: "/actors", component: IndexActors, exact: true},
     {path: "/actors/create", component: CreateActors, isAdmin: true},
     {path: "/actors/edit/:id(\\d+)", component: EditActor, isAdmin: true},
+    {path: "/actors/details/:id(\\d+)", component: ActorDetails},
 
     {path: "/movietheaters", component: IndexMovieTheaters, exact: true, isAdmin: true},
     {path: "/movietheaters/create", component: CreateMovieTheater, isAdmin: true},

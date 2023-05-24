@@ -28,6 +28,7 @@ public class ActorsController : ControllerBase
 
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery] PaginationDTO paginationDto)
     {
         var queryable = context.Actors.AsQueryable();
@@ -36,8 +37,36 @@ public class ActorsController : ControllerBase
         return mapper.Map<List<ActorDTO>>(actors);
     }
 
+    [HttpGet("typeahead")]
+    [AllowAnonymous]
+    public async Task<ActionResult<List<typeaheadDTO>>> GetTypeahead()
+    {
+        List<typeaheadDTO> typeaheadList = new List<typeaheadDTO>();
+
+        var actors = await context.Actors.ToListAsync();
+
+        if (actors == null)
+        {
+            return typeaheadList;
+        }
+
+        foreach (var actor in actors)
+        {
+            var typeahead = new typeaheadDTO()
+            {
+                Id = actor.Id,
+                Name = actor.Name
+            };
+
+            typeaheadList.Add(typeahead);
+        }
+
+        return typeaheadList;
+    }
+
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<ActionResult<ActorDTO>> Get(int id)
     {
         var actor = await context.Actors.FirstOrDefaultAsync(x => x.Id == id);

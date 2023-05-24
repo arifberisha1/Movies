@@ -5,11 +5,11 @@ import {movieTheaterDTO} from "../movietheaters/movieTheater.model";
 export interface movieDTO {
     id: number;
     title: string;
-    poster: string;
-    inTheaters: boolean;
-    trailer: string;
     summary?: string;
+    trailer: string;
+    inTheaters: boolean;
     releaseDate: Date;
+    poster: string;
     genres: genreDTO[];
     movieTheaters: movieTheaterDTO[];
     actors: actorMovieDTO[];

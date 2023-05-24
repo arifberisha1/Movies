@@ -1,38 +1,94 @@
 import IndexEntity from "../utils/IndexEntity";
-import {actorDTO} from "./actors.model";
+import {actorDTO, typeaheadActors} from "./actors.model";
 import {urlActors} from "../endpoints";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import AuthenticationContext from "../auth/AuthenticationContext";
+import {Typeahead} from "react-bootstrap-typeahead";
+import {useHistory} from "react-router-dom";
+import axios, {AxiosResponse} from "axios";
 
 export default function IndexActors() {
+
+    const {claims} = useContext(AuthenticationContext);
+    const history = useHistory();
+    const [taActors, setTaActors] = useState<typeaheadActors[]>([]);
+
+    useEffect(() => {
+        getTypeaheadData();
+    }, []);
+
+    async function getTypeaheadData() {
+        try {
+            const response: AxiosResponse<typeaheadActors> = await axios.get(`${urlActors}/typeahead`);
+            // @ts-ignore
+            setTaActors(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function isAdmin() {
+        var admin = false;
+        claims.map(claim => {
+            if (claim.name === 'role' && claim.value === 'admin') {
+                admin = true;
+            }
+        })
+        return admin;
+    }
+
     return (
-        <IndexEntity<actorDTO>
-            url={urlActors}
-            createURL={'actors/create'}
-            title={"Actors"}
-            entityName={"Actor"}>
-            {(actors, buttons) =>
-                <>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {actors?.map(actor => <tr key={actor.id}>
-                        <td>
-                            {buttons(`actors/edit/${actor.id}`, actor.id)}
-                        </td>
-                        <td>
-                            {actor.name}
-                        </td>
-                        <td>
-                            <img src={actor.picture} alt={actor.name}
-                                 className={"img-actor"}/>
-                        </td>
-                    </tr>)}
-                    </tbody>
-                </>}
-        </IndexEntity>
+        <>
+
+            <h3>Actors</h3>
+
+            <Typeahead
+                id="selections-example"
+                labelKey="name"
+                onInputChange={(text: string, e: ChangeEvent<HTMLInputElement>) => {
+                    console.log(text, e);
+                }}
+                options={taActors}
+                placeholder="Search actors..."
+                onChange={(selected: any[]) => {
+                    const clickedActor = selected[0];
+                    if (clickedActor) {
+                        history.push(`actors/details/${clickedActor.id}`);
+                        window.location.reload();
+                    }
+                }}
+            />
+            <IndexEntity<actorDTO>
+                url={urlActors}
+                createURL={'actors/create'}
+                title={""}
+                entityName={"Actor"}>
+                {(actors, buttons) =>
+                    <>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Image</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {actors?.map(actor => <tr key={actor.id}>
+                            <td>
+                                {isAdmin() ? buttons(`actors/edit/${actor.id}`, actor.id) : null}
+                                <a href={`/actors/details/${actor.id}`} className={"btn btn-dark ms-3"}>More</a>
+                            </td>
+                            <td>
+                                {actor.name}
+                            </td>
+                            <td>
+                                <img src={actor.picture} alt={actor.name}
+                                     className={"img-actor"}/>
+                            </td>
+                        </tr>)}
+                        </tbody>
+                    </>}
+            </IndexEntity>
+        </>
     );
 }
