@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.DTOs;
@@ -18,14 +19,16 @@ namespace server.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IFileStorageService fileStorageService;
+        private readonly UserManager<IdentityUser> UserManager;
         private string container = "movies";
 
         public MoviesController(ApplicationDbContext context, IMapper mapper,
-            IFileStorageService fileStorageService)
+            IFileStorageService fileStorageService, UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.mapper = mapper;
             this.fileStorageService = fileStorageService;
+            this.UserManager = userManager;
         }
 
         [HttpGet]
@@ -68,11 +71,37 @@ namespace server.Controllers
                 return NotFound();
             }
 
+            var averageVote = 0.0;
+            var userVote = 0;
+
+            if (await context.Ratings.AnyAsync(x => x.MovieId == id))
+            {
+                averageVote = await context.Ratings.Where(x => x.MovieId == id)
+                    .AverageAsync(x => x.Rate);
+
+                if (HttpContext.User.Identity.IsAuthenticated)
+                {
+                    var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+                    var user = await UserManager.FindByEmailAsync(email);
+                    var userId = user.Id;
+
+                    var ratingDb = await context.Ratings.FirstOrDefaultAsync(x => x.MovieId == id
+                        && x.UserId == userId);
+
+                    if (ratingDb != null)
+                    {
+                        userVote = ratingDb.Rate;
+                    }
+                }
+            }
+
             var dto = mapper.Map<MovieDTO>(movie);
+            dto.AverageVote = averageVote;
+            dto.UserVote = userVote;
             dto.Actors = dto.Actors.OrderBy(x => x.Order).ToList();
             return dto;
         }
-        
+
         [HttpGet("all")]
         public async Task<ActionResult<List<MovieDTO>>> GetAll([FromQuery] PaginationDTO paginationDto)
         {
@@ -81,7 +110,7 @@ namespace server.Controllers
             var movies = await queryable.OrderBy(x => x.Title).Paginate(paginationDto).ToListAsync();
             return mapper.Map<List<MovieDTO>>(movies);
         }
-        
+
         [HttpGet("filter")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> Filter([FromQuery] FilterMoviesDTO filterMoviesDto)
@@ -160,20 +189,20 @@ namespace server.Controllers
             {
                 return NotFound();
             }
-        
+
             var movie = movieActionResult.Value;
-        
+
             var genreSelectedIds = movie.Genres.Select(x => x.Id).ToList();
             var nonSelectedGenres = await context.Genres.Where(x => !genreSelectedIds.Contains(x.Id))
                 .ToListAsync();
-        
+
             var movieTheatersIds = movie.MovieTheaters.Select(x => x.Id).ToList();
             var nonSelectedMovieTheaters = await context.MovieTheaters.Where(x =>
                 !movieTheatersIds.Contains(x.Id)).ToListAsync();
-        
+
             var nonSelectedGenresDTOs = mapper.Map<List<GenreDTO>>(nonSelectedGenres);
             var nonSelectedMovieTheatersDTO = mapper.Map<List<MovieTheaterDTO>>(nonSelectedMovieTheaters);
-        
+
             var response = new MoviePutGetDTO();
             response.Movie = movie;
             response.SelectedGenres = movie.Genres;
@@ -185,7 +214,6 @@ namespace server.Controllers
         }
 
         [HttpPut("{id:int}")]
-
         public async Task<ActionResult> Put(int id, [FromForm] MovieCreationDTO movieCreationDto)
         {
             var movie = await context.Movies.Include(x => x.MoviesActors)
@@ -205,11 +233,12 @@ namespace server.Controllers
                 movie.Poster = await fileStorageService.EditFile(container, movieCreationDto.Poster,
                     movie.Poster);
             }
-            
+
             AnnotateActorsOrder(movie);
             await context.SaveChangesAsync();
             return NoContent();
         }
+
         private void AnnotateActorsOrder(Movie movie)
         {
             if (movie.MoviesActors != null)
@@ -235,7 +264,6 @@ namespace server.Controllers
             await context.SaveChangesAsync();
             await fileStorageService.DeleteFile(movie.Poster, container);
             return NoContent();
-
         }
     }
 }

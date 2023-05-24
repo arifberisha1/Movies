@@ -33,5 +33,6 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<MoviesActors> MoviesActors { get; set; }
     public DbSet<MoviesGenres> MoviesGenres { get; set; }
     public DbSet<MoviesTheatersMovies> MovieTheatersMovies { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
     public DbSet<UserDetails> UserDetails { get; set; }
 }
