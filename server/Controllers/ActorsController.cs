@@ -55,7 +55,8 @@ public class ActorsController : ControllerBase
             var typeahead = new typeaheadDTO()
             {
                 Id = actor.Id,
-                Name = actor.Name
+                Name = actor.Name,
+                Picture = actor.Picture
             };
 
             typeaheadList.Add(typeahead);

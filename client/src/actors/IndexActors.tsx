@@ -57,6 +57,21 @@ export default function IndexActors() {
                         window.location.reload();
                     }
                 }}
+                renderMenuItemChildren={actor => (
+                    <>
+                        <img src={
+                            // @ts-ignore
+                            actor.picture} alt="actor"
+                             style={{
+                                 height: '64px',
+                                 marginRight: '10px',
+                                 width: '64px'
+                             }}/>
+                        <span>{
+                            // @ts-ignore
+                            actor.name}</span>
+                    </>
+                )}
             />
             <IndexEntity<actorDTO>
                 url={urlActors}
