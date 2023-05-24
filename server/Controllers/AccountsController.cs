@@ -135,6 +135,27 @@ public class AccountsController : ControllerBase
             return BadRequest(result.Errors);
         }
     }
+    
+    [HttpPost("editUser")]
+    public async Task<ActionResult> EditUser([FromBody] UserEditDTO userEditDto)
+    {
+        var user = await context.UserDetails.FirstOrDefaultAsync(x => x.Email == userEditDto.Email);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.Name = userEditDto.Name;
+        user.Surname = userEditDto.Surname;
+        user.Birthday = userEditDto.Birthday;
+        user.Gender = userEditDto.Gender;
+        user.Address = userEditDto.Address;
+
+        await context.SaveChangesAsync();
+
+        return Ok("User details edited successfully");
+    }
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthenticationResponse>> Login(
