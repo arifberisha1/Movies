@@ -20,7 +20,8 @@ public class CommentsController : ControllerBase
     public async Task<ActionResult<List<CommentDTO>>> GetByMovieId(int id)
     {
         var commentsList = new List<CommentDTO>();
-        var comments = await context.Comment.Where(x => x.MovieId == id).ToListAsync();
+        var comments = await context.Comment
+            .Where(x => x.MovieId == id).OrderByDescending(x => x.Id).ToListAsync();
 
         if (comments.Count == 0) // Check if the comments list is empty
         {
@@ -73,5 +74,20 @@ public class CommentsController : ControllerBase
         {
             return BadRequest(e);
         }
+    }
+    
+    [HttpDelete("delete/{id:int}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var exists = await context.Comment.AnyAsync(x => x.Id == id);
+
+        if (!exists)
+        {
+            return NotFound();
+        }
+
+        context.Remove(new Comment() { Id = id });
+        await context.SaveChangesAsync();
+        return Ok("Comment deleted successfully!");
     }
 }
