@@ -60,3 +60,9 @@ export interface favouriteMovieDetailsDTO{
     title: string;
     poster: string;
 }
+
+export interface watchedMovieDetailsDTO{
+    id: int;
+    title: string;
+    poster: string;
+}

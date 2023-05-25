@@ -37,4 +37,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<UserDetails> UserDetails { get; set; }
     public DbSet<Comment> Comment { get; set; }
     public DbSet<FavouriteMovies> FavouriteMovies { get; set; }
+    public DbSet<WatchedMovies> WatchedMovies { get; set; }
 }

@@ -1,4 +1,4 @@
-import {favouriteMovieDetailsDTO, movieDTO} from "./movies.model";
+import {favouriteMovieDetailsDTO, movieDTO, watchedMovieDetailsDTO} from "./movies.model";
 import css from './IndividualMovie.module.css'
 import Button from "../utils/Button";
 import customConfirm from "../utils/customConfirm";
@@ -41,5 +41,5 @@ export default function IndividualMovie(props: individualMovieProps) {
 }
 
 interface individualMovieProps{
-    model: movieDTO | favouriteMovieDetailsDTO;
+    model: movieDTO | favouriteMovieDetailsDTO | watchedMovieDetailsDTO;
 }

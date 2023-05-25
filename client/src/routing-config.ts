@@ -21,6 +21,7 @@ import EditUser from "./auth/EditUser";
 import ActorDetails from "./actors/ActorDetails";
 import TopRatedMovies from "./movies/TopRatedMovies";
 import Favourite from "./movies/Favourite";
+import Watched from "./movies/Watched";
 
 const routes = [
 
@@ -42,6 +43,7 @@ const routes = [
     {path: "/movies/filter", component: FilterMovies},
     {path: "/movies/topRated", component: TopRatedMovies},
     {path: "/movies/favourite", component: Favourite},
+    {path: "/movies/watched", component: Watched},
     {path: "/movie/:id(\\d+)", component: MovieDetails},
 
     {path: "/register", component: Register},
