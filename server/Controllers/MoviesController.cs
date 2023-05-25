@@ -84,6 +84,35 @@ namespace server.Controllers
             return typeaheadList;
         }
         
+        [HttpGet("topRated")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<MovieDTO>>> GetTopRatedMovies()
+        {
+            var topRatedMovies = await context.Movies
+                .Include(x => x.MoviesGenres).ThenInclude(x => x.Genre)
+                .Include(x => x.MoviesTheatersMovies).ThenInclude(x => x.MovieTheater)
+                .Include(x => x.MoviesActors).ThenInclude(x => x.Actor)
+                .Where(x => context.Ratings.Any(r => r.MovieId == x.Id))
+                .Select(x => new
+                {
+                    Movie = x,
+                    AverageRating = context.Ratings.Where(r => r.MovieId == x.Id).Average(r => r.Rate)
+                })
+                .OrderByDescending(x => x.AverageRating)
+                .Take(10)
+                .Select(x => x.Movie)
+                .ToListAsync();
+
+            var dtos = mapper.Map<List<MovieDTO>>(topRatedMovies);
+
+            foreach (var dto in dtos)
+            {
+                dto.Actors = dto.Actors.OrderBy(x => x.Order).ToList();
+            }
+
+            return dtos;
+        }
+        
         [HttpGet("getActorMovies/{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> GetMoviesByActor(int id)
