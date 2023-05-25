@@ -13,6 +13,7 @@ import CommentSection from "./CommentSection";
 import AuthenticationContext from "../auth/AuthenticationContext";
 import {commentCreationDTO, commentFormDTO} from "./comment.model";
 import CommentForm from "./CommentForm";
+import DisplayErrors from "../utils/DisplayErrors";
 
 export default function MovieDetails() {
 
@@ -170,10 +171,12 @@ export default function MovieDetails() {
             </div> : null}
             <br/>
             <h3>Comment Section</h3>
-            {claims.length > 0 ?
-                <CommentForm model={{comment: ''}}
-                             onSubmit={async values => await AddComment(values)}
-                /> :
+            {claims.length > 0 ? <>
+                    <DisplayErrors errors={error}/>
+                    <CommentForm model={{comment: ''}}
+                                 onSubmit={async values => await AddComment(values)}
+                    />
+                </> :
                 null}
             <br/>
             <CommentSection movieId={id}/>
