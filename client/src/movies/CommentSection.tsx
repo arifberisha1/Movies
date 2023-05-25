@@ -21,10 +21,6 @@ export default function CommentSection(props: commentSectionProps){
 
     return(
         <>
-            <h3>Comment Section</h3>
-
-
-
             {comments.length > 0 ?
             <CommentsList comments={comments}/>
             : <>There are no comments yet!</>

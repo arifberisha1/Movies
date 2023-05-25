@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlMovies, urlRatings} from "../endpoints";
+import {urlComments, urlMovies, urlRatings} from "../endpoints";
 import {useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
@@ -10,11 +10,16 @@ import coordinateDTO from "../utils/coordinates.model";
 import Ratings from "../utils/Ratings";
 import Swal from "sweetalert2";
 import CommentSection from "./CommentSection";
+import AuthenticationContext from "../auth/AuthenticationContext";
+import {commentCreationDTO, commentFormDTO} from "./comment.model";
+import CommentForm from "./CommentForm";
 
 export default function MovieDetails() {
 
     const {id}: any = useParams();
     const [movie, setMovie] = useState<movieDTO>();
+    const [error, setErrors] = useState<string[]>([]);
+    const {claims} = useContext(AuthenticationContext);
 
     useEffect(() => {
         axios.get(`${urlMovies}/${id}`)
@@ -61,6 +66,41 @@ export default function MovieDetails() {
             });
         })
     }
+
+    function getEmail() {
+        var email = '';
+        claims.map(claim => {
+            if (claim.name === 'email') {
+                email = claim.value;
+            }
+        })
+        return email;
+    }
+
+    async function AddComment(commentFormDto: commentFormDTO) {
+        let commentCreationDto: commentCreationDTO = {
+            userComment: commentFormDto.comment,
+            userEmail: getEmail(),
+            movieId: id
+        }
+
+        try {
+            await axios.post(`${urlComments}/create`, commentCreationDto)
+                .then((response: AxiosResponse) => {
+                    Swal.fire({
+                        title: 'Success',
+                        text: response.data,
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                })
+        } catch (error) {
+            // @ts-ignore
+            setErrors(error.response)
+        }
+    }
+
     return (
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
@@ -124,9 +164,17 @@ export default function MovieDetails() {
                 </div> : null}
 
             {movie.movieTheaters && movie.movieTheaters.length > 0 ? <div>
+                <br/>
                 <h2>Showing on</h2>
                 <Map coordinates={transformCoordinates()} readOnly={true}/>
             </div> : null}
+            <br/>
+            <h3>Comment Section</h3>
+            {claims.length > 0 ?
+                <CommentForm model={{comment: ''}}
+                             onSubmit={async values => await AddComment(values)}
+                /> :
+                null}
             <br/>
             <CommentSection movieId={id}/>
 

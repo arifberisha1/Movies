@@ -6,3 +6,13 @@ export interface commentDTO{
     surname: string,
     movieId: number
 }
+
+export interface commentCreationDTO{
+    userComment: string,
+    userEmail: string,
+    movieId: number
+}
+
+interface commentFormDTO{
+    comment: string
+}
