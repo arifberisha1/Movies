@@ -9,6 +9,7 @@ import Map from "../utils/Map";
 import coordinateDTO from "../utils/coordinates.model";
 import Ratings from "../utils/Ratings";
 import Swal from "sweetalert2";
+import CommentSection from "./CommentSection";
 
 export default function MovieDetails() {
 
@@ -20,7 +21,7 @@ export default function MovieDetails() {
             .then((response: AxiosResponse<movieDTO>) => {
                 response.data.releaseDate = new Date(response.data.releaseDate);
                 setMovie(response.data);
-            })
+            });
     }, [id])
 
     function transformCoordinates(): coordinateDTO[] {
@@ -60,7 +61,6 @@ export default function MovieDetails() {
             });
         })
     }
-
     return (
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
@@ -72,7 +72,8 @@ export default function MovieDetails() {
                                   onChange={handleRate}/> | Average Vote: <Ratings
             maximumValue={5}
             selectedValue={movie.averageVote}
-            onChange={() => {}}
+            onChange={() => {
+            }}
             mouseOver={false}
             clickable={false}/>
 
@@ -105,27 +106,6 @@ export default function MovieDetails() {
                 <div style={{marginTop: '1rem'}}>
                     <h3>Actors</h3>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
-
-                        {/*<table>*/}
-                        {/*    <thead>*/}
-                        {/*    <th>Image</th>*/}
-                        {/*    <th>Actor Name</th>*/}
-                        {/*    <th></th>*/}
-                        {/*    <th>Character</th>*/}
-                        {/*    <th></th>*/}
-                        {/*    </thead>*/}
-                        {/*    {movie.actors?.map(actor => {*/}
-                        {/*        <tbody>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*        </tbody>*/}
-                        {/*    })}*/}
-                        {/*</table>*/}
-
-
                         {movie.actors?.map(actor =>
                             <div key={actor.id} style={{marginBottom: '2px'}}>
                                 <img src={actor.picture} alt="pic" style={{width: '50px', verticalAlign: 'middle'}}/>
@@ -136,7 +116,8 @@ export default function MovieDetails() {
                                 }}>{actor.name}</span>
                                 <span style={{display: 'inline-block', width: '45px'}}>...</span>
                                 <span>{actor.character}</span>
-                                <a href={`/actors/details/${actor.id}`} className={"btn btn-dark ms-5 location-fixed"}>More</a>
+                                <a href={`/actors/details/${actor.id}`}
+                                   className={"btn btn-dark ms-5 location-fixed"}>More</a>
                             </div>
                         )}
                     </div>
@@ -146,6 +127,10 @@ export default function MovieDetails() {
                 <h2>Showing on</h2>
                 <Map coordinates={transformCoordinates()} readOnly={true}/>
             </div> : null}
+            <br/>
+            <CommentSection movieId={id}/>
+
+
         </div> : <Loading/>
     )
 }

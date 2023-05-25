@@ -122,3 +122,24 @@ form > a {
 .typeahead{
     width: 1230px;
 }
+
+.comment-container{
+    background-color: #e3e3e3;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+
+.comment-man{
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comment-section{
+    background-color: white;
+    padding: 5px 15px 5px 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
