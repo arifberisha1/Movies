@@ -1,4 +1,4 @@
-import {movieDTO} from "./movies.model";
+import {favouriteMovieDetailsDTO, movieDTO} from "./movies.model";
 import css from './IndividualMovie.module.css'
 import Button from "../utils/Button";
 import customConfirm from "../utils/customConfirm";
@@ -8,13 +8,13 @@ import {useContext} from "react";
 import AlertContext from "../utils/AlertContext";
 import Authorized from "../auth/Authorized";
 
-export default function IndividualMovie(props: movieDTO) {
+export default function IndividualMovie(props: individualMovieProps) {
 
-    const buildLink = () => `/movie/${props.id}`
+    const buildLink = () => `/movie/${props.model.id}`
     const customAlert = useContext(AlertContext);
 
     function deleteMovie() {
-        axios.delete(`${urlMovies}/${props.id}`)
+        axios.delete(`${urlMovies}/${props.model.id}`)
             .then(() => {
                 customAlert();
             });
@@ -23,19 +23,23 @@ export default function IndividualMovie(props: movieDTO) {
     return (
         <div className={css.div}>
             <a href={buildLink()}>
-                <img alt="Poster" src={props.poster}/>
+                <img alt="Poster" src={props.model.poster}/>
             </a>
             <p>
-                <a href={buildLink()}>{props.title}</a>
+                <a href={buildLink()}>{props.model.title}</a>
             </p>
             <Authorized
                 role={'admin'}
                 authorized={<div>
                     <a style={{marginRight: '1rem'}} className="btn btn-info"
-                       href={`/movies/edit/${props.id}`}>Edit</a>
+                       href={`/movies/edit/${props.model.id}`}>Edit</a>
                     <Button
                         onClick={() => customConfirm(() => deleteMovie())} className="btn btn-danger">Delete</Button>
                 </div>}/>
         </div>
     )
+}
+
+interface individualMovieProps{
+    model: movieDTO | favouriteMovieDetailsDTO;
 }
