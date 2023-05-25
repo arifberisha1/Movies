@@ -27,11 +27,19 @@ export default function Menu() {
                             </a>
                         </li>
                         {claims.length > 0 ?
-                            <li className={"nav-item"}>
-                                <a className={"nav-link"} href="/actors">
-                                    Actors
-                                </a>
-                            </li> : null
+                            <>
+                                <li className={"nav-item"}>
+                                    <a className={"nav-link"} href="/movies/topRated">
+                                        Top-Rated
+                                    </a>
+                                </li>
+                                <li className={"nav-item"}>
+                                    <a className={"nav-link"} href="/actors">
+                                        Actors
+                                    </a>
+                                </li>
+                            </>
+                            : null
                         }
 
                         <Authorized
