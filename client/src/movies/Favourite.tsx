@@ -37,7 +37,7 @@ export default function Favourite() {
 
     return (
         <>
-            <h3>Favourite Movies</h3>
+            <h3>Favourites Movies</h3>
             <br/>
             <MoviesList movies={movies}/>
         </>

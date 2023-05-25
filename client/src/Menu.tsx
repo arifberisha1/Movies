@@ -35,7 +35,7 @@ export default function Menu() {
                                 </li>
                                 <li className={"nav-item"}>
                                     <a className={"nav-link"} href="/movies/favourite">
-                                        Favourite
+                                        Favourites
                                     </a>
                                 </li>
                                 <li className={"nav-item"}>
