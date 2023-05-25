@@ -1,8 +1,9 @@
-import React, {useContext} from "react";
+import React from "react";
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 import {Form, Formik, FormikHelpers} from "formik";
-import {commentDTO, commentFormDTO} from "./comment.model";
+import {commentFormDTO} from "./comment.model";
+import * as Yup from 'yup';
 
 export default function CommentForm(props: commentFormProps) {
 
@@ -13,7 +14,11 @@ export default function CommentForm(props: commentFormProps) {
             }}
             onSubmit={(values, actions) => {
                 props.onSubmit(values, actions)
-            }}>
+            }}
+            validationSchema={Yup.object({
+                comment: Yup.string().required("This field is required")
+            })}
+        >
 
             {(formikProps) => (
                 <Form>
