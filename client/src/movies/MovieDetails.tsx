@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlMovies, urlRatings} from "../endpoints";
+import {urlComments, urlMovies, urlRatings} from "../endpoints";
 import {useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
@@ -9,18 +9,25 @@ import Map from "../utils/Map";
 import coordinateDTO from "../utils/coordinates.model";
 import Ratings from "../utils/Ratings";
 import Swal from "sweetalert2";
+import CommentSection from "./CommentSection";
+import AuthenticationContext from "../auth/AuthenticationContext";
+import {commentCreationDTO, commentFormDTO} from "./comment.model";
+import CommentForm from "./CommentForm";
+import DisplayErrors from "../utils/DisplayErrors";
 
 export default function MovieDetails() {
 
     const {id}: any = useParams();
     const [movie, setMovie] = useState<movieDTO>();
+    const [error, setErrors] = useState<string[]>([]);
+    const {claims} = useContext(AuthenticationContext);
 
     useEffect(() => {
         axios.get(`${urlMovies}/${id}`)
             .then((response: AxiosResponse<movieDTO>) => {
                 response.data.releaseDate = new Date(response.data.releaseDate);
                 setMovie(response.data);
-            })
+            });
     }, [id])
 
     function transformCoordinates(): coordinateDTO[] {
@@ -61,6 +68,40 @@ export default function MovieDetails() {
         })
     }
 
+    function getEmail() {
+        var email = '';
+        claims.map(claim => {
+            if (claim.name === 'email') {
+                email = claim.value;
+            }
+        })
+        return email;
+    }
+
+    async function AddComment(commentFormDto: commentFormDTO) {
+        let commentCreationDto: commentCreationDTO = {
+            userComment: commentFormDto.comment,
+            userEmail: getEmail(),
+            movieId: id
+        }
+
+        try {
+            await axios.post(`${urlComments}/create`, commentCreationDto)
+                .then((response: AxiosResponse) => {
+                    Swal.fire({
+                        title: 'Success',
+                        text: response.data,
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                })
+        } catch (error) {
+            // @ts-ignore
+            setErrors(error.response)
+        }
+    }
+
     return (
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
@@ -72,7 +113,8 @@ export default function MovieDetails() {
                                   onChange={handleRate}/> | Average Vote: <Ratings
             maximumValue={5}
             selectedValue={movie.averageVote}
-            onChange={() => {}}
+            onChange={() => {
+            }}
             mouseOver={false}
             clickable={false}/>
 
@@ -105,27 +147,6 @@ export default function MovieDetails() {
                 <div style={{marginTop: '1rem'}}>
                     <h3>Actors</h3>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
-
-                        {/*<table>*/}
-                        {/*    <thead>*/}
-                        {/*    <th>Image</th>*/}
-                        {/*    <th>Actor Name</th>*/}
-                        {/*    <th></th>*/}
-                        {/*    <th>Character</th>*/}
-                        {/*    <th></th>*/}
-                        {/*    </thead>*/}
-                        {/*    {movie.actors?.map(actor => {*/}
-                        {/*        <tbody>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*            <td></td>*/}
-                        {/*        </tbody>*/}
-                        {/*    })}*/}
-                        {/*</table>*/}
-
-
                         {movie.actors?.map(actor =>
                             <div key={actor.id} style={{marginBottom: '2px'}}>
                                 <img src={actor.picture} alt="pic" style={{width: '50px', verticalAlign: 'middle'}}/>
@@ -136,16 +157,31 @@ export default function MovieDetails() {
                                 }}>{actor.name}</span>
                                 <span style={{display: 'inline-block', width: '45px'}}>...</span>
                                 <span>{actor.character}</span>
-                                <a href={`/actors/details/${actor.id}`} className={"btn btn-dark ms-5 location-fixed"}>More</a>
+                                <a href={`/actors/details/${actor.id}`}
+                                   className={"btn btn-dark ms-5 location-fixed"}>More</a>
                             </div>
                         )}
                     </div>
                 </div> : null}
 
             {movie.movieTheaters && movie.movieTheaters.length > 0 ? <div>
+                <br/>
                 <h2>Showing on</h2>
                 <Map coordinates={transformCoordinates()} readOnly={true}/>
             </div> : null}
+            <br/>
+            <h3>Comment Section</h3>
+            {claims.length > 0 ? <>
+                    <DisplayErrors errors={error}/>
+                    <CommentForm model={{comment: ''}}
+                                 onSubmit={async values => await AddComment(values)}
+                    />
+                </> :
+                null}
+            <br/>
+            <CommentSection movieId={id}/>
+
+
         </div> : <Loading/>
     )
 }

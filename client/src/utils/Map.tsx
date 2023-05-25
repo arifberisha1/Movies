@@ -31,7 +31,11 @@ export default function Map(props: mapProps) {
                                                             position={[coordinate.lat, coordinate.lng]}
             >
                 {coordinate.name ? <Popup>
+                    <h6>
                     {coordinate.name}
+                    </h6>
+                    <a href={`https://www.google.com/maps/place/${coordinate.lat},${coordinate.lng}`}
+                       target={"_blank"}>Get Directions</a>
                 </Popup> : null}
             </Marker>)}
         </MapContainer>

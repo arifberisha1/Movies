@@ -35,4 +35,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<MoviesTheatersMovies> MovieTheatersMovies { get; set; }
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<UserDetails> UserDetails { get; set; }
+    public DbSet<Comment> Comment { get; set; }
 }

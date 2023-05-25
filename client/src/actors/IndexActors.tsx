@@ -75,7 +75,7 @@ export default function IndexActors() {
             />
             <IndexEntity<actorDTO>
                 url={urlActors}
-                createURL={'actors/create'}
+                createURL={isAdmin() ? 'actors/create' : ''}
                 title={""}
                 entityName={"Actor"}>
                 {(actors, buttons) =>
