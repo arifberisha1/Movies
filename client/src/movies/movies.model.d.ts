@@ -54,3 +54,9 @@ export interface moviePutGetDTO{
     nonSelectedMovieTheaters: movieTheaterDTO[];
     actors: actorMovieDTO[];
 }
+
+export interface favouriteMovieDetailsDTO{
+    id: int;
+    title: string;
+    poster: string;
+}

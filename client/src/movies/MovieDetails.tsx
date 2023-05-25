@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlComments, urlMovies, urlRatings} from "../endpoints";
+import {urlComments, urlFavourite, urlMovies, urlRatings} from "../endpoints";
 import {useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
@@ -14,6 +14,7 @@ import AuthenticationContext from "../auth/AuthenticationContext";
 import {commentCreationDTO, commentFormDTO} from "./comment.model";
 import CommentForm from "./CommentForm";
 import DisplayErrors from "../utils/DisplayErrors";
+import AddRemoveButtons from "./AddRemoveButtons";
 
 export default function MovieDetails() {
 
@@ -135,6 +136,58 @@ export default function MovieDetails() {
                     ></iframe>
                 </div> : null}
             </div>
+
+            <br/>
+            <AddRemoveButtons mid={id} email={getEmail()}
+                              addButtonText={"Add to favourites"}
+                              removeButtonText={"Remove from favourites"}
+                              url={"isFavourite"}
+                              addButton={async () => {
+                                  try {
+                                      await axios.post(`${urlFavourite}/create`, {
+                                          email: getEmail(),
+                                          movieId: id
+                                      });
+                                      Swal.fire({
+                                          title: 'Success',
+                                          text: "Added to favourites successfully!",
+                                          icon: 'success'
+                                      }).then(() => {
+                                          window.location.reload();
+                                      })
+
+                                  } catch (e) {
+                                      console.log(e);
+                                  }
+                              }}
+                              removeButton={async () => {
+                                  try {
+                                      await Swal.fire({
+                                          title: 'Confirmation',
+                                          text: 'Are you sure you want to remove this movie from favourites',
+                                          icon: 'question',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yes',
+                                          cancelButtonText: 'No',
+                                      }).then(async (result) => {
+                                          if (result.isConfirmed) {
+                                              await axios.delete(`${urlFavourite}/delete/${getEmail()}/${id}`)
+                                                  .then((response: AxiosResponse) => {
+                                                      Swal.fire({
+                                                          title: 'Success',
+                                                          text: response.data,
+                                                          icon: 'success'
+                                                      }).then(() => {
+                                                          window.location.reload();
+                                                      })
+                                                  });
+                                          }
+                                      });
+                                  }
+                                  catch (e) {
+                                      console.log(e);
+                                  }
+                              }}/>
 
             {movie.summary ? <div style={{marginTop: '1rem'}}>
                 <h3>Summary</h3>

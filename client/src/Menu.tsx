@@ -34,6 +34,11 @@ export default function Menu() {
                                     </a>
                                 </li>
                                 <li className={"nav-item"}>
+                                    <a className={"nav-link"} href="/movies/favourite">
+                                        Favourites
+                                    </a>
+                                </li>
+                                <li className={"nav-item"}>
                                     <a className={"nav-link"} href="/actors">
                                         Actors
                                     </a>

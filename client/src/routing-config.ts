@@ -20,6 +20,7 @@ import ChangePassword from "./auth/ChangePassword";
 import EditUser from "./auth/EditUser";
 import ActorDetails from "./actors/ActorDetails";
 import TopRatedMovies from "./movies/TopRatedMovies";
+import Favourite from "./movies/Favourite";
 
 const routes = [
 
@@ -40,6 +41,7 @@ const routes = [
     {path: "/movies/edit/:id(\\d+)", component: EditMovie, isAdmin: true},
     {path: "/movies/filter", component: FilterMovies},
     {path: "/movies/topRated", component: TopRatedMovies},
+    {path: "/movies/favourite", component: Favourite},
     {path: "/movie/:id(\\d+)", component: MovieDetails},
 
     {path: "/register", component: Register},

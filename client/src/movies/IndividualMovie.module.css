@@ -4,6 +4,14 @@
     text-align: center;
 }
 
+.div {
+    transition: all 0.2s;
+}
+
+.div:hover{
+    transform: scale(1.05);
+}
+
 .div p {
     height: 44px;
     font-size: 15px;

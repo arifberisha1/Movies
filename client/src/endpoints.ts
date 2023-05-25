@@ -9,3 +9,4 @@ export const urlMovies = `${baseURL}/movies`;
 
 export const urlRatings = `${baseURL}/ratings`
 export const urlComments = `${baseURL}/comments`
+export const urlFavourite = `${baseURL}/favourite`
