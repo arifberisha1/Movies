@@ -1,4 +1,4 @@
-import {favouriteMovieDetailsDTO, movieDTO} from "./movies.model";
+import {favouriteMovieDetailsDTO, movieDTO, watchedMovieDetailsDTO} from "./movies.model";
 import IndividualMovie from "./IndividualMovie";
 import css from './MoviesList.module.css';
 import GenericList from "../utils/GenericList";
@@ -17,5 +17,5 @@ export default function MoviesList(props: moviesListProps) {
 }
 
 interface moviesListProps {
-    movies?: movieDTO[] | favouriteMovieDetailsDTO[];
+    movies?: movieDTO[] | favouriteMovieDetailsDTO[] | watchedMovieDetailsDTO[];
 }

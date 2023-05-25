@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlComments, urlFavourite, urlMovies, urlRatings} from "../endpoints";
+import {urlComments, urlFavourite, urlMovies, urlRatings, urlWatched} from "../endpoints";
 import {useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
@@ -138,7 +138,9 @@ export default function MovieDetails() {
             </div>
 
             <br/>
-            <AddRemoveButtons mid={id} email={getEmail()}
+            <AddRemoveButtons mid={id}
+                              email={getEmail()}
+                              routeURL={urlFavourite}
                               addButtonText={"Add to favourites"}
                               removeButtonText={"Remove from favourites"}
                               url={"isFavourite"}
@@ -183,8 +185,60 @@ export default function MovieDetails() {
                                                   });
                                           }
                                       });
+                                  } catch (e) {
+                                      console.log(e);
                                   }
-                                  catch (e) {
+                              }}/>
+
+            <AddRemoveButtons mid={id}
+                              class={"ms-3"}
+                              email={getEmail()}
+                              routeURL={urlWatched}
+                              addButtonText={"Add to watched"}
+                              removeButtonText={"Remove from watched"}
+                              url={"isWatched"}
+                              addButton={async () => {
+                                  try {
+                                      await axios.post(`${urlWatched}/create`, {
+                                          email: getEmail(),
+                                          movieId: id
+                                      });
+                                      Swal.fire({
+                                          title: 'Success',
+                                          text: "Added to watched successfully!",
+                                          icon: 'success'
+                                      }).then(() => {
+                                          window.location.reload();
+                                      })
+
+                                  } catch (e) {
+                                      console.log(e);
+                                  }
+                              }}
+                              removeButton={async () => {
+                                  try {
+                                      await Swal.fire({
+                                          title: 'Confirmation',
+                                          text: 'Are you sure you want to remove this movie from watched',
+                                          icon: 'question',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yes',
+                                          cancelButtonText: 'No',
+                                      }).then(async (result) => {
+                                          if (result.isConfirmed) {
+                                              await axios.delete(`${urlWatched}/delete/${getEmail()}/${id}`)
+                                                  .then((response: AxiosResponse) => {
+                                                      Swal.fire({
+                                                          title: 'Success',
+                                                          text: response.data,
+                                                          icon: 'success'
+                                                      }).then(() => {
+                                                          window.location.reload();
+                                                      })
+                                                  });
+                                          }
+                                      });
+                                  } catch (e) {
                                       console.log(e);
                                   }
                               }}/>
