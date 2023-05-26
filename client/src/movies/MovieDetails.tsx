@@ -136,112 +136,114 @@ export default function MovieDetails() {
                     ></iframe>
                 </div> : null}
             </div>
+            {claims.length > 0 ?
+                <>
+                    <br/>
+                    <AddRemoveButtons mid={id}
+                                      email={getEmail()}
+                                      routeURL={urlFavourite}
+                                      addButtonText={"Add to favourites"}
+                                      removeButtonText={"Remove from favourites"}
+                                      url={"isFavourite"}
+                                      addButton={async () => {
+                                          try {
+                                              await axios.post(`${urlFavourite}/create`, {
+                                                  email: getEmail(),
+                                                  movieId: id
+                                              });
+                                              Swal.fire({
+                                                  title: 'Success',
+                                                  text: "Added to favourites successfully!",
+                                                  icon: 'success'
+                                              }).then(() => {
+                                                  window.location.reload();
+                                              })
 
-            <br/>
-            <AddRemoveButtons mid={id}
-                              email={getEmail()}
-                              routeURL={urlFavourite}
-                              addButtonText={"Add to favourites"}
-                              removeButtonText={"Remove from favourites"}
-                              url={"isFavourite"}
-                              addButton={async () => {
-                                  try {
-                                      await axios.post(`${urlFavourite}/create`, {
-                                          email: getEmail(),
-                                          movieId: id
-                                      });
-                                      Swal.fire({
-                                          title: 'Success',
-                                          text: "Added to favourites successfully!",
-                                          icon: 'success'
-                                      }).then(() => {
-                                          window.location.reload();
-                                      })
-
-                                  } catch (e) {
-                                      console.log(e);
-                                  }
-                              }}
-                              removeButton={async () => {
-                                  try {
-                                      await Swal.fire({
-                                          title: 'Confirmation',
-                                          text: 'Are you sure you want to remove this movie from favourites',
-                                          icon: 'question',
-                                          showCancelButton: true,
-                                          confirmButtonText: 'Yes',
-                                          cancelButtonText: 'No',
-                                      }).then(async (result) => {
-                                          if (result.isConfirmed) {
-                                              await axios.delete(`${urlFavourite}/delete/${getEmail()}/${id}`)
-                                                  .then((response: AxiosResponse) => {
-                                                      Swal.fire({
-                                                          title: 'Success',
-                                                          text: response.data,
-                                                          icon: 'success'
-                                                      }).then(() => {
-                                                          window.location.reload();
-                                                      })
-                                                  });
+                                          } catch (e) {
+                                              console.log(e);
                                           }
-                                      });
-                                  } catch (e) {
-                                      console.log(e);
-                                  }
-                              }}/>
-
-            <AddRemoveButtons mid={id}
-                              class={"ms-3"}
-                              email={getEmail()}
-                              routeURL={urlWatched}
-                              addButtonText={"Add to watched"}
-                              removeButtonText={"Remove from watched"}
-                              url={"isWatched"}
-                              addButton={async () => {
-                                  try {
-                                      await axios.post(`${urlWatched}/create`, {
-                                          email: getEmail(),
-                                          movieId: id
-                                      });
-                                      Swal.fire({
-                                          title: 'Success',
-                                          text: "Added to watched successfully!",
-                                          icon: 'success'
-                                      }).then(() => {
-                                          window.location.reload();
-                                      })
-
-                                  } catch (e) {
-                                      console.log(e);
-                                  }
-                              }}
-                              removeButton={async () => {
-                                  try {
-                                      await Swal.fire({
-                                          title: 'Confirmation',
-                                          text: 'Are you sure you want to remove this movie from watched',
-                                          icon: 'question',
-                                          showCancelButton: true,
-                                          confirmButtonText: 'Yes',
-                                          cancelButtonText: 'No',
-                                      }).then(async (result) => {
-                                          if (result.isConfirmed) {
-                                              await axios.delete(`${urlWatched}/delete/${getEmail()}/${id}`)
-                                                  .then((response: AxiosResponse) => {
-                                                      Swal.fire({
-                                                          title: 'Success',
-                                                          text: response.data,
-                                                          icon: 'success'
-                                                      }).then(() => {
-                                                          window.location.reload();
-                                                      })
-                                                  });
+                                      }}
+                                      removeButton={async () => {
+                                          try {
+                                              await Swal.fire({
+                                                  title: 'Confirmation',
+                                                  text: 'Are you sure you want to remove this movie from favourites',
+                                                  icon: 'question',
+                                                  showCancelButton: true,
+                                                  confirmButtonText: 'Yes',
+                                                  cancelButtonText: 'No',
+                                              }).then(async (result) => {
+                                                  if (result.isConfirmed) {
+                                                      await axios.delete(`${urlFavourite}/delete/${getEmail()}/${id}`)
+                                                          .then((response: AxiosResponse) => {
+                                                              Swal.fire({
+                                                                  title: 'Success',
+                                                                  text: response.data,
+                                                                  icon: 'success'
+                                                              }).then(() => {
+                                                                  window.location.reload();
+                                                              })
+                                                          });
+                                                  }
+                                              });
+                                          } catch (e) {
+                                              console.log(e);
                                           }
-                                      });
-                                  } catch (e) {
-                                      console.log(e);
-                                  }
-                              }}/>
+                                      }}/>
+
+                    <AddRemoveButtons mid={id}
+                                      class={"ms-3"}
+                                      email={getEmail()}
+                                      routeURL={urlWatched}
+                                      addButtonText={"Add to watched"}
+                                      removeButtonText={"Remove from watched"}
+                                      url={"isWatched"}
+                                      addButton={async () => {
+                                          try {
+                                              await axios.post(`${urlWatched}/create`, {
+                                                  email: getEmail(),
+                                                  movieId: id
+                                              });
+                                              Swal.fire({
+                                                  title: 'Success',
+                                                  text: "Added to watched successfully!",
+                                                  icon: 'success'
+                                              }).then(() => {
+                                                  window.location.reload();
+                                              })
+
+                                          } catch (e) {
+                                              console.log(e);
+                                          }
+                                      }}
+                                      removeButton={async () => {
+                                          try {
+                                              await Swal.fire({
+                                                  title: 'Confirmation',
+                                                  text: 'Are you sure you want to remove this movie from watched',
+                                                  icon: 'question',
+                                                  showCancelButton: true,
+                                                  confirmButtonText: 'Yes',
+                                                  cancelButtonText: 'No',
+                                              }).then(async (result) => {
+                                                  if (result.isConfirmed) {
+                                                      await axios.delete(`${urlWatched}/delete/${getEmail()}/${id}`)
+                                                          .then((response: AxiosResponse) => {
+                                                              Swal.fire({
+                                                                  title: 'Success',
+                                                                  text: response.data,
+                                                                  icon: 'success'
+                                                              }).then(() => {
+                                                                  window.location.reload();
+                                                              })
+                                                          });
+                                                  }
+                                              });
+                                          } catch (e) {
+                                              console.log(e);
+                                          }
+                                      }}/>
+                </> : null}
 
             {movie.summary ? <div style={{marginTop: '1rem'}}>
                 <h3>Summary</h3>
