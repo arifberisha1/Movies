@@ -15,6 +15,19 @@ This repository serves as a starting point for creating a web application with a
 - User authentication and registration for a personalized experience.
 
 
+### Technologies Used
+- Front-end: The front-end of this project is built using React, a popular JavaScript library for building user interfaces.
+- Back-end: The back-end of this project is developed using .NET Core, a powerful framework for building scalable and robust web applications.
+- Database: The project uses a relational database management system (RDBMS) for storing movie data and user information. It uses SQL Server for storing datas.
+
+
+### Prerequisites
+To run this project locally, ensure you have the following prerequisites installed:
+- [.NET Core] (https://dotnet.microsoft.com/en-us/download) 
+- [Node.js] (https://nodejs.org/en/download)
+- npm or yarn
+
+
 ### Installation
 
 In order for the project to run, these steps must be followed:
