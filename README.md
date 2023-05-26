@@ -23,8 +23,8 @@ This repository serves as a starting point for creating a web application with a
 
 ### Prerequisites
 To run this project locally, ensure you have the following prerequisites installed:
-- [.NET Core] (https://dotnet.microsoft.com/en-us/download) 
-- [Node.js] (https://nodejs.org/en/download)
+- [.NET Core](https://dotnet.microsoft.com/en-us/download) 
+- [Node.js](https://nodejs.org/en/download)
 - npm or yarn
 
 
