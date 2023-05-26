@@ -26,8 +26,6 @@ public class UnitTest2
         // Act
         await storageService.DeleteFile(fileRoute, containerName);
 
-        // Assert
-        // No assertion, we're making sure the method does not throw an exception
     }
     
 }
