@@ -1,5 +1,20 @@
 # Movies
 
+
+### Introduction
+
+This repository serves as a starting point for creating a web application with a RESTful API backend using the .NET framework and a React frontend with TypeScript. The application aims to provide a user-friendly interface for browsing movies, accesing details of movies, actors, managing favorite movies and watched movies. 
+
+
+### Features 
+
+- Browse a vast collection of movies from various genres.
+- View detailed information about each movie.
+- Search for movies by title or genre.
+- Mark movies as favorites and manage your personal list of favorite movies.
+- User authentication and registration for a personalized experience.
+
+
 ### Installation
 
 In order for the project to run, these steps must be followed:
