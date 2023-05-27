@@ -4,7 +4,7 @@ import {landingPageDTO, moviesTypeahead} from "./movies.model";
 import axios, {AxiosResponse} from "axios";
 import {urlMovies} from "../endpoints";
 import AlertContext from "../utils/AlertContext";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Typeahead} from "react-bootstrap-typeahead";
 import AuthenticationContext from "../auth/AuthenticationContext";
 
@@ -13,11 +13,11 @@ export default function LandingPage(props: landingPageProps) {
     const {claims} = useContext(AuthenticationContext);
     const [movies, setMovies] = useState<landingPageDTO>({});
     const [taMovies, setTaMovies] = useState<moviesTypeahead[]>([]);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (props.reload) {
-            history.push('/');
+            navigate('/');
         }
         loadData();
     }, []);
@@ -49,8 +49,7 @@ export default function LandingPage(props: landingPageProps) {
                 onChange={(selected: any[]) => {
                     const clickedMovie = selected[0];
                     if (clickedMovie) {
-                        history.push(`movie/${clickedMovie.id}`);
-                        window.location.reload();
+                        navigate(`movie/${clickedMovie.id}`);
                     }
                 }}
                 renderMenuItemChildren={movie => (

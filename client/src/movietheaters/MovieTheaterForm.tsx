@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import MapField from "../forms/MapField";
 import coordinateDTO from "../utils/coordinates.model";
 import {movieTheaterCreationDTO} from "./movieTheater.model";
+import {Link} from "react-router-dom";
 
 export default function MovieTheaterForm(props: movieTheaterFormsProps) {
     function transformCoordinates(): coordinateDTO[] | null {
@@ -36,7 +37,7 @@ export default function MovieTheaterForm(props: movieTheaterFormsProps) {
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>
                         Save Changes
                     </Button>
-                    <a className={"btn btn-secondary"} href={'/movietheaters'}>Cancel</a>
+                    <Link className={"btn btn-secondary"} to={'/movietheaters'}>Cancel</Link>
                 </Form>
             )}
         </Formik>

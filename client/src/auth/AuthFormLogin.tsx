@@ -3,6 +3,7 @@ import {Form, Formik, FormikHelpers} from "formik";
 import * as Yup from 'yup';
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
+import {Link} from "react-router-dom";
 
 export default function AuthFormLogin(props: authFormProps) {
     return (
@@ -20,7 +21,7 @@ export default function AuthFormLogin(props: authFormProps) {
                     <TextField field={"password"} displayName={"Password"} type={"password"}/>
 
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>Log in</Button>
-                    <a href="/" className={"btn btn-secondary"}>Cancel</a>
+                    <Link to="/" className={"btn btn-secondary"}>Cancel</Link>
                 </Form>
             )}
         </Formik>

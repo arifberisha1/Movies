@@ -7,7 +7,7 @@ import {urlMovies} from "../endpoints";
 import {movieCreationDTO, moviesPostGetDTO} from "./movies.model";
 import Loading from "../utils/Loading";
 import {convertMovieToFormData} from "../utils/formDataUtils";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DisplayErrors from "../utils/DisplayErrors";
 
 export default function CreateMovie() {
@@ -16,7 +16,7 @@ export default function CreateMovie() {
     const [nonSelectedMovieTheaters, setNonSelectedMovieTheaters] = useState<movieTheaterDTO[]>([]);
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState<string[]>([]);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`${urlMovies}/postget`)
@@ -37,8 +37,7 @@ export default function CreateMovie() {
                 headers: {'Content-Type': 'multipart/form-data'}
             })
 
-            history.push(`/movie/${response.data}`);
-            window.location.reload();
+            navigate(`/movie/${response.data}`);
 
         } catch (error) {
             // @ts-ignore

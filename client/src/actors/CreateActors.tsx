@@ -5,12 +5,12 @@ import DisplayErrors from "../utils/DisplayErrors";
 import {convertActorToFormData} from "../utils/formDataUtils";
 import axios from "axios";
 import {urlActors} from "../endpoints";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function CreateActors() {
 
     const [errors, setErrors] = useState<string[]>([]);
-    const history = useHistory();
+    const navigate = useNavigate();
     async function create(actor: actorCreationDTO){
         try {
             const formData = convertActorToFormData(actor);
@@ -21,8 +21,7 @@ export default function CreateActors() {
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'}
             });
-            history.push('/actors');
-            window.location.reload();
+            navigate('/actors');
         }
         catch (error){
             // @ts-ignore

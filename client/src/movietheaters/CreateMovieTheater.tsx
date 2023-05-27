@@ -2,19 +2,18 @@ import MovieTheaterForm from "./MovieTheaterForm";
 import {movieTheaterCreationDTO} from "./movieTheater.model";
 import axios from "axios";
 import {urlMovieTheaters} from "../endpoints";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 
 export default function CreateMovieTheater() {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const [errors, setErrors] = useState<string[]>([]);
     async function create(movieTheater: movieTheaterCreationDTO){
         try {
             await axios.post(urlMovieTheaters, movieTheater);
-            history.push("/movietheaters");
-            window.location.reload();
+            navigate("/movietheaters");
         }
         catch (error){
             // @ts-ignore

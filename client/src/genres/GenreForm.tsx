@@ -3,6 +3,7 @@ import {Form, Formik, FormikHelpers} from "formik";
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 import {genreCreationDTO} from "./genres.model";
+import {Link} from "react-router-dom";
 
 export default function GenreForm(props: genreFormProps) {
 
@@ -18,7 +19,7 @@ export default function GenreForm(props: genreFormProps) {
                     <TextField field="name" displayName="Name"/>
 
                     <Button disabled={formikProps.isSubmitting} type={'submit'}>Save Changes</Button>
-                    <a className="btn btn-secondary" href="/genres">Cancel</a>
+                    <Link className="btn btn-secondary" to="/genres">Cancel</Link>
                 </Form>
             )}
         </Formik>

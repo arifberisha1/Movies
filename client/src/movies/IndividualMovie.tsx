@@ -7,6 +7,7 @@ import {urlMovies} from "../endpoints";
 import {useContext} from "react";
 import AlertContext from "../utils/AlertContext";
 import Authorized from "../auth/Authorized";
+import {Link} from "react-router-dom";
 
 export default function IndividualMovie(props: individualMovieProps) {
 
@@ -22,17 +23,17 @@ export default function IndividualMovie(props: individualMovieProps) {
 
     return (
         <div className={css.div}>
-            <a href={buildLink()}>
+            <Link to={buildLink()}>
                 <img alt="Poster" src={props.model.poster}/>
-            </a>
+            </Link>
             <p>
-                <a href={buildLink()}>{props.model.title}</a>
+                <Link to={buildLink()}>{props.model.title}</Link>
             </p>
             <Authorized
                 role={'admin'}
                 authorized={<div>
-                    <a style={{marginRight: '1rem'}} className="btn btn-info"
-                       href={`/movies/edit/${props.model.id}`}>Edit</a>
+                    <Link style={{marginRight: '1rem'}} className="btn btn-info"
+                          to={`/movies/edit/${props.model.id}`}>Edit</Link>
                     <Button
                         onClick={() => customConfirm(() => deleteMovie())} className="btn btn-danger">Delete</Button>
                 </div>}/>
@@ -40,6 +41,6 @@ export default function IndividualMovie(props: individualMovieProps) {
     )
 }
 
-interface individualMovieProps{
+interface individualMovieProps {
     model: movieDTO | favouriteMovieDetailsDTO | watchedMovieDetailsDTO;
 }

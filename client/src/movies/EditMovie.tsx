@@ -2,7 +2,7 @@ import MovieForm from "./MovieForm";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {urlMovies} from "../endpoints";
-import {useHistory, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {movieCreationDTO, moviePutGetDTO} from "./movies.model";
 import {convertMovieToFormData} from "../utils/formDataUtils";
 import DisplayErrors from "../utils/DisplayErrors";
@@ -13,7 +13,7 @@ export default function EditMovie() {
     const {id}: any = useParams();
     const [movie, setMovie] = useState<movieCreationDTO>();
     const [moviePutGet, setMoviePutGet] = useState<moviePutGetDTO>();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [errors, setErrors] = useState<string[]>([]);
 
     useEffect(() =>{
@@ -42,8 +42,7 @@ export default function EditMovie() {
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'}
             });
-            history.push(`/movie/${id}`);
-            window.location.reload();
+            navigate(`/movie/${id}`);
         }
         catch (error){
             // @ts-ignore

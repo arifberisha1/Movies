@@ -6,13 +6,13 @@ import {useContext, useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 import {getClaims, saveToken} from "./handleJWT";
 import AuthenticationContext from "./AuthenticationContext";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function Login(){
 
     const [errors, setErrors] = useState<string[]>([]);
     const {update} = useContext(AuthenticationContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     async function login(credentials: userCredentials){
         try {
@@ -21,8 +21,7 @@ export default function Login(){
                 .post<authenticationResponse>(`${urlAccounts}/login`, credentials);
             saveToken(response.data);
             update(getClaims());
-            history.push('/');
-            window.location.reload();
+            navigate('/');
         }
         catch (error){
             // @ts-ignore

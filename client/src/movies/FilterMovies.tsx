@@ -6,7 +6,7 @@ import axios, {AxiosResponse} from "axios";
 import {urlGenres, urlMovies} from "../endpoints";
 import {movieDTO} from "./movies.model";
 import MoviesList from "./MoviesList";
-import {useHistory, useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import Pagination from "../utils/Pagination";
 
 export default function FilterMovies() {
@@ -31,7 +31,7 @@ export default function FilterMovies() {
     // const genres: genreDTO[] = [{id: 1, name: "Drama"}, {id: 2, name: "Comedy"}]
     const [genres, setGenres] = useState<genreDTO[]>([]);
     const [movies, setMovies] = useState<movieDTO[]>([]);
-    const history = useHistory();
+    const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
     const [totalAmountOfPages, setTotalAmountOfPages] = useState(0)
 
@@ -102,7 +102,7 @@ export default function FilterMovies() {
         }
 
         queryString.push(`page=${values.page}`);
-        history.push(`/movies/filter?${queryString.join('&')}`);
+        navigate(`/movies/filter?${queryString.join('&')}`);
     }
 
     return (

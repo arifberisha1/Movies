@@ -7,7 +7,7 @@ import {authenticationResponse, changePassword, changePasswordForm} from "./auth
 import axios from "axios";
 import {urlAccounts} from "../endpoints";
 import Swal from "sweetalert2";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ChangePassword() {
@@ -15,7 +15,7 @@ export default function ChangePassword() {
     const {claims} = useContext(AuthenticationContext);
     const [Email, setEmail] = useState<string>("");
     const [errors, setErrors] = useState<string[]>([]);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         claims.map(claim => {
@@ -44,8 +44,7 @@ export default function ChangePassword() {
                     text: response.data,
                     icon: 'success'
                 }).then(() => {
-                    history.push('profile');
-                    window.location.reload();
+                    navigate('profile');
                 });
             } catch (error) {
                 // @ts-ignore

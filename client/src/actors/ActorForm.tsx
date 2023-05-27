@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import DateField from "../forms/DateField";
 import ImageField from "../forms/ImageField";
 import MarkdownField from "../forms/MarkdownField";
+import {Link} from "react-router-dom";
 
 export default function ActorForm(props: actorFormProps) {
     return (
@@ -32,7 +33,7 @@ export default function ActorForm(props: actorFormProps) {
                         displayName={"Biography"}
                         field={"biography"}/>
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>Save Changes</Button>
-                    <a href={"/actors"} className={"btn btn-secondary"}>Cancel</a>
+                    <Link to={"/actors"} className={"btn btn-secondary"}>Cancel</Link>
                 </Form>
             )}
         </Formik>
