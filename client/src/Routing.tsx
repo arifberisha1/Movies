@@ -48,12 +48,12 @@ export default function Routing(props: routingProps) {
             <Route path={"/movie/:id"} element={<MovieDetails/>}/>
             <Route path={"/actors/details/:id"} element={<ActorDetails/>}/>
 
-            <Route path={"/login"} element={<Login/>}/>
             <Route/>
 
             {!props.isAdmin && claims.length <= 0 ?
                 <>
                     <Route path={"/register"} element={<Register/>}/>
+                    <Route path={"/login"} element={<Login/>}/>
                 </> : <Route path={"*"} element={<LandingPage/>}/>
             }
 
