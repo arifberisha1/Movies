@@ -39,6 +39,11 @@ namespace server.Helpers
                 .ForMember(x => x.Actors, options => options.MapFrom(MapMoviesActors));
 
             CreateMap<IdentityUser, UserDTO>();
+            
+            CreateMap<WebsiteDTO, Website>().ReverseMap();
+            CreateMap<WebsiteCreationDTO, Website>()
+                .ForMember(x => x.Picture,
+                    options => options.Ignore());
         }
 
         private List<ActorsMovieDTO> MapMoviesActors(Movie movie, MovieDTO movieDto)
