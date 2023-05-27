@@ -32,6 +32,7 @@ export default function MovieTheaterForm(props: movieTheaterFormsProps) {
             {(formikProps) => (
                 <Form>
                     <TextField field={"name"} displayName={"Name"}/>
+                    <TextField field={"link"} displayName={"Link"}/>
 
                     <div style={{marginBottom: '1rem'}}>
                         <MapField latField={'latitude'} lngField={'longitude'}

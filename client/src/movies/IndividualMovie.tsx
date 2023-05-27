@@ -18,6 +18,7 @@ export default function IndividualMovie(props: individualMovieProps) {
         axios.delete(`${urlMovies}/${props.model.id}`)
             .then(() => {
                 customAlert();
+                window.location.reload();
             });
     }
 

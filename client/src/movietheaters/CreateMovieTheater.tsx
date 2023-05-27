@@ -28,7 +28,7 @@ export default function CreateMovieTheater() {
             <h3>Create Movie Theater</h3>
             <DisplayErrors errors={errors}/>
             <MovieTheaterForm
-                model={{name: ''}}
+                model={{name: '', link: ''}}
                 onSubmit={async values => await create(values)}
             />
         </>

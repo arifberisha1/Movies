@@ -75,6 +75,7 @@ namespace server.Helpers
                     {
                         Id = movieTheaterMovies.MovieTheaterId,
                         Name = movieTheaterMovies.MovieTheater.Name,
+                        Link = movieTheaterMovies.MovieTheater.Link,
                         Latitude = movieTheaterMovies.MovieTheater.Location.Y,
                         Longitude = movieTheaterMovies.MovieTheater.Location.X
                     });
