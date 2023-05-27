@@ -5,7 +5,7 @@ import {urlMovieTheaters} from "../endpoints";
 export default function IndexMovieTheaters() {
     return (
         <IndexEntity<movieTheaterDTO>
-        url={urlMovieTheaters} createURL="movietheaters/create" title="Movie Theaters"
+        url={urlMovieTheaters} createURL="/movietheaters/create" title="Movie Theaters"
         entityName="Movie Theater"
         >
 
@@ -19,7 +19,7 @@ export default function IndexMovieTheaters() {
                 <tbody>
                 {entities?.map(entity => <tr key={entity.id}>
                     <td>
-                        {buttons(`movietheaters/edit/${entity.id}`, entity.id)}
+                        {buttons(`/movietheaters/edit/${entity.id}`, entity.id)}
                     </td>
                     <td>
                         {entity.name}

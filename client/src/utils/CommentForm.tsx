@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from "../forms/TextField";
-import Button from "../utils/Button";
+import Button from "./Button";
 import {Form, Formik, FormikHelpers} from "formik";
 import {commentFormDTO} from "./comment.model";
 import * as Yup from 'yup';

@@ -4,9 +4,12 @@ import * as Yup from 'yup';
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 import DateField from "../forms/DateField";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function AuthFormLogin(props: authFormProps) {
+
+    const navigate = useNavigate();
+
     return (
         <Formik initialValues={props.model}
                 onSubmit={props.onSubmit}
@@ -34,7 +37,9 @@ export default function AuthFormLogin(props: authFormProps) {
                     <TextField field={"address"} displayName={"Address"} type={"text"}/>
 
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>Register</Button>
-                    <Link to="/" className={"btn btn-secondary"}>Cancel</Link>
+                    <Button onClick={() => {
+                          navigate(-1);
+                    }} className={"btn btn-secondary ms-3"}>Cancel</Button>
                 </Form>
             )}
         </Formik>

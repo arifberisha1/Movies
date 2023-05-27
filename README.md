@@ -1,4 +1,4 @@
-# Movies
+# Movies API
 
 
 ## Introduction

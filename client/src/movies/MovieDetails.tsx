@@ -9,12 +9,12 @@ import Map from "../utils/Map";
 import coordinateDTO from "../utils/coordinates.model";
 import Ratings from "../utils/Ratings";
 import Swal from "sweetalert2";
-import CommentSection from "./CommentSection";
+import CommentSection from "../utils/CommentSection";
 import AuthenticationContext from "../auth/AuthenticationContext";
-import {commentCreationDTO, commentFormDTO} from "./comment.model";
-import CommentForm from "./CommentForm";
+import {commentCreationDTO, commentFormDTO} from "../utils/comment.model";
+import CommentForm from "../utils/CommentForm";
 import DisplayErrors from "../utils/DisplayErrors";
-import AddRemoveButtons from "./AddRemoveButtons";
+import AddRemoveButtons from "../utils/AddRemoveButtons";
 
 export default function MovieDetails() {
 

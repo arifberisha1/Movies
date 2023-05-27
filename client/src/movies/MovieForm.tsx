@@ -13,7 +13,7 @@ import {genreDTO} from "../genres/genres.model";
 import TypeAheadActors from "../forms/TypeAheadActors";
 import {actorMovieDTO} from "../actors/actors.model";
 import MarkdownField from "../forms/MarkdownField";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function MovieForm(props: movieFormProps) {
 
@@ -27,7 +27,7 @@ export default function MovieForm(props: movieFormProps) {
         = useState(mapToModel(props.nonSelectedMovieTheaters));
 
     const [selectedActors, setSelectedActors] = useState(props.selectedActors);
-
+    const navigate = useNavigate();
     function mapToModel(items: { id: number, name: string }[]): multipleSelectorModel[] {
         return items.map(item => {
             return {key: item.id, value: item.name}
@@ -99,7 +99,9 @@ export default function MovieForm(props: movieFormProps) {
                     <Button disabled={formikProps.isSubmitting}
                             type={'submit'}
                     >Save Changes</Button>
-                    <Link className="btn btn-secondary" to="/genres">Cancel</Link>
+                    <Button className="btn btn-secondary ms-3" onClick={() => {
+                        navigate(-1);
+                    }}>Cancel</Button>
                 </Form>
             )}
         </Formik>

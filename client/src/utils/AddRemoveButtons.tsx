@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import Button from "../utils/Button";
+import Button from "./Button";
 
 export default function AddRemoveButtons(props: addRemoveButtonsProps) {
 
