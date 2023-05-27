@@ -14,6 +14,7 @@ export default function IndexMovieTheaters() {
             <tr>
                 <th></th>
                 <th>Name</th>
+                <th>Link</th>
             </tr>
             </thead>
                 <tbody>
@@ -23,6 +24,9 @@ export default function IndexMovieTheaters() {
                     </td>
                     <td>
                         {entity.name}
+                    </td>
+                    <td>
+                        {entity.link}
                     </td>
                 </tr>)}
                 </tbody>

@@ -8,7 +8,7 @@
     transition: all 0.2s;
 }
 
-.div:hover{
+.div:hover {
     transform: scale(1.05);
 }
 
@@ -25,4 +25,9 @@
 
 .div a {
     text-decoration: none;
+    margin-top: -50px;
+}
+
+.div button {
+    margin-top: -50px;
 }

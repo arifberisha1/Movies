@@ -37,6 +37,7 @@ export default function MovieDetails() {
                 return {
                     lat: movieTheater.latitude,
                     lng: movieTheater.longitude,
+                    link: movieTheater.link,
                     name: movieTheater.name
                 } as coordinateDTO
             });
