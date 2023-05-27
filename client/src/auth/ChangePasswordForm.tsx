@@ -3,6 +3,7 @@ import {Form, Formik, FormikHelpers} from "formik";
 import * as Yup from "yup";
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
+import {Link} from "react-router-dom";
 
 export default function ChangePasswordForm(props: changePasswordFormProps) {
     return (
@@ -23,7 +24,7 @@ export default function ChangePasswordForm(props: changePasswordFormProps) {
                         <TextField field={"confirmNewPassword"} displayName={"Confirm new password"} type={"password"}/>
 
                         <Button disabled={formikProps.isSubmitting} type={"submit"}>Change Password</Button>
-                        <a href="/profile" className={"btn btn-secondary"}>Cancel</a>
+                        <Link to="/profile" className={"btn btn-secondary"}>Cancel</Link>
                     </Form>
                 )}
             </Formik>

@@ -4,13 +4,13 @@ import {urlActors} from "../endpoints";
 import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
 import {Typeahead} from "react-bootstrap-typeahead";
-import {useHistory} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios, {AxiosResponse} from "axios";
 
 export default function IndexActors() {
 
     const {claims} = useContext(AuthenticationContext);
-    const history = useHistory();
+    const navigate = useNavigate();
     const [taActors, setTaActors] = useState<typeaheadActors[]>([]);
 
     useEffect(() => {
@@ -53,8 +53,7 @@ export default function IndexActors() {
                 onChange={(selected: any[]) => {
                     const clickedActor = selected[0];
                     if (clickedActor) {
-                        history.push(`actors/details/${clickedActor.id}`);
-                        window.location.reload();
+                        navigate(`actors/details/${clickedActor.id}`);
                     }
                 }}
                 renderMenuItemChildren={actor => (
@@ -91,7 +90,7 @@ export default function IndexActors() {
                         {actors?.map(actor => <tr key={actor.id}>
                             <td>
                                 {isAdmin() ? buttons(`actors/edit/${actor.id}`, actor.id) : null}
-                                <a href={`/actors/details/${actor.id}`} className={"btn btn-dark ms-3"}>More</a>
+                                <Link to={`/actors/details/${actor.id}`} className={"btn btn-dark ms-3"}>More</Link>
                             </td>
                             <td>
                                 {actor.name}

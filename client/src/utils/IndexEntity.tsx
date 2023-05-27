@@ -5,6 +5,7 @@ import Pagination from "./Pagination";
 import Button from "./Button";
 import customConfirm from "./customConfirm";
 import GenericList from "./GenericList";
+import {Link} from "react-router-dom";
 
 export default function IndexEntity<T>(props: indexEntityProps<T>){
     const [entities, setEntities] = useState<T[]>();
@@ -43,8 +44,8 @@ export default function IndexEntity<T>(props: indexEntityProps<T>){
         }
     }
     const buttons = (editURL: string, id: number) => <>
-        <a className={"btn btn-success"}
-           href={editURL}>Edit</a>
+        <Link className={"btn btn-success"}
+           to={editURL}>Edit</Link>
         <Button
             onClick={() => customConfirm(() => deleteEntity(id))}
             className={"btn btn-danger"}>Delete</Button>
@@ -54,7 +55,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>){
         <>
             <h3>{props.title}</h3>
             {props.createURL ?
-                <a href={props.createURL} className={"btn btn-primary"}>Create {props.entityName}</a>
+                <Link to={props.createURL} className={"btn btn-primary"}>Create {props.entityName}</Link>
                 : null}
 
 

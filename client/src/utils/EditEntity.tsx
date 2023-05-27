@@ -1,14 +1,15 @@
-import {useHistory, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {ReactElement, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import Loading from "./Loading";
 import DisplayErrors from '../utils/DisplayErrors';
+
 export default function EditEntity<TCreation, TRead>
-        (props: editEntityProps<TCreation, TRead>){
+(props: editEntityProps<TCreation, TRead>) {
     const {id}: any = useParams();
-    const [entity, setEntity]= useState<TCreation>();
+    const [entity, setEntity] = useState<TCreation>();
     const [errors, setErrors] = useState<string[]>([]);
-    const history= useHistory();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -18,9 +19,9 @@ export default function EditEntity<TCreation, TRead>
             })
     }, [id]);
 
-    async function edit(entityToEdit: TCreation){
+    async function edit(entityToEdit: TCreation) {
         try {
-            if (props.transformFormData){
+            if (props.transformFormData) {
                 const formData = props.transformFormData(entityToEdit);
                 await axios({
                     method: 'put',
@@ -28,37 +29,41 @@ export default function EditEntity<TCreation, TRead>
                     data: formData,
                     headers: {'Content-Type': 'multipart/form-data'}
                 });
-            }else {
-            await axios.put(`${props.url}/${id}`, entityToEdit);
+            } else {
+                await axios.put(`${props.url}/${id}`, entityToEdit);
             }
-            history.push(props.indexURL);
-            window.location.reload();
-        }
-        catch (error){
+            navigate(props.indexURL);
+        } catch (error) {
             // @ts-ignore
-            if (error && error.response){
+            if (error && error.response) {
                 // @ts-ignore
                 setErrors(error.response.data);
             }
         }
     }
-    return(
+
+    return (
         <>
-        <h3>Edit {props.entityName}</h3>
-        <DisplayErrors errors={errors}/>
-        {entity ? props.children(entity, edit) : <Loading/>}
+            <h3>Edit {props.entityName}</h3>
+            <DisplayErrors errors={errors}/>
+            {entity ? props.children(entity, edit) : <Loading/>}
         </>
 
     )
 }
-interface editEntityProps<TCreation, TRead>{
+
+interface editEntityProps<TCreation, TRead> {
     url: string;
     entityName: string;
     indexURL: string;
+
     transform(entity: TRead): TCreation;
+
     transformFormData?(model: TCreation): FormData;
+
     children(entity: TCreation, edit: (entity: TCreation) => void): ReactElement;
 }
+
 EditEntity.defaultProps = {
     transform: (entity: any) => entity
 }

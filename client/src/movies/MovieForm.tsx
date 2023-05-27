@@ -7,13 +7,13 @@ import ImageField from "../forms/ImageField";
 import TextField from "../forms/TextField";
 import DateField from "../forms/DateField";
 import CheckboxField from "../forms/CheckboxField";
-import {useHistory} from "react-router-dom";
 import MultipleSelector, {multipleSelectorModel} from "../forms/MultipleSelector";
 import {useState} from "react";
 import {genreDTO} from "../genres/genres.model";
 import TypeAheadActors from "../forms/TypeAheadActors";
 import {actorMovieDTO} from "../actors/actors.model";
 import MarkdownField from "../forms/MarkdownField";
+import {Link} from "react-router-dom";
 
 export default function MovieForm(props: movieFormProps) {
 
@@ -99,7 +99,7 @@ export default function MovieForm(props: movieFormProps) {
                     <Button disabled={formikProps.isSubmitting}
                             type={'submit'}
                     >Save Changes</Button>
-                    <a className="btn btn-secondary" href="/genres">Cancel</a>
+                    <Link className="btn btn-secondary" to="/genres">Cancel</Link>
                 </Form>
             )}
         </Formik>

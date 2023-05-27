@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {actorCreationDTO, actorDTO} from "./actors.model";
 import axios, {AxiosResponse} from "axios";
@@ -51,7 +51,7 @@ export default function ActorDetails() {
                         Birthday: {details?.dateOfBirth?.toDateString()}
                     </p>
                 </div>
-                <a href="/actors" className={"btn btn-dark back-a"}>Back</a>
+                <Link to="/actors" className={"btn btn-dark back-a"}>Back</Link>
             </div>
             <br/>
             <h3>{details?.name}'s Movies</h3>

@@ -3,12 +3,12 @@ import Button from "./utils/Button";
 import {logout} from "./auth/handleJWT";
 import {useContext} from "react";
 import AuthenticationContext from "./auth/AuthenticationContext";
-import {useHistory} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 
 export default function Menu() {
 
     const {update, claims} = useContext(AuthenticationContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     function getUserEmail(): string {
         return claims.filter(x => x.name === 'email')[0]?.value;
@@ -17,36 +17,36 @@ export default function Menu() {
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <div className={"container-fluid"}>
-                <a className={"navbar-brand"} href="/">Home</a>
+                <Link className={"navbar-brand"} to="/">Home</Link>
                 <div className={"collapse navbar-collapse"}
                      style={{display: 'flex', justifyContent: 'space-between'}}>
                     <ul className={"navbar-nav me-auto mb-2 mb-lg-0"}>
                         <li className={"nav-item"}>
-                            <a className={"nav-link"} href="/movies/filter">
+                            <NavLink className={"nav-link"} to="/movies/filter">
                                 Filter Movies
-                            </a>
+                            </NavLink>
                         </li>
                         {claims.length > 0 ?
                             <>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/movies/topRated">
+                                    <NavLink className={"nav-link"} to="/movies/topRated">
                                         Top-Rated
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/movies/favourite">
+                                    <NavLink className={"nav-link"} to="/movies/favourite">
                                         Favourites
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/movies/watched">
+                                    <NavLink className={"nav-link"} to="/movies/watched">
                                         Watched
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/actors">
+                                    <NavLink className={"nav-link"} to="/actors">
                                         Actors
-                                    </a>
+                                    </NavLink>
                                 </li>
                             </>
                             : null
@@ -56,24 +56,24 @@ export default function Menu() {
                             role={'admin'}
                             authorized={<>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/genres">
+                                    <NavLink className={"nav-link"} to="/genres">
                                         Genres
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/movietheaters">
+                                    <NavLink className={"nav-link"} to="/movietheaters">
                                         Movie Theaters
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/movies/create">
+                                    <NavLink className={"nav-link"} to="/movies/create">
                                         Create Movie
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className={"nav-item"}>
-                                    <a className={"nav-link"} href="/users">
+                                    <NavLink className={"nav-link"} to="/users">
                                         Users
-                                    </a>
+                                    </NavLink>
                                 </li>
                             </>}
                         />
@@ -84,13 +84,12 @@ export default function Menu() {
                             authorized={
                                 <>
                                     <span className={"nav-link"}>Hello, {getUserEmail()}</span>
-                                    <a href="/profile" className={"nav-link btn btn-link"}>Profile</a>
+                                    <NavLink to="/profile" className={"nav-link btn btn-link"}>Profile</NavLink>
                                     <Button
                                         onClick={() => {
                                             logout();
                                             update([]);
-                                            history.push('/');
-                                            window.location.reload();
+                                            navigate('/');
                                         }}
                                         className={"nav-link btn btn-link"}
                                     >Logout</Button>
@@ -98,10 +97,10 @@ export default function Menu() {
                             }
                             notAuthorized={
                                 <>
-                                    <a href="/register" className={"nav-link btn btn-link"}>
-                                        Register</a>
-                                    <a href="/login" className={"nav-link btn btn-link"}>
-                                        Login</a>
+                                    <NavLink to="/register" className={"nav-link btn btn-link"}>
+                                        Register</NavLink>
+                                    <NavLink to="/login" className={"nav-link btn btn-link"}>
+                                        Login</NavLink>
                                 </>}
                         />
                     </div>

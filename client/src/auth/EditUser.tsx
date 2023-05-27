@@ -6,7 +6,7 @@ import {editUser, individualUserDetails} from "./auth.models";
 import axios, {AxiosResponse} from "axios";
 import {urlAccounts} from "../endpoints";
 import Swal from "sweetalert2";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DisplayErrors from "../utils/DisplayErrors";
 
 export default function EditUser() {
@@ -14,7 +14,7 @@ export default function EditUser() {
     const {claims} = useContext(AuthenticationContext);
     const [erros, setErrors] = useState<string[]>([]);
     const [email, setEmail] = useState<string>("");
-    const history = useHistory();
+    const navigate = useNavigate();
     useEffect(() => {
         claims.map(claim => {
             if (claim.name === 'email') {
@@ -43,8 +43,7 @@ export default function EditUser() {
                 text: response.data,
                 icon: 'success'
             }).then(() => {
-                history.push('/profile');
-                window.location.reload();
+                navigate('/profile');
             });
         } catch (error) {
             // @ts-ignore

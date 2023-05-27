@@ -1,7 +1,7 @@
 import Button from "../utils/Button";
 import React, {useContext, useEffect, useState} from "react";
 import AuthenticationContext from "./AuthenticationContext";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import LandingPage from "../movies/LandingPage";
 import {individualUserDetails} from "./auth.models";
 import axios from "axios";
@@ -11,7 +11,7 @@ export default function Profile() {
 
     const [details, setDetails] = useState<individualUserDetails>();
     const {claims} = useContext(AuthenticationContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         claims.map(claim => {
@@ -57,8 +57,7 @@ export default function Profile() {
                         <Button
                             className={"btn btn-dark"}
                             onClick={() => {
-                                history.push('/changepassword')
-                                window.location.reload();
+                                navigate('/changepassword')
                             }}
                         >
                             Change Password
@@ -66,8 +65,7 @@ export default function Profile() {
                         <Button
                             className={"btn btn-dark margin-left"}
                             onClick={() => {
-                                history.push('/edituser');
-                                window.location.reload();
+                                navigate('/edituser');
                             }}
                         >
                             Edit

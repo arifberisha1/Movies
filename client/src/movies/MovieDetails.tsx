@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {urlComments, urlFavourite, urlMovies, urlRatings, urlWatched} from "../endpoints";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
 import ReactMarkdown from "react-markdown";
@@ -107,8 +107,8 @@ export default function MovieDetails() {
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
             {movie.genres?.map(genre =>
-                <a href={`/movies/filter?genreId=${genre.id}`} key={genre.id} style={{marginRight: '5px'}}
-                   className={"btn btn-primary btn-sm rounded-pill"}>{genre.name}</a>
+                <Link to={`/movies/filter?genreId=${genre.id}`} key={genre.id} style={{marginRight: '5px'}}
+                   className={"btn btn-primary btn-sm rounded-pill"}>{genre.name}</Link>
             )} | {movie.releaseDate.toDateString()}
             | Your vote: <Ratings maximumValue={5} selectedValue={movie.userVote}
                                   onChange={handleRate}/> | Average Vote: <Ratings
@@ -266,8 +266,8 @@ export default function MovieDetails() {
                                 }}>{actor.name}</span>
                                 <span style={{display: 'inline-block', width: '45px'}}>...</span>
                                 <span>{actor.character}</span>
-                                <a href={`/actors/details/${actor.id}`}
-                                   className={"btn btn-dark ms-5 location-fixed"}>More</a>
+                                <Link to={`/actors/details/${actor.id}`}
+                                   className={"btn btn-dark ms-5 location-fixed"}>More</Link>
                             </div>
                         )}
                     </div>

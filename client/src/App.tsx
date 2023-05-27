@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import Menu from "./Menu";
-import routes from "./routing-config";
 import configureValidation from "./Validation";
 import {claim} from "./auth/auth.models";
 import AuthenticationContext from "./auth/AuthenticationContext";
-import LandingPage from "./movies/LandingPage";
 import {getClaims} from "./auth/handleJWT";
 import configureInterceptor from "./utils/httpInterceptors";
+import Routing from "./Routing";
 
 configureValidation();
 configureInterceptor();
@@ -38,14 +37,7 @@ function App() {
                 <AuthenticationContext.Provider value={{claims, update: setClaims}}>
                     <Menu/>
                     <div className={'container'}>
-                        <Switch>
-                            {routes.map(route =>
-                                <Route key={route.path} path={route.path} exact={route.exact}>
-                                    {isAdmin() ? <route.component/> : !route.isAdmin ?
-                                        <route.component/> : <LandingPage/>}
-                                </Route>
-                            )}
-                        </Switch>
+                        <Routing isAdmin={isAdmin()}/>
                     </div>
                     <link rel="stylesheet"
                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>

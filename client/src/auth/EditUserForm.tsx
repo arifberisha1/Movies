@@ -5,6 +5,7 @@ import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 import React from "react";
 import DateField from "../forms/DateField";
+import {Link} from "react-router-dom";
 
 export default function EditUserForm(props: editUserFormProps) {
 
@@ -31,7 +32,7 @@ export default function EditUserForm(props: editUserFormProps) {
                         <TextField field={"address"} displayName={"Address"} type={"text"}/>
 
                         <Button disabled={formikProps.isSubmitting} type={"submit"}>Edit</Button>
-                        <a href="/edituser" className={"btn btn-secondary"}>Cancel</a>
+                        <Link to="/edituser" className={"btn btn-secondary"}>Cancel</Link>
                     </Form>
                 )}
             </Formik>
