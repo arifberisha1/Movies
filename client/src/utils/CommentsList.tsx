@@ -1,11 +1,11 @@
-import GenericList from "../utils/GenericList";
+import GenericList from "./GenericList";
 import {commentDTO} from "./comment.model";
 import axios, {AxiosResponse} from "axios";
 import Swal from "sweetalert2";
 import {urlComments} from "../endpoints";
 import {useContext} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
-import Button from "../utils/Button";
+import Button from "./Button";
 
 export default function CommentsList(props: commentListProps) {
 

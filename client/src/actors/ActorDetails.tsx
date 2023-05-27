@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {actorCreationDTO, actorDTO} from "./actors.model";
 import axios, {AxiosResponse} from "axios";
@@ -6,12 +6,14 @@ import {urlActors, urlMovies} from "../endpoints";
 import ReactMarkdown from "react-markdown";
 import MoviesList from "../movies/MoviesList";
 import {movieDTO} from "../movies/movies.model";
+import Button from "../utils/Button";
 
 export default function ActorDetails() {
 
     const {id}: any = useParams();
     const [details, setDetails] = useState<actorCreationDTO>();
     const [movies, setMovies] = useState<movieDTO[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`${urlActors}/${id}`)
@@ -51,7 +53,9 @@ export default function ActorDetails() {
                         Birthday: {details?.dateOfBirth?.toDateString()}
                     </p>
                 </div>
-                <Link to="/actors" className={"btn btn-dark back-a"}>Back</Link>
+                <Button onClick={() => {
+                    navigate(-1);
+                }} className={"btn btn-dark back-a"}>Back</Button>
             </div>
             <br/>
             <h3>{details?.name}'s Movies</h3>

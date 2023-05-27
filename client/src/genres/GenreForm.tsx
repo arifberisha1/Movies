@@ -3,9 +3,11 @@ import {Form, Formik, FormikHelpers} from "formik";
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
 import {genreCreationDTO} from "./genres.model";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function GenreForm(props: genreFormProps) {
+
+    const navigate = useNavigate();
 
     return (
         <Formik initialValues={props.model}
@@ -19,7 +21,9 @@ export default function GenreForm(props: genreFormProps) {
                     <TextField field="name" displayName="Name"/>
 
                     <Button disabled={formikProps.isSubmitting} type={'submit'}>Save Changes</Button>
-                    <Link className="btn btn-secondary" to="/genres">Cancel</Link>
+                    <Button className="btn btn-secondary ms-3" onClick={() => {
+                        navigate(-1);
+                    }}>Cancel</Button>
                 </Form>
             )}
         </Formik>

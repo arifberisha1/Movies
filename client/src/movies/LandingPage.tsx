@@ -49,7 +49,7 @@ export default function LandingPage(props: landingPageProps) {
                 onChange={(selected: any[]) => {
                     const clickedMovie = selected[0];
                     if (clickedMovie) {
-                        navigate(`movie/${clickedMovie.id}`);
+                        navigate(`/movie/${clickedMovie.id}`);
                     }
                 }}
                 renderMenuItemChildren={movie => (

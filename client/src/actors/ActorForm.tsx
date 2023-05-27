@@ -6,9 +6,12 @@ import * as Yup from 'yup'
 import DateField from "../forms/DateField";
 import ImageField from "../forms/ImageField";
 import MarkdownField from "../forms/MarkdownField";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function ActorForm(props: actorFormProps) {
+
+    const navigate = useNavigate();
+
     return (
         <Formik initialValues={props.model}
                 onSubmit={props.onSubmit}
@@ -33,7 +36,9 @@ export default function ActorForm(props: actorFormProps) {
                         displayName={"Biography"}
                         field={"biography"}/>
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>Save Changes</Button>
-                    <Link to={"/actors"} className={"btn btn-secondary"}>Cancel</Link>
+                    <Button onClick={() => {
+                        navigate(-1);
+                    }} className={"btn btn-secondary ms-3"}>Cancel</Button>
                 </Form>
             )}
         </Formik>

@@ -44,7 +44,7 @@ export default function ChangePassword() {
                     text: response.data,
                     icon: 'success'
                 }).then(() => {
-                    navigate('profile');
+                    navigate('/profile');
                 });
             } catch (error) {
                 // @ts-ignore

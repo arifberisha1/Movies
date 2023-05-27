@@ -9,7 +9,7 @@ export default function IndexGenres() {
         <>
 
             <IndexEntity<genreDTO>
-                url = {urlGenres} createURL = 'genres/create' title = "Genres"
+                url = {urlGenres} createURL = '/genres/create' title = "Genres"
                 entityName = "Genre"
                 >
                 {(genres, buttons) =>
@@ -24,7 +24,7 @@ export default function IndexGenres() {
                     {genres?.map(genre =>
                         <tr key={genre.id}>
                             <td>
-                                {buttons(`genres/edit/${genre.id}`, genre.id)}
+                                {buttons(`/genres/edit/${genre.id}`, genre.id)}
                             </td>
                             <td>
                                 {genre.name}

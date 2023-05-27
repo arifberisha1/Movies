@@ -53,7 +53,7 @@ export default function IndexActors() {
                 onChange={(selected: any[]) => {
                     const clickedActor = selected[0];
                     if (clickedActor) {
-                        navigate(`actors/details/${clickedActor.id}`);
+                        navigate(`/actors/details/${clickedActor.id}`);
                     }
                 }}
                 renderMenuItemChildren={actor => (
@@ -74,7 +74,7 @@ export default function IndexActors() {
             />
             <IndexEntity<actorDTO>
                 url={urlActors}
-                createURL={isAdmin() ? 'actors/create' : ''}
+                createURL={isAdmin() ? '/actors/create' : ''}
                 title={""}
                 entityName={"Actor"}>
                 {(actors, buttons) =>
@@ -89,7 +89,7 @@ export default function IndexActors() {
                         <tbody>
                         {actors?.map(actor => <tr key={actor.id}>
                             <td>
-                                {isAdmin() ? buttons(`actors/edit/${actor.id}`, actor.id) : null}
+                                {isAdmin() ? buttons(`/actors/edit/${actor.id}`, actor.id) : null}
                                 <Link to={`/actors/details/${actor.id}`} className={"btn btn-dark ms-3"}>More</Link>
                             </td>
                             <td>
