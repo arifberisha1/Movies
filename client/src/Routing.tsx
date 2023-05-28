@@ -25,19 +25,13 @@ import IndexUsers from "./auth/IndexUsers";
 import Profile from "./auth/Profile";
 import ChangePassword from "./auth/ChangePassword";
 import EditUser from "./auth/EditUser";
+import IndexWebsites from "./Websites/IndexWebsites";
+import CreateWebsite from "./Websites/CreateWebsite";
+import EditWebsite from "./Websites/EditWebsite";
 
 export default function Routing(props: routingProps) {
 
     const {claims} = useContext(AuthenticationContext);
-
-    function isAdmin() {
-        claims.forEach(claim => {
-            if (claim.name === 'role' && claim.value === 'admin') {
-                return true;
-            }
-        })
-        return false;
-    }
 
     return (
         <Routes>
@@ -67,6 +61,9 @@ export default function Routing(props: routingProps) {
                     <Route path={"/actors/create"} element={<CreateActors/>}/>
                     <Route path={"/actors/edit/:id"} element={<EditActor/>}/>
 
+                    <Route path={"/websites/create"} element={<CreateWebsite/>}/>
+                    <Route path={"/websites/edit/:id"} element={<EditWebsite/>}/>
+
                     <Route path={"/movietheaters"} element={<IndexMovieTheaters/>}/>
                     <Route path={"/movietheaters/create"} element={<CreateMovieTheater/>}/>
                     <Route path={"/movietheaters/edit/:id"} element={<EditMovieTheater/>}/>
@@ -82,6 +79,8 @@ export default function Routing(props: routingProps) {
             {claims.length > 0 ?
                 <>
                     <Route path={"/actors"} element={<IndexActors/>}/>
+
+                    <Route path={"/websites"} element={<IndexWebsites/>}/>
 
                     <Route path={"/movies/topRated"} element={<TopRatedMovies/>}/>
                     <Route path={"/movies/favourite"} element={<Favourite/>}/>

@@ -48,6 +48,11 @@ export default function Menu() {
                                         Actors
                                     </NavLink>
                                 </li>
+                                <li className={"nav-item"}>
+                                    <NavLink className={"nav-link"} to="/websites">
+                                        Websites
+                                    </NavLink>
+                                </li>
                             </>
                             : null
                         }

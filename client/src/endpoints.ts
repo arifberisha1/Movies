@@ -11,4 +11,5 @@ export const urlRatings = `${baseURL}/ratings`;
 export const urlComments = `${baseURL}/comments`;
 export const urlFavourite = `${baseURL}/favourite`;
 export const urlWatched = `${baseURL}/watched`;
+export const urlWebsite = `${baseURL}/websites`;
 

@@ -38,4 +38,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Comment> Comment { get; set; }
     public DbSet<FavouriteMovies> FavouriteMovies { get; set; }
     public DbSet<WatchedMovies> WatchedMovies { get; set; }
+    public DbSet<Website> Website { get; set; }
 }
