@@ -19,6 +19,15 @@ public class WatchedMoviesController: ControllerBase
         this.context = context;
     }
     
+    /// <summary>
+    /// Retrieves a list of watched movies for a user by email.
+    /// </summary>
+    /// <param name="email">The email of the user.</param>
+    /// <returns>A list of watched movies.</returns>
+    /// <response code="200">The list of watched movies was successfully retrieved.</response>
+    /// <response code="400">The provided email is invalid or no movies were found for the user.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<WatchedMovieDetailsDTO>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("getByUserEmail/{email}")]
     public async Task<ActionResult<List<WatchedMovieDetailsDTO>>> GetByUserEmail(string email)
     {
@@ -55,6 +64,15 @@ public class WatchedMoviesController: ControllerBase
         return MovieList;
     }
     
+    /// <summary>
+    /// Adds a movie to the watched list for a user.
+    /// </summary>
+    /// <param name="watchedMoviesCreationDto">The DTO containing the movie ID and user email.</param>
+    /// <returns>A response indicating the result of the operation.</returns>
+    /// <response code="200">The movie was added to the watched list successfully.</response>
+    /// <response code="400">The provided data is invalid or an error occurred.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("create")]
     public async Task<ActionResult> Create([FromBody] WatchedMoviesCreationDTO watchedMoviesCreationDto)
     {
@@ -83,6 +101,16 @@ public class WatchedMoviesController: ControllerBase
         }
     }
     
+    /// <summary>
+    /// Removes a movie from the watched list for a user.
+    /// </summary>
+    /// <param name="email">The email of the user.</param>
+    /// <param name="movieId">The ID of the movie to remove.</param>
+    /// <returns>A response indicating the result of the operation.</returns>
+    /// <response code="200">The movie was removed from the watched list successfully.</response>
+    /// <response code="404">The movie or user was not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("delete/{email}/{movieId:int}")]
     public async Task<ActionResult> Delete(string email, int movieId)
     {
@@ -110,6 +138,13 @@ public class WatchedMoviesController: ControllerBase
         return Ok("Movie removed from watched successfully!");
     }
     
+    /// <summary>
+    /// Checks if a movie is in the watched list for a user.
+    /// </summary>
+    /// <param name="email">The email of the user.</param>
+    /// <param name="movieId">The ID of the movie to check.</param>
+    /// <returns>True if the movie is in the watched list, false otherwise.</returns>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
     [HttpGet("isWatched/{email}/{movieId:int}")]
     public async Task<ActionResult<bool>> IsWatched(string email, int movieId)
     {

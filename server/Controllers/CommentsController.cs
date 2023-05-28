@@ -16,6 +16,15 @@ public class CommentsController : ControllerBase
         this.context = context;
     }
 
+    /// <summary>
+    /// Retrieves comments by movie ID.
+    /// </summary>
+    /// <param name="id">The ID of the movie.</param>
+    /// <returns>The list of comments for the specified movie.</returns>
+    /// <response code="200">The list of comments for the specified movie.</response>
+    /// <response code="400">If there are no comments for the specified movie.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CommentDTO>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("getByMovieId/{id:int}")]
     public async Task<ActionResult<List<CommentDTO>>> GetByMovieId(int id)
     {
@@ -48,7 +57,15 @@ public class CommentsController : ControllerBase
         return commentsList;
     }
 
-
+    /// <summary>
+    /// Creates a new comment.
+    /// </summary>
+    /// <param name="commentCreationDto">The data for creating the comment.</param>
+    /// <returns>A response indicating the result of the comment creation.</returns>
+    /// <response code="200">Indicates that the comment was created successfully.</response>
+    /// <response code="400">If the comment data is invalid or the comment creation fails.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("create")]
     public async Task<ActionResult> Create([FromBody] CommentCreationDTO commentCreationDto)
     {
@@ -76,6 +93,15 @@ public class CommentsController : ControllerBase
         }
     }
     
+    /// <summary>
+    /// Deletes a comment by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the comment to delete.</param>
+    /// <returns>A response indicating the result of the comment deletion.</returns>
+    /// <response code="200">Indicates that the comment was deleted successfully.</response>
+    /// <response code="404">If the comment with the specified ID is not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("delete/{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
