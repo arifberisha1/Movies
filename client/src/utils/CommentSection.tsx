@@ -13,10 +13,16 @@ export default function CommentSection(props: commentSectionProps){
     }, []);
 
     async function loadData(){
-        await axios.get(`${urlComments}/getByMovieId/${props.movieId}`)
-            .then((response: AxiosResponse<commentDTO[]>) => {
-                setComments(response.data);
-            });
+        try
+        {
+            await axios.get(`${urlComments}/getByMovieId/${props.movieId}`)
+                .then((response: AxiosResponse<commentDTO[]>) => {
+                    setComments(response.data);
+                });
+        }catch (errors){
+            // @ts-ignore
+            console.log(errors.response.date);
+        }
     }
 
     return(
