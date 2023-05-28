@@ -25,6 +25,12 @@ public class WebsiteController: ControllerBase
         this.mapper = mapper;
     }
 
+    /// <summary>
+    /// Retrieves a list of websites with pagination.
+    /// </summary>
+    /// <param name="paginationDto">The pagination parameters.</param>
+    /// <returns>A paginated list of websites.</returns>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<WebsiteDTO>))]
     [HttpGet]
     public async Task<ActionResult<List<WebsiteDTO>>> Get([FromQuery] PaginationDTO paginationDto)
     {
@@ -34,6 +40,13 @@ public class WebsiteController: ControllerBase
         return mapper.Map<List<WebsiteDTO>>(websites);
     }
 
+    /// <summary>
+    /// Retrieves a specific website by ID.
+    /// </summary>
+    /// <param name="id">The ID of the website to retrieve.</param>
+    /// <returns>The website with the specified ID.</returns>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WebsiteDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<WebsiteDTO>> Get(int id)
     {
@@ -47,6 +60,12 @@ public class WebsiteController: ControllerBase
         return mapper.Map<WebsiteDTO>(website);
     }
 
+    /// <summary>
+    /// Creates a new website.
+    /// </summary>
+    /// <param name="websiteCreationDto">The data for creating the website.</param>
+    /// <returns>No content.</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost]
     public async Task<ActionResult> Post([FromForm] WebsiteCreationDTO websiteCreationDto)
     {
@@ -62,6 +81,13 @@ public class WebsiteController: ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Updates a website.
+    /// </summary>
+    /// <param name="id">The ID of the website to update.</param>
+    /// <param name="websiteCreationDto">The updated data for the website.</param>
+    /// <returns>No content.</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Put(int id, [FromForm] WebsiteCreationDTO websiteCreationDto)
     {
@@ -84,6 +110,12 @@ public class WebsiteController: ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Deletes a website.
+    /// </summary>
+    /// <param name="id">The ID of the website to delete.</param>
+    /// <returns>No content.</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
@@ -99,6 +131,4 @@ public class WebsiteController: ControllerBase
         fileStorageService.DeleteFile(website.Picture, containerName);
         return NoContent();
     }
-    
-    
 }

@@ -26,7 +26,13 @@ public class ActorsController : ControllerBase
         this.fileStorageService = fileStorageService;
     }
 
-
+    /// <summary>
+    /// Retrieves a paginated list of actors.
+    /// </summary>
+    /// <param name="paginationDto">Pagination information.</param>
+    /// <returns>A paginated list of actor DTOs.</returns>
+    /// <response code="200">Returns a paginated list of actor DTOs.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ActorDTO>))]
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery] PaginationDTO paginationDto)
@@ -37,6 +43,12 @@ public class ActorsController : ControllerBase
         return mapper.Map<List<ActorDTO>>(actors);
     }
 
+    /// <summary>
+    /// Retrieves typeahead suggestions for actors.
+    /// </summary>
+    /// <returns>A list of typeahead DTOs for actors.</returns>
+    /// <response code="200">Returns a list of typeahead DTOs for actors.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ActorsTypeaheadDTO>))]
     [HttpGet("typeahead")]
     [AllowAnonymous]
     public async Task<ActionResult<List<ActorsTypeaheadDTO>>> GetTypeahead()
@@ -65,7 +77,15 @@ public class ActorsController : ControllerBase
         return typeaheadList;
     }
 
-
+    /// <summary>
+    /// Retrieves an actor by ID.
+    /// </summary>
+    /// <param name="id">The ID of the actor.</param>
+    /// <returns>The actor DTO with the specified ID.</returns>
+    /// <response code="200">Returns the actor DTO with the specified ID.</response>
+    /// <response code="404">If the actor with the specified ID is not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActorDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id:int}")]
     [AllowAnonymous]
     public async Task<ActionResult<ActorDTO>> Get(int id)
@@ -80,6 +100,12 @@ public class ActorsController : ControllerBase
         return mapper.Map<ActorDTO>(actor);
     }
 
+    /// <summary>
+    /// Searches for actors by name.
+    /// </summary>
+    /// <param name="query">The search query for actor names.</param>
+    /// <returns>A list of actor movie DTOs matching the search query.</returns>
+    /// <response code="200">Returns a list of actor movie DTOs matching the search query.</response>
     [HttpGet("searchByName/{query}")]
     public async Task<ActionResult<List<ActorsMovieDTO>>> SearchByName(string query)
     {
@@ -96,6 +122,13 @@ public class ActorsController : ControllerBase
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Creates a new actor.
+    /// </summary>
+    /// <param name="actorCreationDto">The data for creating the actor.</param>
+    /// <returns>No content.</returns>
+    /// <response code="204">Indicates that the actor was created successfully.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost]
     public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDto)
     {
@@ -111,6 +144,16 @@ public class ActorsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Updates an existing actor.
+    /// </summary>
+    /// <param name="id">The ID of the actor to update.</param>
+    /// <param name="actorCreationDto">The data for updating the actor.</param>
+    /// <returns>No content.</returns>
+    /// <response code="204">Indicates that the actor was updated successfully.</response>
+    /// <response code="404">If the actor with the specified ID is not found.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Put(int id, [FromForm] ActorCreationDTO actorCreationDto)
     {
@@ -134,6 +177,15 @@ public class ActorsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Deletes an actor.
+    /// </summary>
+    /// <param name="id">The ID of the actor to delete.</param>
+    /// <returns>No content.</returns>
+    /// <response code="204">Indicates that the actor was deleted successfully.</response>
+    /// <response code="404">If the actor with the specified ID is not found.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {

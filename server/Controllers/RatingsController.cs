@@ -22,6 +22,13 @@ public class RatingsController : ControllerBase
         this.userManager = userManager;
     }
 
+    /// <summary>
+    /// Creates or updates a rating for a movie.
+    /// </summary>
+    /// <param name="ratingDto">The rating information.</param>
+    /// <returns>A response with no content indicating the rating was successfully created or updated.</returns>
+    /// <response code="204">The rating was successfully created or updated.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult> Post([FromBody] RatingDTO ratingDto)

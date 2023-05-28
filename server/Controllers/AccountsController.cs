@@ -35,9 +35,23 @@ public class AccountsController : ControllerBase
         this.context = context;
         this.mapper = mapper;
     }
-
-    [HttpGet("listUsers")]
+    
+    /// <summary>
+    /// Retrieves a list of users with pagination.
+    /// </summary>
+    /// <remarks>
+    /// This endpoint requires the user to be authenticated with the 'IsAdmin' role.
+    /// </remarks>
+    /// <param name="paginationDto">Pagination information.</param>
+    /// <returns>A list of user DTOs.</returns>
+    /// <response code="200">Returns the list of users.</response>
+    /// <response code="401">If the user is not authenticated.</response>
+    /// <response code="403">If the user is not authorized.</response>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserDTO>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [HttpGet("listUsers")]
     public async Task<ActionResult<List<UserDTO>>> GetListUsers([FromQuery] PaginationDTO paginationDto)
     {
         var queryable = context.Users.AsQueryable();
@@ -46,6 +60,15 @@ public class AccountsController : ControllerBase
         return mapper.Map<List<UserDTO>>(users);
     }
 
+    /// <summary>
+    /// Retrieves a user by email.
+    /// </summary>
+    /// <param name="email">The email of the user to retrieve.</param>
+    /// <returns>The user details.</returns>
+    /// <response code="200">Returns the user details.</response>
+    /// <response code="404">If the user is not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDetailsDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("getByEmail")]
     public async Task<ActionResult<UserDetailsDTO>> GetByEmail([FromQuery] string email)
     {
@@ -70,6 +93,12 @@ public class AccountsController : ControllerBase
         return userDetailsDto;
     }
 
+    /// <summary>
+    /// Retrieves a list of admin emails.
+    /// </summary>
+    /// <returns>A list of admin emails.</returns>
+    /// <response code="200">Returns the list of admin emails.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
     [HttpGet("getAdmins")]
     public async Task<ActionResult<List<string>>> GetAdmins()
     {
@@ -83,6 +112,21 @@ public class AccountsController : ControllerBase
         return adminEmails;
     }
 
+    /// <summary>
+    /// Makes a user an admin.
+    /// </summary>
+    /// <remarks>
+    /// This endpoint requires the user to be authenticated with the 'IsAdmin' role.
+    /// </remarks>
+    /// <param name="userId">The ID of the user to make admin.</param>
+    /// <returns>No content.</returns>
+    /// <response code="204">Indicates success.</response>
+    /// <response code="401">If the user is not authenticated.</response>
+    /// <response code="403">If the user is not authorized.</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpPost("makeAdmin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public async Task<ActionResult> MakeAdmin([FromBody] string userId)
@@ -92,6 +136,21 @@ public class AccountsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Removes admin role from a user.
+    /// </summary>
+    /// <remarks>
+    /// This endpoint requires the user to be authenticated with the 'IsAdmin' role.
+    /// </remarks>
+    /// <param name="userId">The ID of the user to remove admin role from.</param>
+    /// <returns>No content.</returns>
+    /// <response code="204">Indicates success.</response>
+    /// <response code="401">If the user is not authenticated.</response>
+    /// <response code="403">If the user is not authorized.</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpPost("removeAdmin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public async Task<ActionResult> RemoveAdmin([FromBody] string userId)
@@ -101,6 +160,15 @@ public class AccountsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Creates a new user.
+    /// </summary>
+    /// <param name="userCreation">User creation information.</param>
+    /// <returns>An authentication response.</returns>
+    /// <response code="200">Returns an authentication response with a token.</response>
+    /// <response code="400">If the user creation fails.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("create")]
     public async Task<ActionResult<AuthenticationResponse>> Create(
         [FromBody] UserCreation userCreation)
@@ -136,6 +204,15 @@ public class AccountsController : ControllerBase
         }
     }
     
+    /// <summary>
+    /// Edits user details.
+    /// </summary>
+    /// <param name="userEditDto">The user details to edit.</param>
+    /// <returns>An action result indicating the success of the operation.</returns>
+    /// <response code="200">Indicates that the user details were edited successfully.</response>
+    /// <response code="404">If the user is not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost("editUser")]
     public async Task<ActionResult> EditUser([FromBody] UserEditDTO userEditDto)
     {
@@ -157,6 +234,15 @@ public class AccountsController : ControllerBase
         return Ok("User details edited successfully");
     }
 
+    /// <summary>
+    /// Authenticates a user and generates a token.
+    /// </summary>
+    /// <param name="userCredentials">User credentials.</param>
+    /// <returns>An authentication response with a token.</returns>
+    /// <response code="200">Returns an authentication response with a token if the login is successful.</response>
+    /// <response code="400">If the login fails.</response>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("login")]
     public async Task<ActionResult<AuthenticationResponse>> Login(
         [FromBody] UserCredentials userCredentials)
@@ -174,6 +260,17 @@ public class AccountsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Changes the password for a user.
+    /// </summary>
+    /// <param name="changePasswordDto">The change password information.</param>
+    /// <returns>An action result indicating the success of the operation.</returns>
+    /// <response code="200">Indicates that the password was changed successfully.</response>
+    /// <response code="400">If the old password is incorrect or the change password operation fails.</response>
+    /// <response code="404">If the user is not found.</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("changePassword")]
     public async Task<ActionResult> ChangePassword([FromBody] changePasswordDTO changePasswordDto)
     {

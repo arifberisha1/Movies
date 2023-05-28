@@ -31,6 +31,12 @@ namespace server.Controllers
             this.UserManager = userManager;
         }
 
+        /// <summary>
+        /// Retrieves the landing page data.
+        /// </summary>
+        /// <returns>The landing page data.</returns>
+        /// <response code="200">The landing page data was retrieved successfully.</response>
+        [ProducesResponseType(typeof(LandingPageDTO), StatusCodes.Status200OK)]
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<LandingPageDTO>> Get()
@@ -56,6 +62,12 @@ namespace server.Controllers
             return landingPageDTO;
         }
 
+        /// <summary>
+        /// Retrieves typeahead movie suggestions.
+        /// </summary>
+        /// <returns>The list of typeahead movie suggestions.</returns>
+        /// <response code="200">The typeahead movie suggestions were retrieved successfully.</response>
+        [ProducesResponseType(typeof(List<MoviesTypeaheadDTO>), StatusCodes.Status200OK)]
         [HttpGet("typeahead")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MoviesTypeaheadDTO>>> GetTypeahead()
@@ -84,6 +96,12 @@ namespace server.Controllers
             return typeaheadList;
         }
         
+        /// <summary>
+        /// Retrieves the top-rated movies.
+        /// </summary>
+        /// <returns>The list of top-rated movies.</returns>
+        /// <response code="200">The top-rated movies were retrieved successfully.</response>
+        [ProducesResponseType(typeof(List<MovieDTO>), StatusCodes.Status200OK)]
         [HttpGet("topRated")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> GetTopRatedMovies()
@@ -113,6 +131,15 @@ namespace server.Controllers
             return dtos;
         }
         
+        /// <summary>
+        /// Retrieves the movies associated with a specific actor.
+        /// </summary>
+        /// <param name="id">The ID of the actor.</param>
+        /// <returns>The list of movies associated with the actor.</returns>
+        /// <response code="200">The movies associated with the actor were retrieved successfully.</response>
+        /// <response code="204">There are no movies associated with the actor.</response>
+        [ProducesResponseType(typeof(List<MovieDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet("getActorMovies/{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> GetMoviesByActor(int id)
@@ -130,6 +157,15 @@ namespace server.Controllers
             return movieDTOs;
         }
         
+        /// <summary>
+        /// Retrieves a movie by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the movie.</param>
+        /// <returns>The movie with the specified ID.</returns>
+        /// <response code="200">The movie was retrieved successfully.</response>
+        /// <response code="404">The movie with the specified ID was not found.</response>
+        [ProducesResponseType(typeof(MovieDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<MovieDTO>> Get(int id)
@@ -176,6 +212,13 @@ namespace server.Controllers
             return dto;
         }
 
+        /// <summary>
+        /// Retrieves all movies with pagination.
+        /// </summary>
+        /// <param name="paginationDto">Pagination parameters.</param>
+        /// <returns>A paginated list of movies.</returns>
+        /// <response code="200">The movies were retrieved successfully.</response>
+        [ProducesResponseType(typeof(List<MovieDTO>), StatusCodes.Status200OK)]
         [HttpGet("all")]
         public async Task<ActionResult<List<MovieDTO>>> GetAll([FromQuery] PaginationDTO paginationDto)
         {
@@ -185,6 +228,13 @@ namespace server.Controllers
             return mapper.Map<List<MovieDTO>>(movies);
         }
 
+        /// <summary>
+        /// Filters movies based on the specified criteria.
+        /// </summary>
+        /// <param name="filterMoviesDto">Filter criteria.</param>
+        /// <returns>A paginated list of filtered movies.</returns>
+        /// <response code="200">The movies were filtered successfully.</response>
+        [ProducesResponseType(typeof(List<MovieDTO>), StatusCodes.Status200OK)]
         [HttpGet("filter")]
         [AllowAnonymous]
         public async Task<ActionResult<List<MovieDTO>>> Filter([FromQuery] FilterMoviesDTO filterMoviesDto)
@@ -227,6 +277,12 @@ namespace server.Controllers
             return mapper.Map<List<MovieDTO>>(movies);
         }
 
+        /// <summary>
+        /// Retrieves the data required for creating a movie.
+        /// </summary>
+        /// <returns>Data for movie creation.</returns>
+        /// <response code="200">The data was retrieved successfully.</response>
+        [ProducesResponseType(typeof(MoviePostGetDTO), StatusCodes.Status200OK)]
         [HttpGet("PostGet")]
         public async Task<ActionResult<MoviePostGetDTO>> PostGet()
         {
@@ -239,6 +295,15 @@ namespace server.Controllers
             return new MoviePostGetDTO() { Genres = genresDTO, MovieTheaters = movieTheatersDTO };
         }
 
+        /// <summary>
+        /// Creates a new movie.
+        /// </summary>
+        /// <param name="movieCreationDTO">The data for creating the movie.</param>
+        /// <returns>The ID of the created movie.</returns>
+        /// <response code="200">The movie was created successfully.</response>
+        /// <response code="400">Invalid data provided.</response>
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromForm] MovieCreationDTO movieCreationDTO)
         {
@@ -255,6 +320,15 @@ namespace server.Controllers
             return movie.Id;
         }
 
+        /// <summary>
+        /// Retrieves the data necessary for updating a movie.
+        /// </summary>
+        /// <param name="id">The ID of the movie.</param>
+        /// <returns>The movie data along with additional information for updating.</returns>
+        /// <response code="200">The movie data and additional information were retrieved successfully.</response>
+        /// <response code="404">The movie with the specified ID was not found.</response>
+        [ProducesResponseType(typeof(MoviePutGetDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("putget/{id:int}")]
         public async Task<ActionResult<MoviePutGetDTO>> PutGet(int id)
         {
@@ -287,6 +361,16 @@ namespace server.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Updates the details of a movie.
+        /// </summary>
+        /// <param name="id">The ID of the movie to update.</param>
+        /// <param name="movieCreationDto">The updated movie data.</param>
+        /// <returns>No content if the movie was successfully updated.</returns>
+        /// <response code="204">The movie was successfully updated.</response>
+        /// <response code="404">The movie with the specified ID was not found.</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromForm] MovieCreationDTO movieCreationDto)
         {
@@ -324,6 +408,15 @@ namespace server.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a movie and its associated comments.
+        /// </summary>
+        /// <param name="id">The ID of the movie to delete.</param>
+        /// <returns>No content if the movie was successfully deleted.</returns>
+        /// <response code="204">The movie and its associated comments were successfully deleted.</response>
+        /// <response code="404">The movie with the specified ID was not found.</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -332,6 +425,16 @@ namespace server.Controllers
             if (movie == null)
             {
                 return NotFound();
+            }
+            
+            var comments = await context.Comment.Where(x => x.MovieId == id).ToListAsync();
+
+            if (comments != null)
+            {
+                foreach (var comment in comments)
+                {
+                    context.Remove(comment);
+                }
             }
 
             context.Remove(movie);
