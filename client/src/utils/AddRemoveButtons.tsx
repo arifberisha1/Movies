@@ -19,9 +19,15 @@ export default function AddRemoveButtons(props: addRemoveButtonsProps) {
     return (
         <>
             {!option ?
-                <Button className={`btn btn-success ${props.class}`} onClick={() => props.addButton()}>{props.addButtonText}</Button> :
+                <Button className={`btn btn-success ${props.class}`} onClick={() => {
+                    props.addButton();
+                    setOption(!option);
+                }}>{props.addButtonText}</Button> :
                 <Button className={`btn btn-danger ${props.class}`}
-                        onClick={() => props.removeButton()}>{props.removeButtonText}</Button>}
+                        onClick={() => {
+                            props.removeButton();
+                            setOption(!option);
+                        }}>{props.removeButtonText}</Button>}
         </>
     );
 }
