@@ -1,17 +1,15 @@
-import IndexEntity from "../utils/IndexEntity";
-import {actorDTO, typeaheadActors} from "./actors.model";
-import {urlActors} from "../endpoints";
 import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
-import {Typeahead} from "react-bootstrap-typeahead";
-import {Link, useNavigate} from "react-router-dom";
+import IndexEntity from "../utils/IndexEntity";
+import {websiteDTO} from "./website.model";
+import {urlWebsite} from "../endpoints";
 import axios, {AxiosResponse} from "axios";
+import {Typeahead} from "react-bootstrap-typeahead";
 
-export default function IndexActors() {
+export default function IndexWebsites() {
 
     const {claims} = useContext(AuthenticationContext);
-    const navigate = useNavigate();
-    const [taActors, setTaActors] = useState<typeaheadActors[]>([]);
+    const [taWebsites, setTaWensites] = useState<websiteDTO[]>([]);
 
     useEffect(() => {
         getTypeaheadData();
@@ -19,10 +17,10 @@ export default function IndexActors() {
 
     async function getTypeaheadData() {
         try {
-            const response: AxiosResponse<typeaheadActors[]> = await axios.get(`${urlActors}/typeahead`);
-            setTaActors(response.data);
-        } catch (error) {
-            console.error(error);
+            const response: AxiosResponse<websiteDTO[]> = await axios.get(`${urlWebsite}`);
+            setTaWensites(response.data);
+        } catch (error){
+            console.log(error);
         }
     }
 
@@ -38,8 +36,7 @@ export default function IndexActors() {
 
     return (
         <>
-
-            <h3>Actors</h3>
+            <h3>Websites</h3>
 
             <Typeahead
                 id="selections-example"
@@ -47,19 +44,19 @@ export default function IndexActors() {
                 onInputChange={(text: string, e: ChangeEvent<HTMLInputElement>) => {
                     console.log(text, e);
                 }}
-                options={taActors}
-                placeholder="Search actors..."
+                options={taWebsites}
+                placeholder={"Search websites..."}
                 onChange={(selected: any[]) => {
-                    const clickedActor = selected[0];
-                    if (clickedActor) {
-                        navigate(`/actors/details/${clickedActor.id}`);
+                    const clickedWebsite = selected[0];
+                    if (clickedWebsite){
+                        window.open(clickedWebsite.link, '_blank');
                     }
                 }}
-                renderMenuItemChildren={actor => (
+                renderMenuItemChildren={website => (
                     <>
                         <img src={
                             // @ts-ignore
-                            actor.picture} alt="actor"
+                            website.picture} alt="website"
                              style={{
                                  height: '64px',
                                  marginRight: '10px',
@@ -67,36 +64,40 @@ export default function IndexActors() {
                              }}/>
                         <span>{
                             // @ts-ignore
-                            actor.name}</span>
+                            website.name}</span>
                     </>
                 )}
             />
-            <IndexEntity<actorDTO>
-                url={urlActors}
-                createURL={isAdmin() ? '/actors/create' : ''}
+
+            <IndexEntity<websiteDTO>
+                url={urlWebsite}
+                createURL={isAdmin() ? '/websites/create' : ''}
                 title={""}
-                entityName={"Actor"}>
-                {(actors, buttons) =>
+                entityName={"Website"}>
+                {(websites, buttons) =>
                     <>
                         <thead>
                         <tr>
-                            <th></th>
-                            <th>Name</th>
                             <th>Image</th>
+                            <th>Name</th>
+                            <th>Link</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {actors?.map(actor => <tr key={actor.id}>
+                        {websites?.map(website => <tr key={website.id}>
                             <td>
-                                {isAdmin() ? buttons(`/actors/edit/${actor.id}`, actor.id) : null}
-                                <Link to={`/actors/details/${actor.id}`} className={"btn btn-dark ms-3"}>More</Link>
-                            </td>
-                            <td>
-                                {actor.name}
-                            </td>
-                            <td>
-                                <img src={actor.picture} alt={actor.name}
+                                <img src={website.picture} alt={website.name}
                                      className={"img-actor"}/>
+                            </td>
+                            <td>
+                                {website.name}
+                            </td>
+                            <td>
+                                <a href={website.link} target={"_blank"}>Visit</a>
+                            </td>
+                            <td>
+                                {isAdmin() ? buttons(`/websites/edit/${website.id}`, website.id) : null}
                             </td>
                         </tr>)}
                         </tbody>

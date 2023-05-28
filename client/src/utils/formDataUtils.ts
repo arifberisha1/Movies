@@ -1,5 +1,6 @@
 import {actorCreationDTO} from "../actors/actors.model";
 import {movieCreationDTO} from "../movies/movies.model";
+import {websiteCreationDTO} from "../Websites/website.model";
 
 export function convertActorToFormData(actor: actorCreationDTO): FormData {
     const formData = new FormData();
@@ -16,6 +17,19 @@ export function convertActorToFormData(actor: actorCreationDTO): FormData {
 
     if (actor.picture) {
         formData.append('picture', actor.picture);
+    }
+
+    return formData;
+}
+
+export function convertWebsiteToFormData(website: websiteCreationDTO): FormData {
+    const formData = new FormData();
+
+    formData.append('name', website.name);
+    formData.append('link', website.link);
+
+    if (website.picture) {
+        formData.append('picture', website.picture);
     }
 
     return formData;
