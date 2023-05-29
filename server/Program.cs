@@ -104,6 +104,7 @@ using (var scope = app.Services.CreateScope())
     AdminSeedData.InitializeAdminUser(scope.ServiceProvider).GetAwaiter().GetResult();
     ActorsSeedData.InitializeActors(scope.ServiceProvider).GetAwaiter().GetResult();
     GenresSeedData.InitializeGenres(scope.ServiceProvider).GetAwaiter().GetResult();
+    WebsitesSeedData.InitializeWebsites(scope.ServiceProvider).GetAwaiter().GetResult();
 }
 
 // Configure the HTTP request pipeline.
