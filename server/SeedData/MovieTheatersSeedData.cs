@@ -17,13 +17,13 @@ public class MovieTheatersSeedData
             movieThaterList.Add(new MovieTheater
             {
                 Name = "Cineplexx",
-                Location = new Point(42.632798, 21.151874) { SRID = 4326 },
+                Location = new Point(21.151874, 42.632798) { SRID = 4326 },
                 Link = "https://www.cineplexx-ks.eu/"
             });
             movieThaterList.Add(new MovieTheater
             {
                 Name = "CineStart",
-                Location = new Point(42.564453, 21.133257) { SRID = 4326 },
+                Location = new Point(21.133257, 42.564453) { SRID = 4326 },
                 Link = "https://www.cinestarcinemas-ks.eu/"
             });
 
