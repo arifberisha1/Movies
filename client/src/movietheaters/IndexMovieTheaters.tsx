@@ -26,7 +26,7 @@ export default function IndexMovieTheaters() {
                         {entity.name}
                     </td>
                     <td>
-                        {entity.link}
+                        <a href={entity.link} target={"_blank"}>{entity.link}</a>
                     </td>
                 </tr>)}
                 </tbody>

@@ -14,6 +14,7 @@ using server.APIBehavior;
 using server.Filters;
 using server.Helpers;
 using Microsoft.OpenApi.Models;
+using server.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +97,17 @@ builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    AdminSeedData.InitializeAdminUser(scope.ServiceProvider).GetAwaiter().GetResult();
+    ActorsSeedData.InitializeActors(scope.ServiceProvider).GetAwaiter().GetResult();
+    GenresSeedData.InitializeGenres(scope.ServiceProvider).GetAwaiter().GetResult();
+    WebsitesSeedData.InitializeWebsites(scope.ServiceProvider).GetAwaiter().GetResult();
+    MovieTheatersSeedData.InitializeMovieTheaters(scope.ServiceProvider).GetAwaiter().GetResult();
+    MoviesSeedData.InitializeMovies(scope.ServiceProvider).GetAwaiter().GetResult();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -91,6 +91,7 @@ In order for the project to run, these steps must be followed:
 
 ## Usage 
 
-- Once you have completed the installation steps, you can access the web application by opening your browser and navigating to http://localhost:3000.
-
 - The backend API endpoints are accessible at http://localhost:5156/api, and you can explore and test the available routes using SwaggerUI at http://localhost:5156/swagger/index.html.
+
+- Once you have completed the installation steps, you can access the web application by opening your browser and navigating to http://localhost:3000.
+- There is a admin user already created, you can login using these credentials: email: **admin@admin.com** password: **Admin123.** and manage the data within the application.

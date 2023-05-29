@@ -15,6 +15,12 @@ public class InAppStorageService: IFileStorageService
         this.httpContextAccessor = httpContextAccessor;
     }
     
+    public async Task<string> EditFile(string containerName, IFormFile file, string fileRoute)
+    {
+        await DeleteFile(fileRoute, containerName);
+        return await SaveFile(containerName, file);
+    }
+    
     public Task DeleteFile(string fileRoute, string containerName)
     {
         if (string.IsNullOrEmpty(fileRoute))
@@ -31,12 +37,6 @@ public class InAppStorageService: IFileStorageService
         }
 
         return Task.CompletedTask;
-    }
-
-    public async Task<string> EditFile(string containerName, IFormFile file, string fileRoute)
-    {
-        await DeleteFile(fileRoute, containerName);
-        return await SaveFile(containerName, file);
     }
 
     public async Task<string> SaveFile(string containerName, IFormFile file)
