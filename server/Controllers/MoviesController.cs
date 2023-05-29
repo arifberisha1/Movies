@@ -372,6 +372,7 @@ namespace server.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult> Put(int id, [FromForm] MovieCreationDTO movieCreationDto)
         {
             var movie = await context.Movies.Include(x => x.MoviesActors)
@@ -386,11 +387,20 @@ namespace server.Controllers
 
             movie = mapper.Map(movieCreationDto, movie);
 
-            if (movieCreationDto.Poster != null)
+
+            try
             {
-                movie.Poster = await fileStorageService.EditFile(container, movieCreationDto.Poster,
-                    movie.Poster);
+                if (movieCreationDto.Poster != null)
+                {
+                    movie.Poster = await fileStorageService.EditFile(container, movieCreationDto.Poster,
+                        movie.Poster);
+                }
             }
+            catch (Exception e)
+            {
+                return BadRequest("Poster could not be saved!");
+            }
+            
 
             AnnotateActorsOrder(movie);
             await context.SaveChangesAsync();
