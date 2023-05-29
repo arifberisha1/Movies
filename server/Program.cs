@@ -102,6 +102,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     AdminSeedData.InitializeAdminUser(scope.ServiceProvider).GetAwaiter().GetResult();
+    ActorsSeedData.InitializeActors(scope.ServiceProvider).GetAwaiter().GetResult();
 }
 
 // Configure the HTTP request pipeline.
