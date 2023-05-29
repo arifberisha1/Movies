@@ -106,6 +106,7 @@ using (var scope = app.Services.CreateScope())
     GenresSeedData.InitializeGenres(scope.ServiceProvider).GetAwaiter().GetResult();
     WebsitesSeedData.InitializeWebsites(scope.ServiceProvider).GetAwaiter().GetResult();
     MovieTheatersSeedData.InitializeMovieTheaters(scope.ServiceProvider).GetAwaiter().GetResult();
+    MoviesSeedData.InitializeMovies(scope.ServiceProvider).GetAwaiter().GetResult();
 }
 
 // Configure the HTTP request pipeline.
