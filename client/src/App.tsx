@@ -32,16 +32,18 @@ function App() {
     }
 
     return (
-        <>
+        <div className={"body"}>
             <BrowserRouter>
                 <AuthenticationContext.Provider value={{claims, update: setClaims}}>
                     <Menu/>
                     <div className={'container'}>
                         <Routing isAdmin={isAdmin()}/>
                     </div>
+                    <br/>
+                    <br/>
                     <link rel="stylesheet"
                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-                    <footer className="bd-footer py-5 mt-5 bg-light">
+                    <footer className="bd-footer py-5 mt-auto bg-light">
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-6 col-lg-4 mb-4 mb-lg-0">
@@ -82,7 +84,7 @@ function App() {
                     </footer>
                 </AuthenticationContext.Provider>
             </BrowserRouter>
-        </>
+        </div>
     );
 }
 
