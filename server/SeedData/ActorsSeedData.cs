@@ -51,7 +51,7 @@ public class ActorsSeedData
                     DateOfBirth = new DateTime(1979, 8, 1),
                     Biography =
                         "Joseph Jason Namakaeha Momoa is an American actor. He made his acting debut as Jason Ioane on the syndicated action drama series Baywatch: Hawaii, which was followed by portrayals of Ronon Dex on the ... [More](https://en.wikipedia.org/wiki/Jason_Momoa)",
-                    Picture = "http://localhost:5156/actors/f246d798-f47a-412a-828f-2a59ed9a6464.jpeg"
+                    Picture = "http://localhost:5156/actors/2931bc25-2cc3-4bb4-9e17-32b9aa4ffa34.jpg"
                 },
                 new Actor
                 {
