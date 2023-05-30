@@ -80,12 +80,22 @@ public class GenreController : ControllerBase
     /// </summary>
     /// <param name="genreCreationDTO">The data for the new genre.</param>
     /// <returns>A response indicating the result of the operation.</returns>
+    /// <response code="400">The genre already exists in the database.</response>
     /// <response code="204">The genre was created successfully.</response>
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] GenreCreationDTO genreCreationDTO)
     {
         var genre = mapper.Map<Genre>(genreCreationDTO);
+
+        var exist = await context.Genres.FirstOrDefaultAsync(x => x.Name == genre.Name);
+
+        if (exist != null)
+        {
+            return BadRequest("Genre already exists!");
+        }
+        
         context.Add(genre);
         await context.SaveChangesAsync();
         return NoContent();

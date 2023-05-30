@@ -11,28 +11,33 @@ public class GenresSeedData
         {
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            var genreList = new List<Genre>();
-            
-            genreList.Add(new Genre {Name = "Action" });
-            genreList.Add(new Genre {Name = "Comedy" });
-            genreList.Add(new Genre {Name = "Adventure" });
-            genreList.Add(new Genre {Name = "Fantasy" });
-            genreList.Add(new Genre {Name = "Drama" });
-            genreList.Add(new Genre {Name = "Romance" });
-            genreList.Add(new Genre {Name = "Animation" });
-            genreList.Add(new Genre {Name = "Sci-Fi" });
+            var hasgenres = await context.Genres.ToListAsync();
 
-            foreach (var genre in genreList)
+            if (hasgenres.Count == 0)
             {
-                var exist = await context.Genres.FirstOrDefaultAsync(x => x.Name == genre.Name);
+                var genreList = new List<Genre>();
 
-                if (exist == null)
+                genreList.Add(new Genre { Name = "Action" });
+                genreList.Add(new Genre { Name = "Comedy" });
+                genreList.Add(new Genre { Name = "Adventure" });
+                genreList.Add(new Genre { Name = "Fantasy" });
+                genreList.Add(new Genre { Name = "Drama" });
+                genreList.Add(new Genre { Name = "Romance" });
+                genreList.Add(new Genre { Name = "Animation" });
+                genreList.Add(new Genre { Name = "Sci-Fi" });
+
+                foreach (var genre in genreList)
                 {
-                    context.Genres.Add(genre);
-                }
-            }
+                    var exist = await context.Genres.FirstOrDefaultAsync(x => x.Name == genre.Name);
 
-            await context.SaveChangesAsync();
+                    if (exist == null)
+                    {
+                        context.Genres.Add(genre);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

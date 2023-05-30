@@ -8,12 +8,16 @@ namespace server.SeedData;
 public class AdminSeedData
 {
     public static async Task InitializeAdminUser(IServiceProvider serviceProvider)
+    {
+        using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
-            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+            var hasUser = await context.Users.ToListAsync();
+
+            if (hasUser.Count == 0)
+            {
                 var adminEmail = "admin@admin.com";
                 var adminExists = await userManager.FindByEmailAsync(adminEmail);
                 if (adminExists == null)
@@ -54,4 +58,5 @@ public class AdminSeedData
                 }
             }
         }
+    }
 }

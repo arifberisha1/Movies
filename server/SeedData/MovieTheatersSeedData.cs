@@ -12,32 +12,37 @@ public class MovieTheatersSeedData
         {
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            var movieThaterList = new List<MovieTheater>();
-            
-            movieThaterList.Add(new MovieTheater
-            {
-                Name = "Cineplexx",
-                Location = new Point(21.151874, 42.632798) { SRID = 4326 },
-                Link = "https://www.cineplexx-ks.eu/"
-            });
-            movieThaterList.Add(new MovieTheater
-            {
-                Name = "CineStart",
-                Location = new Point(21.133257, 42.564453) { SRID = 4326 },
-                Link = "https://www.cinestarcinemas-ks.eu/"
-            });
+            var hasMovieTheaters = await context.MovieTheaters.ToListAsync();
 
-            foreach (var movieTheater in movieThaterList)
+            if (hasMovieTheaters.Count == 0)
             {
-                var exist = await context.MovieTheaters.FirstOrDefaultAsync(x => x.Name == movieTheater.Name);
+                var movieThaterList = new List<MovieTheater>();
 
-                if (exist == null)
+                movieThaterList.Add(new MovieTheater
                 {
-                    context.MovieTheaters.Add(movieTheater);
-                }
-            }
+                    Name = "Cineplexx",
+                    Location = new Point(21.151874, 42.632798) { SRID = 4326 },
+                    Link = "https://www.cineplexx-ks.eu/"
+                });
+                movieThaterList.Add(new MovieTheater
+                {
+                    Name = "CineStart",
+                    Location = new Point(21.133257, 42.564453) { SRID = 4326 },
+                    Link = "https://www.cinestarcinemas-ks.eu/"
+                });
 
-            await context.SaveChangesAsync();
+                foreach (var movieTheater in movieThaterList)
+                {
+                    var exist = await context.MovieTheaters.FirstOrDefaultAsync(x => x.Name == movieTheater.Name);
+
+                    if (exist == null)
+                    {
+                        context.MovieTheaters.Add(movieTheater);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
