@@ -39,6 +39,7 @@ export default function IndexWebsites() {
             <h3>Websites</h3>
 
             <Typeahead
+                className={"typeahead"}
                 id="selections-example"
                 labelKey="name"
                 onInputChange={(text: string, e: ChangeEvent<HTMLInputElement>) => {

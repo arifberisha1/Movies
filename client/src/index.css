@@ -123,6 +123,11 @@ form > a {
     width: 1230px;
 }
 
+.typeahead div::-webkit-scrollbar{
+    width: 0;
+    background-color: transparent;
+}
+
 .comment-container{
     background-color: #e3e3e3;
     padding: 15px 20px 15px 20px;

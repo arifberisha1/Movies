@@ -42,6 +42,7 @@ export default function IndexActors() {
             <h3>Actors</h3>
 
             <Typeahead
+                className={"typeahead"}
                 id="selections-example"
                 labelKey="name"
                 onInputChange={(text: string, e: ChangeEvent<HTMLInputElement>) => {

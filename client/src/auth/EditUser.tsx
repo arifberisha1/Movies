@@ -14,14 +14,31 @@ export default function EditUser() {
     const {claims} = useContext(AuthenticationContext);
     const [erros, setErrors] = useState<string[]>([]);
     const [email, setEmail] = useState<string>("");
+    const [data, setData] = useState<editUser>();
     const navigate = useNavigate();
     useEffect(() => {
         claims.map(claim => {
             if (claim.name === 'email') {
                 setEmail(claim.value);
+                getData(claim.value);
             }
         })
     }, [claims]);
+
+    async function getData(e: string){
+        const response: AxiosResponse<individualUserDetails> = await axios.get(`${urlAccounts}/getByEmail`, {
+            params: {email: e}
+        });
+        const model:editUser = {
+            name: response.data.name,
+            surname: response.data.surname,
+            birthday: new Date(response.data.birthday),
+            gender: response.data.gender,
+            address: response.data.address
+        };
+
+        setData(model);
+    }
 
     async function edit(editUser: editUser) {
         const data: individualUserDetails = {
@@ -59,15 +76,11 @@ export default function EditUser() {
 
                     <h3>Edit User</h3>
                     <DisplayErrors errors={erros}/>
+                    {data ?
                     <EditUserForm
-                        model={{
-                            name: '',
-                            surname: '',
-                            birthday: new Date(''),
-                            gender: '',
-                            address: '',
-                        }}
+                        model={data}
                         onSubmit={async values => await edit(values)}/>
+                        : null}
 
                 </> :
                 <LandingPage/>}
