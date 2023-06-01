@@ -2,14 +2,29 @@ import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
 import IndexEntity from "../utils/IndexEntity";
 import {websiteDTO} from "./website.model";
-import {urlWebsite} from "../endpoints";
+import {urlServer, urlWebsite} from "../endpoints";
 import axios, {AxiosResponse} from "axios";
 import {Typeahead} from "react-bootstrap-typeahead";
+import {useNavigate} from "react-router-dom";
 
 export default function IndexWebsites() {
 
     const {claims} = useContext(AuthenticationContext);
     const [taWebsites, setTaWensites] = useState<websiteDTO[]>([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         getTypeaheadData();
@@ -39,6 +54,7 @@ export default function IndexWebsites() {
             <h3>Websites</h3>
 
             <Typeahead
+                className={"typeahead"}
                 id="selections-example"
                 labelKey="name"
                 onInputChange={(text: string, e: ChangeEvent<HTMLInputElement>) => {

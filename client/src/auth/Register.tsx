@@ -1,7 +1,7 @@
 import {authenticationResponse, userCreationDTO, userDetails} from "./auth.models";
 import axios from "axios";
-import {urlAccounts} from "../endpoints";
-import React, {useContext, useState} from "react";
+import {urlAccounts, urlServer} from "../endpoints";
+import React, {useContext, useEffect, useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 import AuthFormRegister from "./AuthFormRegister";
 import {getClaims, saveToken} from "./handleJWT";
@@ -14,6 +14,18 @@ export default function Register() {
     const [errors, setErrors] = useState<string[]>([]);
     const {update} = useContext(AuthenticationContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     async function register(details: userDetails) {
         if (details.password === details.confirmPassword) {

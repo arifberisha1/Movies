@@ -4,7 +4,7 @@ import LandingPage from "../movies/LandingPage";
 import EditUserForm from "./EditUserForm";
 import {editUser, individualUserDetails} from "./auth.models";
 import axios, {AxiosResponse} from "axios";
-import {urlAccounts} from "../endpoints";
+import {urlAccounts, urlServer} from "../endpoints";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
 import DisplayErrors from "../utils/DisplayErrors";
@@ -14,14 +14,44 @@ export default function EditUser() {
     const {claims} = useContext(AuthenticationContext);
     const [erros, setErrors] = useState<string[]>([]);
     const [email, setEmail] = useState<string>("");
+    const [data, setData] = useState<editUser>();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
+
     useEffect(() => {
         claims.map(claim => {
             if (claim.name === 'email') {
                 setEmail(claim.value);
+                getData(claim.value);
             }
         })
     }, [claims]);
+
+    async function getData(e: string){
+        const response: AxiosResponse<individualUserDetails> = await axios.get(`${urlAccounts}/getByEmail`, {
+            params: {email: e}
+        });
+        const model:editUser = {
+            name: response.data.name,
+            surname: response.data.surname,
+            birthday: new Date(response.data.birthday),
+            gender: response.data.gender,
+            address: response.data.address
+        };
+
+        setData(model);
+    }
 
     async function edit(editUser: editUser) {
         const data: individualUserDetails = {
@@ -59,15 +89,11 @@ export default function EditUser() {
 
                     <h3>Edit User</h3>
                     <DisplayErrors errors={erros}/>
+                    {data ?
                     <EditUserForm
-                        model={{
-                            name: '',
-                            surname: '',
-                            birthday: new Date(''),
-                            gender: '',
-                            address: '',
-                        }}
+                        model={data}
                         onSubmit={async values => await edit(values)}/>
+                        : null}
 
                 </> :
                 <LandingPage/>}

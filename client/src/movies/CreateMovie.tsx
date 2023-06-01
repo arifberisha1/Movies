@@ -3,7 +3,7 @@ import {genreDTO} from "../genres/genres.model";
 import {movieTheaterCreationDTO, movieTheaterDTO} from "../movietheaters/movieTheater.model";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlMovies} from "../endpoints";
+import {urlMovies, urlServer} from "../endpoints";
 import {movieCreationDTO, moviesPostGetDTO} from "./movies.model";
 import Loading from "../utils/Loading";
 import {convertMovieToFormData} from "../utils/formDataUtils";
@@ -17,6 +17,18 @@ export default function CreateMovie() {
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         axios.get(`${urlMovies}/postget`)

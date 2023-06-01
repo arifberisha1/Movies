@@ -5,7 +5,7 @@ import DisplayErrors from "../utils/DisplayErrors";
 import ChangePasswordForm from "./ChangePasswordForm";
 import {authenticationResponse, changePassword, changePasswordForm} from "./auth.models";
 import axios from "axios";
-import {urlAccounts} from "../endpoints";
+import {urlAccounts, urlServer} from "../endpoints";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
 
@@ -16,6 +16,18 @@ export default function ChangePassword() {
     const [Email, setEmail] = useState<string>("");
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         claims.map(claim => {

@@ -1,8 +1,8 @@
 import AuthFormLogin from "./AuthFormLogin";
 import {authenticationResponse, userCredentials} from "./auth.models";
 import axios from "axios";
-import {urlAccounts} from "../endpoints";
-import {useContext, useState} from "react";
+import {urlAccounts, urlServer} from "../endpoints";
+import {useContext, useEffect, useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 import {getClaims, saveToken} from "./handleJWT";
 import AuthenticationContext from "./AuthenticationContext";
@@ -13,6 +13,18 @@ export default function Login(){
     const [errors, setErrors] = useState<string[]>([]);
     const {update} = useContext(AuthenticationContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     async function login(credentials: userCredentials){
         try {

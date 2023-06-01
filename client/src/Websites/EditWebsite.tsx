@@ -1,10 +1,27 @@
 import {websiteCreationDTO, websiteDTO} from "./website.model";
 import EditEntity from "../utils/EditEntity";
-import {urlWebsite} from "../endpoints";
+import {urlServer, urlWebsite} from "../endpoints";
 import {convertWebsiteToFormData} from "../utils/formDataUtils";
 import WebsiteForm from "./WebsiteForm";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function EditWebsite() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     function transform(website: websiteDTO): websiteCreationDTO{
         return {

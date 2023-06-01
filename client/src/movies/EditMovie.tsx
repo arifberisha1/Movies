@@ -1,7 +1,7 @@
 import MovieForm from "./MovieForm";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlMovies} from "../endpoints";
+import {urlMovies, urlServer} from "../endpoints";
 import {useNavigate, useParams} from "react-router-dom";
 import {movieCreationDTO, moviePutGetDTO} from "./movies.model";
 import {convertMovieToFormData} from "../utils/formDataUtils";
@@ -15,6 +15,18 @@ export default function EditMovie() {
     const [moviePutGet, setMoviePutGet] = useState<moviePutGetDTO>();
     const navigate = useNavigate();
     const [errors, setErrors] = useState<string[]>([]);
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() =>{
         axios.get(`${urlMovies}/PutGet/${id}`)

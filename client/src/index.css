@@ -123,6 +123,11 @@ form > a {
     width: 1230px;
 }
 
+.typeahead div::-webkit-scrollbar{
+    width: 0;
+    background-color: transparent;
+}
+
 .comment-container{
     background-color: #e3e3e3;
     padding: 15px 20px 15px 20px;
@@ -150,4 +155,18 @@ form > a {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0);
     border: none;
+}
+
+.server-error{
+    text-align: center;
+    color: darkgrey;
+    font-size: 70px;
+}
+
+.sad-img{
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

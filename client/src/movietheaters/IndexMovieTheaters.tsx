@@ -1,8 +1,26 @@
 import IndexEntity from "../utils/IndexEntity";
 import {movieTheaterDTO} from "./movieTheater.model";
-import {urlMovieTheaters} from "../endpoints";
+import {urlMovieTheaters, urlServer} from "../endpoints";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function IndexMovieTheaters() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
+
     return (
         <IndexEntity<movieTheaterDTO>
         url={urlMovieTheaters} createURL="/movietheaters/create" title="Movie Theaters"

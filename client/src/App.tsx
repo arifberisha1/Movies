@@ -8,6 +8,8 @@ import AuthenticationContext from "./auth/AuthenticationContext";
 import {getClaims} from "./auth/handleJWT";
 import configureInterceptor from "./utils/httpInterceptors";
 import Routing from "./Routing";
+import axios from "axios";
+import {urlServer} from "./endpoints";
 
 configureValidation();
 configureInterceptor();
@@ -16,29 +18,27 @@ function App() {
 
     const [claims, setClaims] =
         useState<claim[]>([]);
-
     useEffect(() => {
         setClaims(getClaims());
     }, []);
 
-    function isAdmin(){
+    function isAdmin() {
         var admin = false;
         claims.map(claim => {
-            if (claim.name === 'role' && claim.value === 'admin'){
+            if (claim.name === 'role' && claim.value === 'admin') {
                 admin = true;
             }
         });
         return admin;
     }
 
+
     return (
         <div className={"body"}>
             <BrowserRouter>
                 <AuthenticationContext.Provider value={{claims, update: setClaims}}>
-                    <Menu/>
-                    <div className={'container'}>
-                        <Routing isAdmin={isAdmin()}/>
-                    </div>
+                    {/*<Menu/>*/}
+                    <Routing isAdmin={isAdmin()}/>
                     <br/>
                     <br/>
                     <link rel="stylesheet"
@@ -48,7 +48,8 @@ function App() {
                             <div className="row">
                                 <div className="col-md-6 col-lg-4 mb-4 mb-lg-0">
                                     <h3 className="footer-heading">About Us</h3>
-                                    <p>A website dedicated to bringing you the latest news, reviews, trailers, and more
+                                    <p>A website dedicated to bringing you the latest news, reviews, trailers, and
+                                        more
                                         from
                                         the world of movies.</p>
                                 </div>

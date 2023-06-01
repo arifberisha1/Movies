@@ -1,9 +1,9 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {websiteCreationDTO} from "./website.model";
 import {convertWebsiteToFormData} from "../utils/formDataUtils";
 import axios from "axios";
-import {urlWebsite} from "../endpoints";
+import {urlServer, urlWebsite} from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import WebsiteForm from "./WebsiteForm";
 
@@ -11,6 +11,18 @@ export default function CreateWebsite(){
 
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     async function create(website: websiteCreationDTO){
         try {

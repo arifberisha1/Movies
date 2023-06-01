@@ -3,7 +3,7 @@ import LandingPage from "./movies/LandingPage";
 import IndexGenres from "./genres/IndexGenres";
 import CreateGenres from "./genres/CreateGenres";
 import Login from "./auth/Login";
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import IndexActors from "./actors/IndexActors";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import FilterMovies from "./movies/FilterMovies";
@@ -28,71 +28,110 @@ import EditUser from "./auth/EditUser";
 import IndexWebsites from "./Websites/IndexWebsites";
 import CreateWebsite from "./Websites/CreateWebsite";
 import EditWebsite from "./Websites/EditWebsite";
+import Menu from "./Menu";
+import axios from "axios";
+import {urlServer} from "./endpoints";
+import sadFace from "./sadFace.png";
 
 export default function Routing(props: routingProps) {
 
     const {claims} = useContext(AuthenticationContext);
+    const [running, setRunning] = useState<boolean>(false);
+
+    useEffect(() => {
+        isRunning();
+        const interval = setInterval(() => {
+            isRunning();
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
+    async function isRunning() {
+        try {
+            await axios.get(`${urlServer}/running`);
+            if (!running) {
+                setRunning(true);
+            }
+        } catch (error) {
+            setRunning(false);
+        }
+    }
 
     return (
-        <Routes>
+        running ?
+            <>
+                <Menu/>
+                <div className={'container'}>
 
-            // no user or admin needed
-            <Route path={"/"} element={<LandingPage/>}/>
-            <Route path={"/movies/filter"} element={<FilterMovies/>}/>
-            <Route path={"/movie/:id"} element={<MovieDetails/>}/>
-            <Route path={"/actors/details/:id"} element={<ActorDetails/>}/>
+                    <Routes>
 
-            <Route/>
+                        // no user or admin needed
+                        <Route path={"/"} element={<LandingPage/>}/>
+                        <Route path={"/movies/filter"} element={<FilterMovies/>}/>
+                        <Route path={"/movie/:id"} element={<MovieDetails/>}/>
+                        <Route path={"/actors/details/:id"} element={<ActorDetails/>}/>
 
-            {!props.isAdmin && claims.length <= 0 ?
-                <>
-                    <Route path={"/register"} element={<Register/>}/>
-                    <Route path={"/login"} element={<Login/>}/>
-                </> : <Route path={"*"} element={<LandingPage/>}/>
-            }
+                        <Route/>
 
-            // admin access only
-            {props.isAdmin ?
-                <>
-                    <Route path={"/genres"} element={<IndexGenres/>}/>
-                    <Route path={"/genres/create"} element={<CreateGenres/>}/>
-                    <Route path={"/genres/edit/:id"} element={<EditGenre/>}/>
+                        {!props.isAdmin && claims.length <= 0 ?
+                            <>
+                                <Route path={"/register"} element={<Register/>}/>
+                                <Route path={"/login"} element={<Login/>}/>
+                            </> : <Route path={"*"} element={<LandingPage/>}/>
+                        }
 
-                    <Route path={"/actors/create"} element={<CreateActors/>}/>
-                    <Route path={"/actors/edit/:id"} element={<EditActor/>}/>
+                        // admin access only
+                        {props.isAdmin ?
+                            <>
+                                <Route path={"/genres"} element={<IndexGenres/>}/>
+                                <Route path={"/genres/create"} element={<CreateGenres/>}/>
+                                <Route path={"/genres/edit/:id"} element={<EditGenre/>}/>
 
-                    <Route path={"/websites/create"} element={<CreateWebsite/>}/>
-                    <Route path={"/websites/edit/:id"} element={<EditWebsite/>}/>
+                                <Route path={"/actors/create"} element={<CreateActors/>}/>
+                                <Route path={"/actors/edit/:id"} element={<EditActor/>}/>
 
-                    <Route path={"/movietheaters"} element={<IndexMovieTheaters/>}/>
-                    <Route path={"/movietheaters/create"} element={<CreateMovieTheater/>}/>
-                    <Route path={"/movietheaters/edit/:id"} element={<EditMovieTheater/>}/>
+                                <Route path={"/websites/create"} element={<CreateWebsite/>}/>
+                                <Route path={"/websites/edit/:id"} element={<EditWebsite/>}/>
 
-                    <Route path={"/movies/create"} element={<CreateMovie/>}/>
-                    <Route path={"/movies/edit/:id"} element={<EditMovie/>}/>
+                                <Route path={"/movietheaters"} element={<IndexMovieTheaters/>}/>
+                                <Route path={"/movietheaters/create"} element={<CreateMovieTheater/>}/>
+                                <Route path={"/movietheaters/edit/:id"} element={<EditMovieTheater/>}/>
 
-                    <Route path={"/users"} element={<IndexUsers/>}/>
+                                <Route path={"/movies/create"} element={<CreateMovie/>}/>
+                                <Route path={"/movies/edit/:id"} element={<EditMovie/>}/>
 
-                </> : <Route path={"*"} element={<LandingPage/>}/>}
+                                <Route path={"/users"} element={<IndexUsers/>}/>
 
-            // user & admin access only
-            {claims.length > 0 ?
-                <>
-                    <Route path={"/actors"} element={<IndexActors/>}/>
+                            </> : <Route path={"*"} element={<LandingPage/>}/>}
 
-                    <Route path={"/websites"} element={<IndexWebsites/>}/>
+                        // user & admin access only
+                        {claims.length > 0 ?
+                            <>
+                                <Route path={"/actors"} element={<IndexActors/>}/>
 
-                    <Route path={"/movies/topRated"} element={<TopRatedMovies/>}/>
-                    <Route path={"/movies/favourite"} element={<Favourite/>}/>
-                    <Route path={"/movies/watched"} element={<Watched/>}/>
+                                <Route path={"/websites"} element={<IndexWebsites/>}/>
 
-                    <Route path={"/profile"} element={<Profile/>}/>
-                    <Route path={"/changepassword"} element={<ChangePassword/>}/>
-                    <Route path={"/edituser"} element={<EditUser/>}/>
+                                <Route path={"/movies/topRated"} element={<TopRatedMovies/>}/>
+                                <Route path={"/movies/favourite"} element={<Favourite/>}/>
+                                <Route path={"/movies/watched"} element={<Watched/>}/>
 
-                </> :
-                <Route path={"*"} element={<LandingPage/>}/>}
-        </Routes>
+                                <Route path={"/profile"} element={<Profile/>}/>
+                                <Route path={"/changepassword"} element={<ChangePassword/>}/>
+                                <Route path={"/edituser"} element={<EditUser/>}/>
+
+                            </> :
+                            <Route path={"*"} element={<LandingPage/>}/>}
+                    </Routes>
+                </div>
+            </> : <>
+                <Menu/>
+                <br/><br/><br/><br/><br/>
+                <div className={"server-error"}>Server is down temporarily!</div>
+                <div className={"server-error"}>We will be back soon!</div>
+                <img src={sadFace} alt="Sad Face" className={"sad-img"}/>
+            </>
     );
 }
 

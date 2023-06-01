@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {genreDTO} from "../genres/genres.model";
 import Button from "../utils/Button";
 import axios, {AxiosResponse} from "axios";
-import {urlGenres, urlMovies} from "../endpoints";
+import {urlGenres, urlMovies, urlServer} from "../endpoints";
 import {movieDTO} from "./movies.model";
 import MoviesList from "./MoviesList";
 import {useNavigate, useLocation} from "react-router-dom";
@@ -34,6 +34,18 @@ export default function FilterMovies() {
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
     const [totalAmountOfPages, setTotalAmountOfPages] = useState(0)
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         axios.get(`${urlGenres}/all`)
