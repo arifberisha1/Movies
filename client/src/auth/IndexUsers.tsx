@@ -1,18 +1,33 @@
 import IndexEntity from "../utils/IndexEntity";
 import {userDTO} from "./auth.models";
-import {urlAccounts} from "../endpoints";
+import {urlAccounts, urlServer} from "../endpoints";
 import Button from "../utils/Button";
 import customConfirm from "../utils/customConfirm";
 import axios, {AxiosResponse} from "axios";
 import Swal from "sweetalert2";
 import {useContext, useEffect, useState} from "react";
 import AuthenticationContext from "./AuthenticationContext";
+import {useNavigate} from "react-router-dom";
 
 export default function IndexUsers() {
 
     const {claims} = useContext(AuthenticationContext);
     const [adminIds, setAdminIds] = useState<string[]>([]);
     const [email, setEmail] = useState<string>('');
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         axios.get(`${urlAccounts}/getAdmins`)

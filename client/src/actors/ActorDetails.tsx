@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {actorCreationDTO, actorDTO} from "./actors.model";
 import axios, {AxiosResponse} from "axios";
-import {urlActors, urlMovies} from "../endpoints";
+import {urlActors, urlMovies, urlServer} from "../endpoints";
 import ReactMarkdown from "react-markdown";
 import MoviesList from "../movies/MoviesList";
 import {movieDTO} from "../movies/movies.model";
@@ -14,6 +14,18 @@ export default function ActorDetails() {
     const [details, setDetails] = useState<actorCreationDTO>();
     const [movies, setMovies] = useState<movieDTO[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         axios.get(`${urlActors}/${id}`)

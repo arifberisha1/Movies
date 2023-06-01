@@ -22,12 +22,12 @@ export default function LandingPage(props: landingPageProps) {
         loadData();
     }, []);
 
-    function loadData() {
-        axios.get(urlMovies).then((response: AxiosResponse<landingPageDTO>) => {
+    async function loadData() {
+        await axios.get(urlMovies).then((response: AxiosResponse<landingPageDTO>) => {
             setMovies(response.data);
         });
 
-        axios.get(`${urlMovies}/typeahead`).then((taResponse: AxiosResponse<moviesTypeahead[]>) => {
+        await axios.get(`${urlMovies}/typeahead`).then((taResponse: AxiosResponse<moviesTypeahead[]>) => {
             setTaMovies(taResponse.data);
         })
     }

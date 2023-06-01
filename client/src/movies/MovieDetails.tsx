@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlComments, urlFavourite, urlMovies, urlRatings, urlWatched} from "../endpoints";
+import {urlComments, urlFavourite, urlMovies, urlRatings, urlServer, urlWatched} from "../endpoints";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {movieDTO} from "./movies.model";
 import Loading from "../utils/Loading";
@@ -23,6 +23,18 @@ export default function MovieDetails() {
     const [error, setErrors] = useState<string[]>([]);
     const {claims} = useContext(AuthenticationContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         axios.get(`${urlMovies}/${id}`)

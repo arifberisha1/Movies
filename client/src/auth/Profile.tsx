@@ -5,13 +5,25 @@ import {useNavigate} from "react-router-dom";
 import LandingPage from "../movies/LandingPage";
 import {individualUserDetails} from "./auth.models";
 import axios from "axios";
-import {urlAccounts} from "../endpoints";
+import {urlAccounts, urlServer} from "../endpoints";
 
 export default function Profile() {
 
     const [details, setDetails] = useState<individualUserDetails>();
     const {claims} = useContext(AuthenticationContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         claims.map(claim => {

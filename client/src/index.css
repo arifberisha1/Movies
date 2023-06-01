@@ -156,3 +156,17 @@ form > a {
     background-color: rgba(0, 0, 0, 0);
     border: none;
 }
+
+.server-error{
+    text-align: center;
+    color: darkgrey;
+    font-size: 70px;
+}
+
+.sad-img{
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

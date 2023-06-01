@@ -4,7 +4,7 @@ import LandingPage from "../movies/LandingPage";
 import EditUserForm from "./EditUserForm";
 import {editUser, individualUserDetails} from "./auth.models";
 import axios, {AxiosResponse} from "axios";
-import {urlAccounts} from "../endpoints";
+import {urlAccounts, urlServer} from "../endpoints";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
 import DisplayErrors from "../utils/DisplayErrors";
@@ -16,6 +16,19 @@ export default function EditUser() {
     const [email, setEmail] = useState<string>("");
     const [data, setData] = useState<editUser>();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
+
     useEffect(() => {
         claims.map(claim => {
             if (claim.name === 'email') {

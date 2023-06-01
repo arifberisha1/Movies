@@ -1,15 +1,27 @@
 import GenreForm from "./GenreForm";
 import {genreCreationDTO} from "./genres.model";
 import axios from "axios";
-import {urlGenres} from "../endpoints";
+import {urlGenres, urlServer} from "../endpoints";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 
 export default function CreateGenres() {
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState<string[]>([]);
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     async function create(genre: genreCreationDTO) {
         try {

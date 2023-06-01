@@ -1,15 +1,28 @@
 import MovieTheaterForm from "./MovieTheaterForm";
 import {movieTheaterCreationDTO} from "./movieTheater.model";
 import axios from "axios";
-import {urlMovieTheaters} from "../endpoints";
+import {urlMovieTheaters, urlServer} from "../endpoints";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DisplayErrors from "../utils/DisplayErrors";
 
 export default function CreateMovieTheater() {
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState<string[]>([]);
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
+
     async function create(movieTheater: movieTheaterCreationDTO){
         try {
             await axios.post(urlMovieTheaters, movieTheater);

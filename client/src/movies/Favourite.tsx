@@ -3,13 +3,28 @@ import {favouriteMovieDetailsDTO} from "./movies.model";
 import {useContext, useEffect, useState} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
 import axios, {AxiosResponse} from "axios";
-import {urlFavourite} from "../endpoints";
+import {urlFavourite, urlServer} from "../endpoints";
+import {useNavigate} from "react-router-dom";
 
 export default function Favourite() {
 
     const [errors, setErrors] = useState<string[]>([]);
     const [movies, setMovies] = useState<favouriteMovieDetailsDTO[]>([]);
     const {claims} = useContext(AuthenticationContext);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
 

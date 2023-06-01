@@ -1,6 +1,6 @@
 import IndexEntity from "../utils/IndexEntity";
 import {actorDTO, typeaheadActors} from "./actors.model";
-import {urlActors} from "../endpoints";
+import {urlActors, urlServer} from "../endpoints";
 import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import AuthenticationContext from "../auth/AuthenticationContext";
 import {Typeahead} from "react-bootstrap-typeahead";
@@ -12,6 +12,18 @@ export default function IndexActors() {
     const {claims} = useContext(AuthenticationContext);
     const navigate = useNavigate();
     const [taActors, setTaActors] = useState<typeaheadActors[]>([]);
+
+    useEffect(() => {
+        isRunning();
+    })
+
+    async function isRunning(){
+        try {
+            await axios.get(`${urlServer}/running`);
+        }catch (error){
+            navigate(0);
+        }
+    }
 
     useEffect(() => {
         getTypeaheadData();
