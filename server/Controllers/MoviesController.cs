@@ -95,7 +95,7 @@ namespace server.Controllers
 
             return typeaheadList;
         }
-        
+
         /// <summary>
         /// Retrieves the top-rated movies.
         /// </summary>
@@ -112,25 +112,34 @@ namespace server.Controllers
 
             foreach (var movie in movies)
             {
-                var averageVote = await context.Ratings.Where(x => x.MovieId == movie.Id)
-                    .AverageAsync(x => x.Rate);
-                
-                // var topRatedDto = new TopRatedDTO()
-                // {
-                //     Id = movie.Id,
-                //     Title = movie.Title,
-                //     Poster = movie.Poster,
-                //     AverageVote = averageVote
-                // };
+                var ratings = await context.Ratings
+                    .Where(x => x.MovieId == movie.Id).ToListAsync();
 
-                var topRatedDto = mapper.Map<TopRatedDTO>(movie);
-                topRatedDto.AverageVote = averageVote;
-                
+                var sumAverageVote = 0;
+                var averageVote = 0;
+                foreach (var rating in ratings)
+                {
+                    sumAverageVote += rating.Rate;
+                }
+
+                if (ratings.Count != 0)
+                {
+                    averageVote = sumAverageVote / ratings.Count;
+                }
+
+                var topRatedDto = new TopRatedDTO()
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Poster = movie.Poster,
+                    AverageVote = averageVote
+                };
+
                 topRatedList.Add(topRatedDto);
             }
 
             topRatedList = topRatedList.OrderByDescending(x => x.AverageVote).Take(5).ToList();
-            
+
             List<TopRatedDTO> topFiveMovies = new List<TopRatedDTO>();
 
             foreach (var topRated in topRatedList)
@@ -140,10 +149,10 @@ namespace server.Controllers
                     topFiveMovies.Add(topRated);
                 }
             }
-            
+
             return topFiveMovies;
         }
-        
+
         /// <summary>
         /// Retrieves the movies associated with a specific actor.
         /// </summary>
@@ -169,7 +178,7 @@ namespace server.Controllers
             var movieDTOs = mapper.Map<List<MovieDTO>>(actorMovies);
             return movieDTOs;
         }
-        
+
         /// <summary>
         /// Retrieves a movie by its ID.
         /// </summary>
@@ -413,7 +422,7 @@ namespace server.Controllers
             {
                 return BadRequest("Poster could not be saved!");
             }
-            
+
 
             AnnotateActorsOrder(movie);
             await context.SaveChangesAsync();
@@ -449,7 +458,7 @@ namespace server.Controllers
             {
                 return NotFound();
             }
-            
+
             var comments = await context.Comment.Where(x => x.MovieId == id).ToListAsync();
 
             if (comments != null)

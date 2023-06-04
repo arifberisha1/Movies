@@ -38,8 +38,6 @@ namespace server.Helpers
                 .ForMember(x => x.MovieTheaters, options => options.MapFrom(MapMovieTheatersMovies))
                 .ForMember(x => x.Actors, options => options.MapFrom(MapMoviesActors));
 
-            CreateMap<Movie, TopRatedDTO>();
-
             CreateMap<IdentityUser, UserDTO>();
             
             CreateMap<WebsiteDTO, Website>().ReverseMap();
