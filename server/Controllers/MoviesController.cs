@@ -101,31 +101,42 @@ namespace server.Controllers
         [ProducesResponseType(typeof(List<MovieDTO>), StatusCodes.Status200OK)]
         [HttpGet("topRated")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<MovieDTO>>> GetTopRatedMovies()
+        public async Task<ActionResult<List<TopRatedDTO>>> GetTopRatedMovies()
         {
-            var topRatedMovies = await context.Movies
-                .Include(x => x.MoviesGenres).ThenInclude(x => x.Genre)
-                .Include(x => x.MoviesTheatersMovies).ThenInclude(x => x.MovieTheater)
-                .Include(x => x.MoviesActors).ThenInclude(x => x.Actor)
-                .Where(x => context.Ratings.Any(r => r.MovieId == x.Id))
-                .Select(x => new
-                {
-                    Movie = x,
-                    AverageRating = context.Ratings.Where(r => r.MovieId == x.Id).Average(r => r.Rate)
-                })
-                .OrderByDescending(x => x.AverageRating)
-                .Take(10)
-                .Select(x => x.Movie)
-                .ToListAsync();
+            var movies = await context.Movies.ToListAsync();
 
-            var dtos = mapper.Map<List<MovieDTO>>(topRatedMovies);
+            List<TopRatedDTO> topRatedList = new List<TopRatedDTO>();
 
-            foreach (var dto in dtos)
+            foreach (var movie in movies)
             {
-                dto.Actors = dto.Actors.OrderBy(x => x.Order).ToList();
+                var ratings = await context.Ratings
+                    .Where(x => x.MovieId == movie.Id).ToListAsync();
+
+                var sumAverageVote = 0;
+                var averageVote = 0;
+                foreach (var rating in ratings)
+                {
+                    sumAverageVote += rating.Rate;
+                }
+
+                if (ratings.Count != 0)
+                {
+                    averageVote = sumAverageVote / ratings.Count;
+                }
+
+                var topRatedDto = new TopRatedDTO()
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Poster = movie.Poster,
+                    AverageVote = averageVote
+                };
+                topRatedList.Add(topRatedDto);
             }
 
-            return dtos;
+            topRatedList = topRatedList.OrderByDescending(x => x.AverageVote).Take(5).ToList();
+
+            return topRatedList;
         }
         
         /// <summary>

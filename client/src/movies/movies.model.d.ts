@@ -66,3 +66,10 @@ export interface watchedMovieDetailsDTO{
     title: string;
     poster: string;
 }
+
+export interface topRatedDTO{
+    id: int;
+    title: string;
+    poster: string;
+    averageVote: number;
+}
