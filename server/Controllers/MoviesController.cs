@@ -115,13 +115,17 @@ namespace server.Controllers
                 var averageVote = await context.Ratings.Where(x => x.MovieId == movie.Id)
                     .AverageAsync(x => x.Rate);
                 
-                var topRatedDto = new TopRatedDTO()
-                {
-                    Id = movie.Id,
-                    Title = movie.Title,
-                    Poster = movie.Poster,
-                    AverageVote = averageVote
-                };
+                // var topRatedDto = new TopRatedDTO()
+                // {
+                //     Id = movie.Id,
+                //     Title = movie.Title,
+                //     Poster = movie.Poster,
+                //     AverageVote = averageVote
+                // };
+
+                var topRatedDto = mapper.Map<TopRatedDTO>(movie);
+                topRatedDto.AverageVote = averageVote;
+                
                 topRatedList.Add(topRatedDto);
             }
 
