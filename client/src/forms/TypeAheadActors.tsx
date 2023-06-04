@@ -1,7 +1,6 @@
 import {actorMovieDTO} from "../actors/actors.model";
 import {AsyncTypeahead} from "react-bootstrap-typeahead";
 import {ReactElement, useState} from "react";
-import Swal from "sweetalert2";
 import axios, {AxiosResponse} from "axios";
 import {urlActors} from "../endpoints";
 

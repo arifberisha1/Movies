@@ -21,10 +21,10 @@ export default function ChangePassword() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -35,7 +35,7 @@ export default function ChangePassword() {
                 setEmail(claim.value);
             }
         })
-    },[claims])
+    }, [claims])
 
     async function changePassword(data: changePasswordForm) {
         if (data.newPassword === data.confirmNewPassword) {

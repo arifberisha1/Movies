@@ -6,7 +6,7 @@ import axios, {AxiosResponse} from "axios";
 import {urlGenres, urlMovies, urlServer} from "../endpoints";
 import {movieDTO} from "./movies.model";
 import MoviesList from "./MoviesList";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Pagination from "../utils/Pagination";
 
 export default function FilterMovies() {
@@ -39,10 +39,10 @@ export default function FilterMovies() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -76,10 +76,10 @@ export default function FilterMovies() {
             initialValuesForm.page = parseInt(query.get('page')!, 10);
         }
 
-        if (query.get('title')){
+        if (query.get('title')) {
             searchMovies(initialValuesForm);
-        }else {
-        searchMovies(initialValuesStart);
+        } else {
+            searchMovies(initialValuesStart);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -177,10 +177,10 @@ export default function FilterMovies() {
                                         className={"btn btn-primary"}>Filter
                                     </Button>
                                     <Button className={"btn btn-danger ms-3"}
-                                        onClick={() => {
-                                            formikProps.setValues(initialValuesForm);
-                                            searchMovies(initialValuesStart);
-                                        }}
+                                            onClick={() => {
+                                                formikProps.setValues(initialValuesForm);
+                                                searchMovies(initialValuesStart);
+                                            }}
                                     >Clear</Button>
                                 </div>
                             </div>

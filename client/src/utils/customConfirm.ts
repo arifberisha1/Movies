@@ -4,7 +4,7 @@ export default function customConfirm(
     onConfirm: any,
     title: string = "Are you sure?",
     confirmButtonText: string = "Delete"
-){
+) {
     Swal.fire({
         title,
         confirmButtonText,
@@ -13,7 +13,7 @@ export default function customConfirm(
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33'
     }).then(result => {
-        if (result.isConfirmed){
+        if (result.isConfirmed) {
             onConfirm();
         }
     })

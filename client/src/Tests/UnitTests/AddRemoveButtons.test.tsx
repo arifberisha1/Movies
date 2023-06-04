@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddRemoveButtons from '../../utils/AddRemoveButtons';
@@ -25,8 +25,8 @@ describe('AddRemoveButtons', () => {
         // @ts-ignore
         render(<AddRemoveButtons {...props} />);
 
-        const addButton = screen.getByRole('button', { name: 'Add' });
-        const removeButton = screen.queryByRole('button', { name: 'Remove' });
+        const addButton = screen.getByRole('button', {name: 'Add'});
+        const removeButton = screen.queryByRole('button', {name: 'Remove'});
 
         expect(addButton).toBeInTheDocument();
         expect(removeButton).not.toBeInTheDocument();
@@ -47,7 +47,7 @@ describe('AddRemoveButtons', () => {
 
         render(<AddRemoveButtons {...props} />);
 
-        const addButton = screen.getByRole('button', { name: 'Add' });
+        const addButton = screen.getByRole('button', {name: 'Add'});
         fireEvent.click(addButton);
 
         expect(props.addButton).toHaveBeenCalledTimes(1);

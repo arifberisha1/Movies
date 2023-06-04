@@ -17,7 +17,7 @@ export interface movieDTO {
     averageVote: number;
 }
 
-export interface moviesTypeahead{
+export interface moviesTypeahead {
     id: number,
     title: string,
     poster: string
@@ -41,12 +41,12 @@ export interface landingPageDTO {
     upcomingReleases?: movieDTO[];
 }
 
-export interface moviesPostGetDTO{
+export interface moviesPostGetDTO {
     genres: genreDTO[];
     movieTheaters: movieTheaterDTO[];
 }
 
-export interface moviePutGetDTO{
+export interface moviePutGetDTO {
     movie: movieDTO;
     selectedGenres: genreDTO[];
     nonSelectedGenres: genreDTO[];
@@ -55,19 +55,19 @@ export interface moviePutGetDTO{
     actors: actorMovieDTO[];
 }
 
-export interface favouriteMovieDetailsDTO{
+export interface favouriteMovieDetailsDTO {
     id: int;
     title: string;
     poster: string;
 }
 
-export interface watchedMovieDetailsDTO{
+export interface watchedMovieDetailsDTO {
     id: int;
     title: string;
     poster: string;
 }
 
-export interface topRatedDTO{
+export interface topRatedDTO {
     id: int;
     title: string;
     poster: string;

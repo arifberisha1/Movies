@@ -42,7 +42,7 @@ export default function MovieTheaterForm(props: movieTheaterFormsProps) {
                         Save Changes
                     </Button>
                     <Button className={"btn btn-secondary ms-3"} onClick={() => {
-                      navigate(-1);
+                        navigate(-1);
                     }}>Cancel</Button>
                 </Form>
             )}

@@ -18,10 +18,10 @@ export default function IndexWebsites() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -34,7 +34,7 @@ export default function IndexWebsites() {
         try {
             const response: AxiosResponse<websiteDTO[]> = await axios.get(`${urlWebsite}`);
             setTaWensites(response.data);
-        } catch (error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -64,7 +64,7 @@ export default function IndexWebsites() {
                 placeholder={"Search websites..."}
                 onChange={(selected: any[]) => {
                     const clickedWebsite = selected[0];
-                    if (clickedWebsite){
+                    if (clickedWebsite) {
                         window.open(clickedWebsite.link, '_blank');
                     }
                 }}

@@ -15,15 +15,15 @@ export default function EditWebsite() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    function transform(website: websiteDTO): websiteCreationDTO{
+    function transform(website: websiteDTO): websiteCreationDTO {
         return {
             name: website.name,
             link: website.link,
@@ -31,7 +31,7 @@ export default function EditWebsite() {
         }
     }
 
-    return(
+    return (
         <EditEntity<websiteCreationDTO, websiteDTO>
             url={urlWebsite}
             indexURL={"/websites"}

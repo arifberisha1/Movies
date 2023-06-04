@@ -20,15 +20,15 @@ export default function EditMovie() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         axios.get(`${urlMovies}/PutGet/${id}`)
             .then((response: AxiosResponse<moviePutGetDTO>) => {
                 const model: movieCreationDTO = {
@@ -45,7 +45,7 @@ export default function EditMovie() {
             })
     }, [id]);
 
-    async function edit (movieToEdit: movieCreationDTO){
+    async function edit(movieToEdit: movieCreationDTO) {
         try {
             const formData = convertMovieToFormData(movieToEdit);
             await axios({
@@ -55,8 +55,7 @@ export default function EditMovie() {
                 headers: {'Content-Type': 'multipart/form-data'}
             });
             navigate(`/movie/${id}`);
-        }
-        catch (error){
+        } catch (error) {
             // @ts-ignore
             setErrors(error.response.data);
         }
@@ -65,17 +64,17 @@ export default function EditMovie() {
     return (
         <>
             <h3>Edit Movie</h3>
-            <DisplayErrors errors = {errors}/>
+            <DisplayErrors errors={errors}/>
             {movie && moviePutGet ? <MovieForm model={movie}
 
-                       onSubmit={async values => await edit(values)}
-                       nonSelectedGenres={moviePutGet.nonSelectedGenres}
-                       selectedGenres={moviePutGet.selectedGenres}
-                       nonSelectedMovieTheaters={moviePutGet.nonSelectedMovieTheaters}
-                       selectedMovieTheaters={moviePutGet.selectedMovieTheaters}
-                       selectedActors={moviePutGet.actors}
+                                               onSubmit={async values => await edit(values)}
+                                               nonSelectedGenres={moviePutGet.nonSelectedGenres}
+                                               selectedGenres={moviePutGet.selectedGenres}
+                                               nonSelectedMovieTheaters={moviePutGet.nonSelectedMovieTheaters}
+                                               selectedMovieTheaters={moviePutGet.selectedMovieTheaters}
+                                               selectedActors={moviePutGet.actors}
 
-            /> : <Loading />}
+            /> : <Loading/>}
         </>
     );
 }

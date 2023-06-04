@@ -6,7 +6,7 @@ import {urlServer, urlWatched} from "../endpoints";
 import MoviesList from "./MoviesList";
 import {useNavigate} from "react-router-dom";
 
-export default function Watched(){
+export default function Watched() {
 
     const [errors, setErrors] = useState<string[]>([]);
     const [movies, setMovies] = useState<watchedMovieDetailsDTO[]>([]);
@@ -18,10 +18,10 @@ export default function Watched(){
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -50,7 +50,7 @@ export default function Watched(){
         }
     }
 
-    return(
+    return (
         <>
             <h3>Watched Movies</h3>
             <br/>

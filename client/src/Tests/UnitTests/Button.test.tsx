@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react";
+import {fireEvent, render} from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import Button from "../../utils/Button";
@@ -11,7 +11,7 @@ describe("Button", () => {
     });
 
     it("renders a button with default props", () => {
-        const { getByText } = render(<Button>Submit</Button>);
+        const {getByText} = render(<Button>Submit</Button>);
         const button = getByText("Submit");
 
         expect(button).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe("Button", () => {
 
     it("invokes the onClick callback when the button is clicked", () => {
         const handleClick = jest.fn();
-        const { getByText } = render(<Button onClick={handleClick}>Submit</Button>);
+        const {getByText} = render(<Button onClick={handleClick}>Submit</Button>);
         const button = getByText("Submit");
 
         fireEvent.click(button);

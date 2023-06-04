@@ -14,10 +14,10 @@ export default function EditGenre() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -27,12 +27,12 @@ export default function EditGenre() {
             <EditEntity<genreCreationDTO, genreDTO>
                 url={urlGenres} entityName="Genres"
                 indexURL="/genres"
-                >
-                {(entity, edit)=>
-                <GenreForm model={entity}
-                           onSubmit={async value =>{
-                           await edit(value);
-                           }}/>
+            >
+                {(entity, edit) =>
+                    <GenreForm model={entity}
+                               onSubmit={async value => {
+                                   await edit(value);
+                               }}/>
                 }
             </EditEntity>
         </>

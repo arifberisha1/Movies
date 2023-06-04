@@ -32,7 +32,7 @@ export default function Map(props: mapProps) {
             >
                 {coordinate.name ? <Popup>
                     <h6>
-                    {coordinate.name}
+                        {coordinate.name}
                     </h6>
                     <a href={`https://www.google.com/maps/place/${coordinate.lat},${coordinate.lng}`}
                        target={"_blank"}>Get Directions</a>

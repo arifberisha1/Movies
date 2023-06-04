@@ -1,4 +1,4 @@
-export interface actorDTO{
+export interface actorDTO {
     id: number;
     name: string;
     biography: string;
@@ -21,7 +21,7 @@ export interface actorMovieDTO {
     picture: string;
 }
 
-export interface typeaheadActors{
+export interface typeaheadActors {
     id: number,
     name: string,
     picture: string

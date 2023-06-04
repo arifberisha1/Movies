@@ -15,10 +15,10 @@ export default function TopRatedMovies() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -29,15 +29,15 @@ export default function TopRatedMovies() {
 
     async function loadData() {
         axios.get(`${urlMovies}/topRated`).then((response: AxiosResponse<topRatedDTO[]>) => {
-        setMovies(response.data);
-    });
-}
+            setMovies(response.data);
+        });
+    }
 
-return (
-    <>
-        <h3>Top Rated</h3>
-        <br/>
-        <MoviesList movies={movies}/>
-    </>
-);
+    return (
+        <>
+            <h3>Top Rated</h3>
+            <br/>
+            <MoviesList movies={movies}/>
+        </>
+    );
 }

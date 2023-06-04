@@ -15,27 +15,27 @@ export default function CreateMovieTheater() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    async function create(movieTheater: movieTheaterCreationDTO){
+    async function create(movieTheater: movieTheaterCreationDTO) {
         try {
             await axios.post(urlMovieTheaters, movieTheater);
             navigate("/movietheaters");
-        }
-        catch (error){
+        } catch (error) {
             // @ts-ignore
-            if(error && error.response){
+            if (error && error.response) {
                 // @ts-ignore
                 setErrors(error.response.data);
             }
         }
     }
+
     return (
         <>
             <h3>Create Movie Theater</h3>

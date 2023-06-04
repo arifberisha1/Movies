@@ -1,6 +1,6 @@
 import MovieForm from "./MovieForm";
 import {genreDTO} from "../genres/genres.model";
-import {movieTheaterCreationDTO, movieTheaterDTO} from "../movietheaters/movieTheater.model";
+import {movieTheaterDTO} from "../movietheaters/movieTheater.model";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {urlMovies, urlServer} from "../endpoints";
@@ -22,10 +22,10 @@ export default function CreateMovie() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }

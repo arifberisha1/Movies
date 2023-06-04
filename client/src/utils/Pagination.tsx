@@ -91,5 +91,5 @@ interface paginationProps {
 }
 
 Pagination.defaultProps = {
-    radio : 3
+    radio: 3
 }

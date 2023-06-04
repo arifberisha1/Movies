@@ -1,4 +1,4 @@
-export interface commentDTO{
+export interface commentDTO {
     id: number,
     userComment: string,
     userEmail: string,
@@ -7,12 +7,12 @@ export interface commentDTO{
     movieId: number
 }
 
-export interface commentCreationDTO{
+export interface commentCreationDTO {
     userComment: string,
     userEmail: string,
     movieId: number
 }
 
-interface commentFormDTO{
+interface commentFormDTO {
     comment: string
 }

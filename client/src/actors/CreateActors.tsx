@@ -16,15 +16,15 @@ export default function CreateActors() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    async function create(actor: actorCreationDTO){
+    async function create(actor: actorCreationDTO) {
         try {
             const formData = convertActorToFormData(actor);
 
@@ -35,10 +35,9 @@ export default function CreateActors() {
                 headers: {'Content-Type': 'multipart/form-data'}
             });
             navigate('/actors');
-        }
-        catch (error){
+        } catch (error) {
             // @ts-ignore
-            if (error && error.response){
+            if (error && error.response) {
                 // @ts-ignore
                 setErrors(error.response.data);
             }
@@ -49,7 +48,7 @@ export default function CreateActors() {
         <>
             <h3>Create Actor</h3>
 
-            <DisplayErrors errors={errors} />
+            <DisplayErrors errors={errors}/>
 
             <ActorForm
                 model={{name: '', dateOfBirth: undefined}}
