@@ -112,21 +112,9 @@ namespace server.Controllers
 
             foreach (var movie in movies)
             {
-                var ratings = await context.Ratings
-                    .Where(x => x.MovieId == movie.Id).ToListAsync();
-
-                var sumAverageVote = 0;
-                var averageVote = 0;
-                foreach (var rating in ratings)
-                {
-                    sumAverageVote += rating.Rate;
-                }
-
-                if (ratings.Count != 0)
-                {
-                    averageVote = sumAverageVote / ratings.Count;
-                }
-
+                var averageVote = await context.Ratings.Where(x => x.MovieId == movie.Id)
+                    .AverageAsync(x => x.Rate);
+                
                 var topRatedDto = new TopRatedDTO()
                 {
                     Id = movie.Id,
