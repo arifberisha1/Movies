@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace server.Helpers;
 
-public class TypeBinder<T>: IModelBinder
+public class TypeBinder<T> : IModelBinder
 {
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
@@ -27,7 +27,6 @@ public class TypeBinder<T>: IModelBinder
             }
 
             return Task.CompletedTask;
-
         }
     }
 }

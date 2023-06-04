@@ -14,14 +14,13 @@ namespace server.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 public class MovieTheatersController : ControllerBase
 {
-
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+
     public MovieTheatersController(ApplicationDbContext context, IMapper mapper)
     {
         this.context = context;
         this.mapper = mapper;
-        
     }
 
     /// <summary>

@@ -23,7 +23,8 @@ public class ParseBadRequest : IActionFilter
             if (badRequestObjectResult.Value is string)
             {
                 response.Add(badRequestObjectResult.Value.ToString());
-            }else if (badRequestObjectResult.Value is IEnumerable<IdentityError> errors)
+            }
+            else if (badRequestObjectResult.Value is IEnumerable<IdentityError> errors)
             {
                 foreach (var error in errors)
                 {
@@ -38,18 +39,14 @@ public class ParseBadRequest : IActionFilter
                     {
                         response.Add($"{key}: {error.ErrorMessage}");
                     }
-
                 }
             }
 
             context.Result = new BadRequestObjectResult(response);
         }
     }
-    
+
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        
     }
-
-    
 }

@@ -8,9 +8,9 @@ using server.Entities;
 namespace server.Controllers;
 
 [ApiController]
-    [Route("api/watched")]
+[Route("api/watched")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class WatchedMoviesController: ControllerBase
+public class WatchedMoviesController : ControllerBase
 {
     private readonly ApplicationDbContext context;
 
@@ -18,7 +18,7 @@ public class WatchedMoviesController: ControllerBase
     {
         this.context = context;
     }
-    
+
     /// <summary>
     /// Retrieves a list of watched movies for a user by email.
     /// </summary>
@@ -63,7 +63,7 @@ public class WatchedMoviesController: ControllerBase
 
         return MovieList;
     }
-    
+
     /// <summary>
     /// Adds a movie to the watched list for a user.
     /// </summary>
@@ -100,7 +100,7 @@ public class WatchedMoviesController: ControllerBase
             return BadRequest(e);
         }
     }
-    
+
     /// <summary>
     /// Removes a movie from the watched list for a user.
     /// </summary>
@@ -137,7 +137,7 @@ public class WatchedMoviesController: ControllerBase
         await context.SaveChangesAsync();
         return Ok("Movie removed from watched successfully!");
     }
-    
+
     /// <summary>
     /// Checks if a movie is in the watched list for a user.
     /// </summary>
@@ -158,5 +158,4 @@ public class WatchedMoviesController: ControllerBase
 
         return true;
     }
-    
 }

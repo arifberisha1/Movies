@@ -15,7 +15,6 @@ public class BadRequestBehavior
                 {
                     response.Add($"{key}: {error.ErrorMessage}");
                 }
-
             }
 
             return new BadRequestObjectResult(response);

@@ -22,17 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.UseNetTopologySuite()));
 
+builder.Services.AddControllers(options => { options.Filters.Add(typeof(ParseBadRequest)); })
+    .ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
 
-
-
-// Add services to the container.
-
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(typeof(ParseBadRequest));
-}).ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -49,7 +41,7 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Movies API",
         Description = "An ASP.NET Core Web API for managing Movies API",
     });
-    
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
@@ -78,7 +70,7 @@ builder.Services.AddCors(options =>
     {
         _builder.WithOrigins(builder.Configuration.GetValue<string>("frontend_url"))
             .AllowAnyMethod().AllowAnyHeader()
-            .WithExposedHeaders(new string [] {"totalAmountOfRecords"});
+            .WithExposedHeaders(new string[] { "totalAmountOfRecords" });
     });
 });
 
