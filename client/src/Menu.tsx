@@ -4,6 +4,7 @@ import {logout} from "./auth/handleJWT";
 import {useContext} from "react";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import {Link, NavLink, useNavigate} from "react-router-dom";
+import logo from ".//img/logo.png";
 
 export default function Menu() {
 
@@ -17,7 +18,7 @@ export default function Menu() {
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <div className={"container-fluid"}>
-                <Link className={"navbar-brand"} to="/">Home</Link>
+                <Link className={"navbar-brand"} to="/"><img className={"logo-img"} src={logo} alt="logo"/></Link>
                 <div className={"collapse navbar-collapse"}
                      style={{display: 'flex', justifyContent: 'space-between'}}>
                     <ul className={"navbar-nav me-auto mb-2 mb-lg-0"}>
