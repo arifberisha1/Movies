@@ -31,7 +31,7 @@ import EditWebsite from "./Websites/EditWebsite";
 import Menu from "./Menu";
 import axios from "axios";
 import {urlServer} from "./endpoints";
-import sadFace from "./sadFace.png";
+import sadFace from "./img/sadFace.png";
 
 export default function Routing(props: routingProps) {
 
