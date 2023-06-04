@@ -1,4 +1,3 @@
-//if needed
 export default function Button(props: buttonProps) {
     return <button type={props.type} className={props.className}
                    onClick={props.onClick}

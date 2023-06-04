@@ -28,10 +28,10 @@ export default function MovieDetails() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -122,7 +122,7 @@ export default function MovieDetails() {
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
             {movie.genres?.map(genre =>
                 <Link to={`/movies/filter?genreId=${genre.id}`} key={genre.id} style={{marginRight: '5px'}}
-                   className={"btn btn-primary btn-sm rounded-pill"}>{genre.name}</Link>
+                      className={"btn btn-primary btn-sm rounded-pill"}>{genre.name}</Link>
             )} | {movie.releaseDate.toDateString()}
             | Your vote: <Ratings maximumValue={5} selectedValue={movie.userVote}
                                   onChange={handleRate}/> | Average Vote: <Ratings
@@ -251,7 +251,7 @@ export default function MovieDetails() {
                                 <span style={{display: 'inline-block', width: '45px'}}>...</span>
                                 <span>{actor.character}</span>
                                 <Link to={`/actors/details/${actor.id}`}
-                                   className={"btn btn-dark ms-5 location-fixed"}>More</Link>
+                                      className={"btn btn-dark ms-5 location-fixed"}>More</Link>
                             </div>
                         )}
                     </div>

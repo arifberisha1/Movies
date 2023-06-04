@@ -35,7 +35,7 @@ public class AccountsController : ControllerBase
         this.context = context;
         this.mapper = mapper;
     }
-    
+
     /// <summary>
     /// Retrieves a list of users with pagination.
     /// </summary>
@@ -73,7 +73,7 @@ public class AccountsController : ControllerBase
     public async Task<ActionResult<UserDetailsDTO>> GetByEmail([FromQuery] string email)
     {
         var user = await context.UserDetails.FirstOrDefaultAsync(x => x.Email == email);
-        
+
         if (user == null)
         {
             return NotFound();
@@ -203,7 +203,7 @@ public class AccountsController : ControllerBase
             return BadRequest(result.Errors);
         }
     }
-    
+
     /// <summary>
     /// Edits user details.
     /// </summary>
@@ -274,7 +274,6 @@ public class AccountsController : ControllerBase
     [HttpPut("changePassword")]
     public async Task<ActionResult> ChangePassword([FromBody] changePasswordDTO changePasswordDto)
     {
-
         var user = await userManager.FindByEmailAsync(changePasswordDto.Email);
 
         if (user == null)
@@ -289,7 +288,8 @@ public class AccountsController : ControllerBase
             return BadRequest("Incorrect Old Password!");
         }
 
-        var changePasswordResult = await userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+        var changePasswordResult =
+            await userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
 
         if (changePasswordResult.Succeeded)
         {

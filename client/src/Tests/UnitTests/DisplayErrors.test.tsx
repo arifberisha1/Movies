@@ -15,7 +15,7 @@ describe("DisplayErrors component", () => {
     it("displays error messages if props.errors is provided", () => {
         const errors = ["Error 1", "Error 2", "Error 3"];
 
-        const { container } = render(<DisplayErrors errors={errors} />);
+        const {container} = render(<DisplayErrors errors={errors}/>);
 
         const errorList = container.querySelector("ul");
         expect(errorList).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("DisplayErrors component", () => {
     });
 
     it("does not display anything if props.errors is not provided", () => {
-        const { container } = render(<DisplayErrors />);
+        const {container} = render(<DisplayErrors/>);
         expect(container.firstChild).toBeNull();
     });
 });

@@ -13,10 +13,10 @@ export default function IndexGenres() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -25,28 +25,28 @@ export default function IndexGenres() {
         <>
 
             <IndexEntity<genreDTO>
-                url = {urlGenres} createURL = '/genres/create' title = "Genres"
-                entityName = "Genre"
-                >
+                url={urlGenres} createURL='/genres/create' title="Genres"
+                entityName="Genre"
+            >
                 {(genres, buttons) =>
                     <>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {genres?.map(genre =>
-                        <tr key={genre.id}>
-                            <td>
-                                {buttons(`/genres/edit/${genre.id}`, genre.id)}
-                            </td>
-                            <td>
-                                {genre.name}
-                            </td>
-                        </tr>)}
-                    </tbody>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {genres?.map(genre =>
+                            <tr key={genre.id}>
+                                <td>
+                                    {buttons(`/genres/edit/${genre.id}`, genre.id)}
+                                </td>
+                                <td>
+                                    {genre.name}
+                                </td>
+                            </tr>)}
+                        </tbody>
                     </>
                 }
 

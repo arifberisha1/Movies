@@ -1,5 +1,5 @@
-export default function RecordsPerPageSelect(props: recordsPerPageSelect){
-    return(
+export default function RecordsPerPageSelect(props: recordsPerPageSelect) {
+    return (
         <div className="mb-3 " style={{width: '150px'}}>
             <label>Records per page:</label>
             <select className={"form-select"} defaultValue={5}
@@ -15,6 +15,6 @@ export default function RecordsPerPageSelect(props: recordsPerPageSelect){
     )
 }
 
-interface recordsPerPageSelect{
-    onChange(recordsPerPage : number):void;
+interface recordsPerPageSelect {
+    onChange(recordsPerPage: number): void;
 }

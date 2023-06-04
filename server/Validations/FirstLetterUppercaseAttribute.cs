@@ -17,7 +17,7 @@ public class FirstLetterUppercaseAttribute : ValidationAttribute
         {
             return new ValidationResult("First Letter must be uppercase");
         }
-        
+
         return ValidationResult.Success;
     }
 }

@@ -21,10 +21,10 @@ export default function EditUser() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -38,11 +38,11 @@ export default function EditUser() {
         })
     }, [claims]);
 
-    async function getData(e: string){
+    async function getData(e: string) {
         const response: AxiosResponse<individualUserDetails> = await axios.get(`${urlAccounts}/getByEmail`, {
             params: {email: e}
         });
-        const model:editUser = {
+        const model: editUser = {
             name: response.data.name,
             surname: response.data.surname,
             birthday: new Date(response.data.birthday),
@@ -90,9 +90,9 @@ export default function EditUser() {
                     <h3>Edit User</h3>
                     <DisplayErrors errors={erros}/>
                     {data ?
-                    <EditUserForm
-                        model={data}
-                        onSubmit={async values => await edit(values)}/>
+                        <EditUserForm
+                            model={data}
+                            onSubmit={async values => await edit(values)}/>
                         : null}
 
                 </> :

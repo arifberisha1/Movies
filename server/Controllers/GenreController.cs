@@ -14,7 +14,6 @@ namespace server.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 public class GenreController : ControllerBase
 {
-
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
 
@@ -35,10 +34,10 @@ public class GenreController : ControllerBase
     {
         var queryable = context.Genres.AsQueryable();
         await HttpContext.InsertParametersPaginationInHeader(queryable);
-        var genres =  await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
+        var genres = await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
         return mapper.Map<List<GenreDTO>>(genres);
     }
-    
+
     /// <summary>
     /// Retrieves all genres.
     /// </summary>
@@ -48,7 +47,7 @@ public class GenreController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<List<GenreDTO>>> Get()
     {
-        var genres =  await context.Genres.OrderBy(x => x.Name).ToListAsync();
+        var genres = await context.Genres.OrderBy(x => x.Name).ToListAsync();
         return mapper.Map<List<GenreDTO>>(genres);
     }
 
@@ -72,7 +71,6 @@ public class GenreController : ControllerBase
         }
 
         return mapper.Map<GenreDTO>(genre);
-
     }
 
     /// <summary>
@@ -95,7 +93,7 @@ public class GenreController : ControllerBase
         {
             return BadRequest("Genre already exists!");
         }
-        
+
         context.Add(genre);
         await context.SaveChangesAsync();
         return NoContent();
@@ -124,7 +122,6 @@ public class GenreController : ControllerBase
         genre = mapper.Map(genreCreationDto, genre);
         await context.SaveChangesAsync();
         return NoContent();
-
     }
 
     /// <summary>

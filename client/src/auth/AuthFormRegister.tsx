@@ -38,7 +38,7 @@ export default function AuthFormLogin(props: authFormProps) {
 
                     <Button disabled={formikProps.isSubmitting} type={"submit"}>Register</Button>
                     <Button onClick={() => {
-                          navigate(-1);
+                        navigate(-1);
                     }} className={"btn btn-secondary ms-3"}>Cancel</Button>
                 </Form>
             )}

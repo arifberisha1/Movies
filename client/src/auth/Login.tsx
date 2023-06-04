@@ -8,7 +8,7 @@ import {getClaims, saveToken} from "./handleJWT";
 import AuthenticationContext from "./AuthenticationContext";
 import {useNavigate} from "react-router-dom";
 
-export default function Login(){
+export default function Login() {
 
     const [errors, setErrors] = useState<string[]>([]);
     const {update} = useContext(AuthenticationContext);
@@ -18,15 +18,15 @@ export default function Login(){
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    async function login(credentials: userCredentials){
+    async function login(credentials: userCredentials) {
         try {
             setErrors([]);
             const response = await axios
@@ -34,19 +34,18 @@ export default function Login(){
             saveToken(response.data);
             update(getClaims());
             navigate('/');
-        }
-        catch (error){
+        } catch (error) {
             // @ts-ignore
             setErrors(error.response.data);
         }
     }
 
-    return(
-      <>
-        <h3>Login</h3>
-          <DisplayErrors errors={errors}/>
-          <AuthFormLogin model={{email: '', password: ''}}
-                         onSubmit={async values => await login(values)}/>
-      </>
+    return (
+        <>
+            <h3>Login</h3>
+            <DisplayErrors errors={errors}/>
+            <AuthFormLogin model={{email: '', password: ''}}
+                           onSubmit={async values => await login(values)}/>
+        </>
     );
 }

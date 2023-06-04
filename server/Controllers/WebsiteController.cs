@@ -9,7 +9,7 @@ namespace server.Controllers;
 
 [ApiController]
 [Route("api/websites")]
-public class WebsiteController: ControllerBase
+public class WebsiteController : ControllerBase
 {
     private readonly ApplicationDbContext context;
     private readonly IFileStorageService fileStorageService;

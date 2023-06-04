@@ -7,7 +7,7 @@ import {urlServer, urlWebsite} from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import WebsiteForm from "./WebsiteForm";
 
-export default function CreateWebsite(){
+export default function CreateWebsite() {
 
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
@@ -16,15 +16,15 @@ export default function CreateWebsite(){
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    async function create(website: websiteCreationDTO){
+    async function create(website: websiteCreationDTO) {
         try {
             const formData = convertWebsiteToFormData(website);
 
@@ -35,17 +35,16 @@ export default function CreateWebsite(){
                 headers: {'Content-Type': 'multipart/form-data'}
             });
             navigate('/websites')
-        }
-        catch (error){
+        } catch (error) {
             // @ts-ignore
-            if (error && error.response){
+            if (error && error.response) {
                 // @ts-ignore
                 setErrors(error.response.data);
             }
         }
     }
 
-    return(
+    return (
         <>
             <h3>Create Website</h3>
 

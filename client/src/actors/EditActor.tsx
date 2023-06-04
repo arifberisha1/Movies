@@ -15,15 +15,15 @@ export default function EditActor() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
-    function transform(actor: actorDTO): actorCreationDTO{
+    function transform(actor: actorDTO): actorCreationDTO {
         return {
             name: actor.name,
             pictureURL: actor.picture,
@@ -39,11 +39,11 @@ export default function EditActor() {
             entityName={"Actor"}
             transformFormData={convertActorToFormData}
             transform={transform}
-            >
+        >
 
             {(entity, edit) =>
                 <ActorForm model={entity}
-                onSubmit={async values => await edit(values)}/>
+                           onSubmit={async values => await edit(values)}/>
             }
 
         </EditEntity>

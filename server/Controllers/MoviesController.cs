@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -92,7 +91,7 @@ namespace server.Controllers
 
             return typeaheadList;
         }
-        
+
         /// <summary>
         /// Retrieves the top-rated movies.
         /// </summary>
@@ -111,23 +110,15 @@ namespace server.Controllers
             {
                 var averageVote = await context.Ratings.Where(x => x.MovieId == movie.Id)
                     .AverageAsync(x => x.Rate);
-                
-                // var topRatedDto = new TopRatedDTO()
-                // {
-                //     Id = movie.Id,
-                //     Title = movie.Title,
-                //     Poster = movie.Poster,
-                //     AverageVote = averageVote
-                // };
 
                 var topRatedDto = mapper.Map<TopRatedDTO>(movie);
                 topRatedDto.AverageVote = averageVote;
-                
+
                 topRatedList.Add(topRatedDto);
             }
 
             topRatedList = topRatedList.OrderByDescending(x => x.AverageVote).Take(5).ToList();
-            
+
             List<TopRatedDTO> topFiveMovies = new List<TopRatedDTO>();
 
             foreach (var topRated in topRatedList)
@@ -137,10 +128,10 @@ namespace server.Controllers
                     topFiveMovies.Add(topRated);
                 }
             }
-            
+
             return topFiveMovies;
         }
-        
+
         /// <summary>
         /// Retrieves the movies associated with a specific actor.
         /// </summary>
@@ -166,7 +157,7 @@ namespace server.Controllers
             var movieDTOs = mapper.Map<List<MovieDTO>>(actorMovies);
             return movieDTOs;
         }
-        
+
         /// <summary>
         /// Retrieves a movie by its ID.
         /// </summary>
@@ -410,7 +401,7 @@ namespace server.Controllers
             {
                 return BadRequest("Poster could not be saved!");
             }
-            
+
 
             AnnotateActorsOrder(movie);
             await context.SaveChangesAsync();
@@ -446,7 +437,7 @@ namespace server.Controllers
             {
                 return NotFound();
             }
-            
+
             var comments = await context.Comment.Where(x => x.MovieId == id).ToListAsync();
 
             if (comments != null)

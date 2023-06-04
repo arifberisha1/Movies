@@ -41,7 +41,7 @@ namespace server.Helpers
             CreateMap<Movie, TopRatedDTO>();
 
             CreateMap<IdentityUser, UserDTO>();
-            
+
             CreateMap<WebsiteDTO, Website>().ReverseMap();
             CreateMap<WebsiteCreationDTO, Website>()
                 .ForMember(x => x.Picture,

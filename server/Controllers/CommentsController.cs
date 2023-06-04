@@ -80,7 +80,7 @@ public class CommentsController : ControllerBase
             UserEmail = commentCreationDto.UserEmail,
             MovieId = commentCreationDto.MovieId
         };
-        
+
         try
         {
             await context.Comment.AddAsync(comment);
@@ -92,7 +92,7 @@ public class CommentsController : ControllerBase
             return BadRequest(e);
         }
     }
-    
+
     /// <summary>
     /// Deletes a comment by its ID.
     /// </summary>

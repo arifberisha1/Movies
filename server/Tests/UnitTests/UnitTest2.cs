@@ -8,13 +8,13 @@ public class UnitTest2
 {
     private readonly Mock<IWebHostEnvironment> _mockWebHostEnvironment;
     private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
-    
+
     public UnitTest2()
     {
         _mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
         _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
     }
-    
+
     [Fact]
     public async Task DeleteFile_WithEmptyFileRoute_DoesNothing()
     {
@@ -25,7 +25,5 @@ public class UnitTest2
 
         // Act
         await storageService.DeleteFile(fileRoute, containerName);
-
     }
-    
 }

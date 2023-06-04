@@ -1,4 +1,4 @@
-import {Formik, Form, FormikHelpers} from "formik";
+import {Form, Formik, FormikHelpers} from "formik";
 import {movieTheaterDTO} from "../movietheaters/movieTheater.model";
 import {movieCreationDTO} from "./movies.model";
 import * as Yup from 'yup';
@@ -28,6 +28,7 @@ export default function MovieForm(props: movieFormProps) {
 
     const [selectedActors, setSelectedActors] = useState(props.selectedActors);
     const navigate = useNavigate();
+
     function mapToModel(items: { id: number, name: string }[]): multipleSelectorModel[] {
         return items.map(item => {
             return {key: item.id, value: item.name}

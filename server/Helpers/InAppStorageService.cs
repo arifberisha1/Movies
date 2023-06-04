@@ -1,10 +1,8 @@
-﻿
-
-using server.Helpers;
+﻿using server.Helpers;
 
 namespace MoviesAPI.Helpers;
 
-public class InAppStorageService: IFileStorageService
+public class InAppStorageService : IFileStorageService
 {
     private readonly IWebHostEnvironment env;
     private readonly IHttpContextAccessor httpContextAccessor;
@@ -14,13 +12,13 @@ public class InAppStorageService: IFileStorageService
         this.env = env;
         this.httpContextAccessor = httpContextAccessor;
     }
-    
+
     public async Task<string> EditFile(string containerName, IFormFile file, string fileRoute)
     {
         await DeleteFile(fileRoute, containerName);
         return await SaveFile(containerName, file);
     }
-    
+
     public Task DeleteFile(string fileRoute, string containerName)
     {
         if (string.IsNullOrEmpty(fileRoute))

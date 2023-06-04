@@ -14,6 +14,5 @@ public static class HttpContextExtentions
 
         double count = await queryable.CountAsync();
         httpContext.Response.Headers.Add("totalAmountOfRecords", count.ToString());
-        
     }
 }

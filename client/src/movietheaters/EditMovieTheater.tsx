@@ -14,10 +14,10 @@ export default function EditMovieTheater() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
@@ -28,10 +28,10 @@ export default function EditMovieTheater() {
 
         >
             {(entity, edit) =>
-            <MovieTheaterForm model={entity}
-              onSubmit={async values => await edit(values)}
-            />
-                }
+                <MovieTheaterForm model={entity}
+                                  onSubmit={async values => await edit(values)}
+                />
+            }
 
 
         </EditEntity>

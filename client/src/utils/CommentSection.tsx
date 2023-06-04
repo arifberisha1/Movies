@@ -4,7 +4,7 @@ import axios, {AxiosResponse} from "axios";
 import {urlComments} from "../endpoints";
 import CommentsList from "./CommentsList";
 
-export default function CommentSection(props: commentSectionProps){
+export default function CommentSection(props: commentSectionProps) {
 
     const [comments, setComments] = useState<commentDTO[]>([]);
 
@@ -12,30 +12,29 @@ export default function CommentSection(props: commentSectionProps){
         loadData();
     }, []);
 
-    async function loadData(){
-        try
-        {
+    async function loadData() {
+        try {
             await axios.get(`${urlComments}/getByMovieId/${props.movieId}`)
                 .then((response: AxiosResponse<commentDTO[]>) => {
                     setComments(response.data);
                 });
-        }catch (errors){
+        } catch (errors) {
             // @ts-ignore
             console.log(errors.response.date);
         }
     }
 
-    return(
+    return (
         <>
             {comments.length > 0 ?
-            <CommentsList comments={comments}/>
-            : <>There are no comments yet!</>
+                <CommentsList comments={comments}/>
+                : <>There are no comments yet!</>
             }
 
         </>
     );
 }
 
-interface commentSectionProps{
+interface commentSectionProps {
     movieId: number;
 }

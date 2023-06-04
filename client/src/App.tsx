@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter} from "react-router-dom";
-import Menu from "./Menu";
 import configureValidation from "./Validation";
 import {claim} from "./auth/auth.models";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import {getClaims} from "./auth/handleJWT";
 import configureInterceptor from "./utils/httpInterceptors";
 import Routing from "./Routing";
-import axios from "axios";
-import {urlServer} from "./endpoints";
 
 configureValidation();
 configureInterceptor();

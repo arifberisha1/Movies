@@ -13,28 +13,28 @@ export default function IndexMovieTheaters() {
         isRunning();
     })
 
-    async function isRunning(){
+    async function isRunning() {
         try {
             await axios.get(`${urlServer}/running`);
-        }catch (error){
+        } catch (error) {
             navigate(0);
         }
     }
 
     return (
         <IndexEntity<movieTheaterDTO>
-        url={urlMovieTheaters} createURL="/movietheaters/create" title="Movie Theaters"
-        entityName="Movie Theater"
+            url={urlMovieTheaters} createURL="/movietheaters/create" title="Movie Theaters"
+            entityName="Movie Theater"
         >
 
             {(entities, buttons) => <>
-            <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Link</th>
-            </tr>
-            </thead>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Link</th>
+                </tr>
+                </thead>
                 <tbody>
                 {entities?.map(entity => <tr key={entity.id}>
                     <td>
