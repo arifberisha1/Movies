@@ -138,8 +138,18 @@ namespace server.Controllers
             }
 
             topRatedList = topRatedList.OrderByDescending(x => x.AverageVote).Take(5).ToList();
+            
+            List<TopRatedDTO> topFiveMovies = new List<TopRatedDTO>();
 
-            return topRatedList;
+            foreach (var topRated in topRatedList)
+            {
+                if (topRated.AverageVote != 0)
+                {
+                    topFiveMovies.Add(topRated);
+                }
+            }
+            
+            return topFiveMovies;
         }
         
         /// <summary>
