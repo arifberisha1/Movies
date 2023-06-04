@@ -4,7 +4,7 @@ import {logout} from "./auth/handleJWT";
 import {useContext} from "react";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import logo from ".//img/logo.png";
+import logo from "./img/logo.png";
 
 export default function Menu() {
 
