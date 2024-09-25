@@ -1,58 +1,46 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {websiteCreationDTO} from "./website.model";
-import {convertWebsiteToFormData} from "../utils/formDataUtils";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { websiteCreationDTO } from "./website.model";
+import { convertWebsiteToFormData } from "../utils/formDataUtils";
 import axios from "axios";
-import {urlServer, urlWebsite} from "../endpoints";
+import { urlWebsite } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import WebsiteForm from "./WebsiteForm";
 
 export default function CreateWebsite() {
+  const [errors, setErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-    const [errors, setErrors] = useState<string[]>([]);
-    const navigate = useNavigate();
+  async function create(website: websiteCreationDTO) {
+    try {
+      const formData = convertWebsiteToFormData(website);
 
-    useEffect(() => {
-        isRunning();
-    })
-
-    async function isRunning() {
-        try {
-            await axios.get(`${urlServer}/running`);
-        } catch (error) {
-            navigate(0);
-        }
+      await axios({
+        method: "post",
+        url: urlWebsite,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      navigate("/websites");
+    } catch (error) {
+      // @ts-ignore
+      if (error && error.response) {
+        // @ts-ignore
+        setErrors(error.response.data);
+      }
     }
+  }
 
-    async function create(website: websiteCreationDTO) {
-        try {
-            const formData = convertWebsiteToFormData(website);
+  return (
+    <>
+      <h3>Create Website</h3>
 
-            await axios({
-                method: 'post',
-                url: urlWebsite,
-                data: formData,
-                headers: {'Content-Type': 'multipart/form-data'}
-            });
-            navigate('/websites')
-        } catch (error) {
-            // @ts-ignore
-            if (error && error.response) {
-                // @ts-ignore
-                setErrors(error.response.data);
-            }
-        }
-    }
+      <DisplayErrors errors={errors} />
 
-    return (
-        <>
-            <h3>Create Website</h3>
-
-            <DisplayErrors errors={errors}/>
-
-            <WebsiteForm
-                model={{name: '', link: ''}}
-                onSubmit={async values => await create(values)}/>
-        </>
-    );
+      <WebsiteForm
+        model={{ name: "", link: "" }}
+        onSubmit={async (values) => await create(values)}
+      />
+    </>
+  );
 }
